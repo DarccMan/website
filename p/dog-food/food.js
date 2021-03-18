@@ -206,6 +206,15 @@ var food = [
         critic: "Likes a bit of oats",
       },
       {
+        name: "Pancake",
+        subtitle: "",
+        tags: [
+          "pankace",
+        ],
+        desc: "Plain pancakes in moderation are unlikely to harm your dog, although some pets have wheat allergies or sensitivities to grains. However, leftover pancakes with toppings added—including sweets like syrup—are less healthy for dogs, and should generally be avoided.",
+        critic: "Loves Pancakes, but not with maple syrup",
+      },
+      {
         name: "Pasta",
         subtitle: "Cooked",
         tags: [
@@ -365,6 +374,18 @@ var food = [
         critic: "Likes cashews",
       },
       {
+        name: "Cereal",
+        subtitle: "",
+        tags: [
+          "wheat",
+          "cereal",
+          "wheaties",
+          "weetbix",
+        ],
+        desc: "The answer overall is yes, dogs can eat some cereal, but much like for us humans, there are several types that are less healthy than others for dogs. ... While dogs can eat many types of cereal, they should only have it as an occasional treat. Cereal should also never replace the food you feed your dog as their main diet.",
+        critic: "Loves WeetBix",
+      },
+      {
         name: "Cheese",
         subtitle: "",
         tags: [
@@ -478,6 +499,15 @@ var food = [
         critic: "Likes raw mince",
       },
       {
+        name: "Sage",
+        subtitle: "",
+        tags: [
+          "herb",
+          "leaf",
+        ],
+        desc: "Unlike some herbs which can cause digestive upset in large doses, sage is recognized by the ASPCA as being non-toxic for dogs. You should still limit your dog's intake to a few leaves a day, but there's no danger of poisoning.",
+      },
+      {
         name: "Salt",
         subtitle: "",
         tags: [
@@ -504,6 +534,15 @@ var food = [
         critic: "Loves sausage obviously",
       },
       {
+        name: "Spinach",
+        subtitle: "",
+        tags: [
+          "vege",
+          "leaf",
+        ],
+        desc: "Yes, dogs can eat spinach, but it's not one of the top vegetables you'll want to be sharing with you pup. Spinach is high in oxalic acid, which blocks the body's ability to absorb calcium and can lead to kidney damage",
+      },
+      {
         name: "Tomato",
         subtitle: "",
         tags: [
@@ -513,16 +552,13 @@ var food = [
         desc: "Solanine, a substance found in the stem and leaves of the tomato and related plants, is harmful to dogs in large quantities. ... The leaves, stems, and young, green tomatoes contain higher amounts of solanine than ripe fruit, which means that ripe tomatoes are generally safe to feed to dogs.",
       },
       {
-        name: "Cereal",
+        name: "Walnuts",
         subtitle: "",
         tags: [
-          "wheat",
-          "cereal",
-          "wheaties",
-          "weetbix",
+          "nut",
+          "wallnut",
         ],
-        desc: "The answer overall is yes, dogs can eat some cereal, but much like for us humans, there are several types that are less healthy than others for dogs. ... While dogs can eat many types of cereal, they should only have it as an occasional treat. Cereal should also never replace the food you feed your dog as their main diet.",
-        critic: "Loves WeetBix",
+        desc: "English walnuts are generally safe for dogs to eat, outside of the considerations mentioned above. But black walnuts (a type of walnut not commonly eaten by people) are toxic for dogs. The symptoms of toxicity are vomiting, muscle weakness and tremors, a high temperature, and seizures.",
       },
     ],
   },
