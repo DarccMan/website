@@ -1,4 +1,3 @@
-/* 21-02-16 */
 var F = {}
 F._data = {
   jquery: true,
@@ -474,6 +473,19 @@ F.min = function () {
     }
   }
   return (min == Infinity ? NaN : min);
+}
+F.max = function () {
+  let args = arguments;
+  if (args[0] && args[0].constructor == Array) {
+    args = args[0];
+  }
+  max = 0 - Infinity;
+  for (m = 0; m < args.length; m++) {
+    if (args[m] > max) {
+      max = args[m];
+    }
+  }
+  return (max == (0 - Infinity) ? NaN : max);
 }
 F.factor = function () {
   let args = arguments;
@@ -958,13 +970,13 @@ Array.prototype.s = function (start, end) {
   arr = arr.slice(start, end);
   if (arr.length <= 1) {
     arr = arr[0];
-    if (F.isJSON(arr)) {
+    if (F.isJSON(arr) && arr != 0) {
       arr = JSON.parse(arr);
     }
     return (arr ? arr : []);
   }
   for (a = 0; a < arr.length; a++) {
-    if (F.isJSON(arr[a])) {
+    if (F.isJSON(arr[a]) && arr[a] != 0) {
       arr[a] = JSON.parse(arr[a]);
     }
   }
@@ -1981,6 +1993,9 @@ if (F._data.document) {
   doc.create = function () {
     return (doc.createElement(arguments[0]));
   }
+  doc.query = function () {
+    return (doc.querySelectorAll(arguments[0]));
+  }
   doc.head = doc.tag("head")[0];
   doc.doc = doc.documentElement;
   doc.html = doc.tag("html")[0];
@@ -2082,7 +2097,23 @@ if (F._data.document) {
       queryRaw = queryRaw.join("?");
       temp = queryRaw.split("&");
       for (i = 0; i < temp.length; i++) {
-        query[temp[i].split("=")[0]] = temp[i].split("=").s(1).join("=");
+        if (temp[i] != null && temp[i].split("=")[0] != "") {
+          if (temp[i].includes("=")) {
+            if (temp[i].split("=").s(1) == "") {
+              query[temp[i].split("=")[0]] = "";
+            } else {
+              if (typeof temp[i].split("=").s(1) == "number") {
+                query[temp[i].split("=")[0]] = temp[i].split("=").s(1);
+              } else if (typeof temp[i].split("=").s(1) == "object") {
+                query[temp[i].split("=")[0]] = temp[i].split("=").s(1);
+              } else {
+                query[temp[i].split("=")[0]] = temp[i].split("=").s(1).toString();
+              }
+            }
+          } else {
+            query[temp[i]] = true;
+          }
+        }
       }
       delete temp;
     } else {
