@@ -36,7 +36,7 @@ addEventListener("keydown", (e) => {
       !e.altKey
       && e.code
       && (
-        e.code.sub(0) != "F"
+        e.code.s(0) != "F"
         && e.code != "Escape"
       )
     ) {
@@ -51,7 +51,7 @@ addEventListener("keydown", (e) => {
         }
         if (key.lower() != "shift") {
           if (key.lower() == "backspace") {
-            doc.id("content").innerHTML = doc.id("content").innerHTML.sub(0, -2);
+            doc.id("content").innerHTML = doc.id("content").innerHTML.s(0, -2);
           } else {
             doc.id("content").innerHTML += key;
           }
@@ -105,7 +105,7 @@ function addText() {
         }
       }, i * (50 * (F.randomInt(5, 20) / 10)));
     }
-    doc.id("content").innerHTML = doc.id("content").innerHTML.split("<br>").sub((7 - (((window.innerHeight - 30) / 20)).round()).setBorder(-Infinity, 0), -1).join("<br>");
+    doc.id("content").innerHTML = doc.id("content").innerHTML.split("<br>").s((7 - (((window.innerHeight - 30) / 20)).round()).setBorder(-Infinity, 0), -1).join("<br>");
   }
 }
 
