@@ -38,7 +38,7 @@ function init() {
       });
       $("#content").append(el);
     }
-    doc.id("time").innerHTML = now.toString().split("(").sub(0, -2);
+    doc.id("time").innerHTML = now.toString().split("(").s(0, -2);
     doc.id("date").innerHTML = now.getTime();
     doc.id("bin").innerHTML = F.dec_bin(now.getTime());
   }, 10);

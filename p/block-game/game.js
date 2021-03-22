@@ -40,7 +40,7 @@ function world_reset() {
 }
 function world_load() {
   world = doc.id("world_select").value;
-  if (! [null, undefined, "", "current"].includes(world)) {
+  if (![null, undefined, "", "current"].includes(world)) {
     if (F.getSelectedOption("world_select").getAttribute("demo") == "false") {
       if (confirm("Load '{name}'?\nThe current one will not be saved!".format({
         name: ls().worlds.getFromId(world).name,
@@ -62,16 +62,16 @@ function world_load() {
 function world_saveAs() {
   name = prompt("Name?", "New World");
   id = name.toLowerCase().replaceAll(" ", "_");
-  if (! [null, undefined, "", "null"].includes(name)) {
+  if (![null, undefined, "", "null"].includes(name)) {
     if (id.length > 50) {
-      id = id.sub(0, 20);
+      id = id.s(0, 20);
     }
     id = [
       id,
       0,
     ];
     for (i2 = 0; i2 < ls().worlds.length; i2++) {
-      if (ls().worlds[i2].id.split("_").sub(-2) == id[0]) {
+      if (ls().worlds[i2].id.split("_").s(-2) == id[0]) {
         id[1]++;
       }
     }
@@ -93,7 +93,7 @@ function world_save() {
   if ([null, undefined, "", "null"].includes(cWorld)) {
     world_saveAs();
   }
-  if (! [null, undefined, "", "null"].includes(cWorld)) {
+  if (![null, undefined, "", "null"].includes(cWorld)) {
     if (confirm("Are you sure you want to override saved data for '{world}'?".format({
       world: ls().worlds.getFromId(cWorld).name,
     }))) {
@@ -109,7 +109,7 @@ function world_delete() {
     if (ls().worlds.getIndexFromId(cWorld) >= 0) {
       if (confirm("Are you sure you want to delete '{name}'?\nThis action cannot be undone!".format({
         name: ls().worlds.getFromId(cWorld).name,
-      }))) { 
+      }))) {
         console.log(ls().worlds.getIndexFromId(cWorld));
         ls_edit((d) => {
           d.worlds.remove(ls().worlds.getFromId(cWorld));
@@ -190,7 +190,7 @@ function world_gen() {
           type = "grass";
         }; break;
         case ("stripe"): {
-          type = "grass"; 
+          type = "grass";
           if (i % 3 == 1) {
             type = "dirt";
           }
@@ -283,7 +283,7 @@ function player_spawn() {
       if (
         data.blocks.types.getFromId(blocks[i2][i3].type).attr["spawnable"] &&
         data.blocks.types.getFromId(blocks[i2][i3].type).attr["walkable"] &&
-        ! data.blocks.types.getFromId(blocks[i2][i3].type).attr["death"]
+        !data.blocks.types.getFromId(blocks[i2][i3].type).attr["death"]
       ) {
         player.x = i2;
         player.y = i3;
@@ -298,7 +298,7 @@ function player_hotbar_reset() {
     items: [],
   };
   for (i = 0; i < data.player.hotbar.slot_amount; i++) {
-    if (! [null, undefined, ""].includes(data.blocks.types[i])) {
+    if (![null, undefined, ""].includes(data.blocks.types[i])) {
       player.hotbar.items.push({
         type: data.blocks.types[i].id,
         amount: data.blocks.types[i].attr["stack_size"],
@@ -358,7 +358,7 @@ function render() {
   ctx.fillCanvas("rgba(60, 60, 60)");
   for (i3 = 0; i3 < data.canvas.x; i3++) {
     for (i2 = 0; i2 < data.canvas.y; i2++) {
-      if (! [null, undefined, "", {}].includes(blocks[i3][i2])) {
+      if (![null, undefined, "", {}].includes(blocks[i3][i2])) {
         ctx.fillStyle = "rgba({0}, {1}, {2})".format(data.blocks.types.getFromId(blocks[i3][i2].type).color.addAll(0));
         ctx.strokeStyle = "rgba({0}, {1}, {2})".format(data.blocks.types.getFromId(blocks[i3][i2].type).color.addAll(-20));
         ctx.lineWidth = "2";
@@ -378,7 +378,7 @@ function render() {
     }
   }
   for (i3 = 0; i3 < entities.length; i3++) {
-    if (! [null, undefined, "", {}].includes(entities[i3])) {
+    if (![null, undefined, "", {}].includes(entities[i3])) {
       ctx.fillStyle = "rgba({0}, {1}, {2})".format(data.entities.types.getFromId(entities[i3].type).color.addAll(0));
       ctx.strokeStyle = "rgba({0}, {1}, {2})".format(data.entities.types.getFromId(entities[i3].type).color.addAll(-20));
       ctx.lineWidth = "2";
@@ -470,7 +470,7 @@ function render() {
   );
   for (i2 = 0; i2 < player.hotbar.items.length; i2++) {
     type = (player.hotbar.items[i2].type);
-    if (! [null, undefined, "", "air"].includes(type)) {
+    if (![null, undefined, "", "air"].includes(type)) {
       ctx.fillStyle = "rgba({0}, {1}, {2}, {3})".format(data.blocks.types.getFromId(type).color);
       ctx.fillRect(
         (canvas.width / 2) - ((data.player.hotbar.slot_amount * data.player.hotbar.slot_w) / 2) + (i2 * (data.player.hotbar.slot_w)) + ((data.player.hotbar.slot_w * (data.player.hotbar.block_w / 100)) / 3),
@@ -595,14 +595,14 @@ function update(mod) {
       // cursor.x += (canvas.width / data.canvas.x);
     });
   }
-  if (! (keysDown.includes("player_up") && keysDown.includes("player_down"))) {
+  if (!(keysDown.includes("player_up") && keysDown.includes("player_down"))) {
     if (keysDown.includes("player_up")) {
       move.up();
     } else if (keysDown.includes("player_down")) {
       move.down();
     }
   }
-  if (! (keysDown.includes("player_left") && keysDown.includes("player_right"))) {
+  if (!(keysDown.includes("player_left") && keysDown.includes("player_right"))) {
     if (keysDown.includes("player_left")) {
       move.left();
     } else if (keysDown.includes("player_right")) {
@@ -618,8 +618,8 @@ function update(mod) {
   if (keysDown.includes("debug_mainKey")) {
     if (F.buttonDown(0)) {
       // if (F.mouse.onCanvas) {
-        player.x = Math.round(cursor.x / (canvas.width / data.canvas.x) - 0.5);
-        player.y = Math.round(cursor.y / (canvas.height / data.canvas.y) - 0.5);
+      player.x = Math.round(cursor.x / (canvas.width / data.canvas.x) - 0.5);
+      player.y = Math.round(cursor.y / (canvas.height / data.canvas.y) - 0.5);
       // }
     }
   }
@@ -633,7 +633,7 @@ function update(mod) {
     }
   }
 
-  if (! keysDown.includes("debug_mainKey")) {
+  if (!keysDown.includes("debug_mainKey")) {
     if (keysDown.includes("block_place")) {
       point = {
         x: (Math.abs(F.setBorder(Math.round((cursor.x / (canvas.width / data.canvas.x)) - 0.5), 0, 15))),
@@ -716,17 +716,17 @@ function player_loop() {
   }
 }
 function player_checkBlock() {
-  if (! [null, undefined, ""].includes(blocks[player.x][player.y])) {
+  if (![null, undefined, ""].includes(blocks[player.x][player.y])) {
     // Prone to crashing - in future switch to smarter method
-    while (! data.blocks.types.getFromId(blocks[player.x][player.y].type).attr["walkable"]) {
+    while (!data.blocks.types.getFromId(blocks[player.x][player.y].type).attr["walkable"]) {
       player.y--;
       player_loop();
     }
   }
 }
 function player_block_place(x, y) {
-  if (settings.placeBlockUnder || (! (x == player.x && y == player.y))) {
-    if (! [null, undefined, "", "air"].includes(player_hotbar_selected())) {
+  if (settings.placeBlockUnder || (!(x == player.x && y == player.y))) {
+    if (![null, undefined, "", "air"].includes(player_hotbar_selected())) {
       blocks[x][y].type = player_hotbar_selected();
     }
   }
@@ -747,7 +747,7 @@ function player_block_pick(x, y) {
         break;
       }
     }
-    if (! [null, undefined, ""].includes(slot)) {
+    if (![null, undefined, ""].includes(slot)) {
       player.hotbar.items[slot].type = b;
     } else {
       player_hotbar_selected().type = b;
@@ -809,7 +809,7 @@ function world_export() {
 }
 function world_import(dt) {
   if ([null, undefined, ""].includes(dt)) {
-    dt = prompt("Paste world data here", "Example: {0}...".format(JSON.stringify(world_getData()).sub(0, 50)))
+    dt = prompt("Paste world data here", "Example: {0}...".format(JSON.stringify(world_getData()).s(0, 50)))
   }
   if (dt.constructor == String) {
     dt = JSON.parse(dt);

@@ -51,10 +51,10 @@ function calc() {
     months = getDateDiff(date).months;
     days = getDateDiff(date).days;
   }
-  if (doc.id("mod").value.split("_").sub(0) == "other") {
+  if (doc.id("mod").value.split("_").s(0) == "other") {
     var mod = parseInt(doc.id("i_mod").value);
   } else {
-    var mod = parseInt(doc.id("mod").value.split("_").sub(0));
+    var mod = parseInt(doc.id("mod").value.split("_").s(0));
   }
 
   days += (months * av.days);
@@ -105,7 +105,7 @@ function mod_change() {
   } else {
     doc.id("i_mod").style.display = "none";
   }
-  doc.id("animal").innerHTML = doc.id("mod").value.split("_").sub(-1);
+  doc.id("animal").innerHTML = doc.id("mod").value.split("_").s(-1);
 }
 function input_change() {
   if (doc.id("input_type").value == "bday") {
@@ -123,5 +123,5 @@ function bday_change() {
   doc.id("i_days").value = getDateDiff(doc.id("i_date").value).days;
 }
 function age_change() {
-  
+
 }

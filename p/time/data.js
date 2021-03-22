@@ -3,7 +3,7 @@ var bars = [
     id: "millennium",
     max: 10,
     value: function () {
-      return (parseInt(now.getFullYear().toString().sub(-3, -1)) / 10);
+      return (parseInt(now.getFullYear().toString().s(-3, -1)) / 10);
     },
     text: "Millennium"
   },
@@ -11,7 +11,7 @@ var bars = [
     id: "century",
     max: 10,
     value: function () {
-      return (parseInt(now.getFullYear().toString().sub(-2, -1)) / 10);
+      return (parseInt(now.getFullYear().toString().s(-2, -1)) / 10);
     },
     text: "Century"
   },
@@ -19,7 +19,7 @@ var bars = [
     id: "decade",
     max: 10,
     value: function () {
-      return (parseInt(now.getYear().toString().sub(-1)));
+      return (parseInt(now.getYear().toString().s(-1)));
     },
     text: "Decade"
   },

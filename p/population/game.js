@@ -23,7 +23,7 @@ function reset() {
 
 function render() {
   ctx.fillCanvas(F.getColor(200));
-  
+
   ctx.fillStyle = F.getColor(180);
   for (i = 0; i < data.graph.lines; i++) {
     ctx.fillRect(
@@ -34,7 +34,7 @@ function render() {
     );
   }
 
-  let g = F.toArray((graph.sub(-1 - data.graph.lines, -1)));
+  let g = F.toArray((graph.s(-1 - data.graph.lines, -1)));
   if (g.length > 1) {
     ctx.strokeStyle = F.getColor(50);
     ctx.lineWidth = data.graph.graphWidth;
@@ -50,7 +50,7 @@ function render() {
       ctx.lineTo(
         (i) * (canvas.width / data.graph.lines),
         (1 - g[i]) * canvas.height,
-        );
+      );
       if (doc.id("text").checked) {
         ctx.fillText(
           g[i],
@@ -76,15 +76,15 @@ function update(mod) {
     data.constant = doc.id("constant").value;
     data.graph.lines = doc.id("lines").value;
   }
-  doc.id("respawn").disabled = graph.sub(-1) != 0;
-  doc.id("extinguish").disabled = graph.sub(-1) == 0;
+  doc.id("respawn").disabled = graph.s(-1) != 0;
+  doc.id("extinguish").disabled = graph.s(-1) == 0;
 }
-function graph_update() { 
-  let No = graph.sub(-1);
+function graph_update() {
+  let No = graph.s(-1);
   let l = data.constant;
 
   let Nn = l * No * (1 - No);
-  
+
   graph.push(Nn.round(4).setBorder(0, Infinity));
 }
 function graph_reset() {
@@ -95,14 +95,14 @@ function graph_reset() {
   }, data.graph.interval);
 }
 function graph_respawn() {
-  if (graph.sub(-1) == 0) {
-    graph = graph.sub(0, -2);
+  if (graph.s(-1) == 0) {
+    graph = graph.s(0, -2);
     graph.push(0.1);
   }
 }
 function graph_kill() {
-  if (graph.sub(-1) != 0) {
-    graph = graph.sub(0, -2);
+  if (graph.s(-1) != 0) {
+    graph = graph.s(0, -2);
     graph.push(0);
   }
 }

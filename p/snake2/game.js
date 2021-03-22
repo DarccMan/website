@@ -9,7 +9,7 @@ var ctx = canvas.getContext("2d");
 class Snake {
   constructor() {
     this.segs = [];
-    
+
     this.dir = null;
     this.speed = data.snake.speed;
 
@@ -54,7 +54,7 @@ class Snake {
   move() {
     if (this.segs.length > 1) {
       this.segs.insert(1, this.segs[0]);
-      this.segs = this.segs.sub(0, -2);
+      this.segs = this.segs.s(0, -2);
     }
     switch (this.dir) {
       case ("u"): {
@@ -227,7 +227,7 @@ function update(mod) {
       || snake.segs[0].y < 0
       || snake.segs[0].y >= data.grid.y
     ) {
-      snake.death();      
+      snake.death();
     }
 
     return;

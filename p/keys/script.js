@@ -1,5 +1,5 @@
 function init() {
-  
+
 }
 codes = {
   "48": "0",
@@ -104,6 +104,6 @@ codes = {
   "221": "close braket",
   "222": "single quote"
 }
-addEventListener("keydown", function(e) {
-  f.docId("display1").innerHTML = "{0} : {1}".format(e.keyCode, codes[e.keyCode]);
+addEventListener("keydown", function (e) {
+  doc.id("display1").innerHTML = "{0} : {1}".format(e.keyCode, codes[e.keyCode]);
 }, false);

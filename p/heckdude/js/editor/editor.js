@@ -123,7 +123,7 @@ function changeTool() {
 function historyUpdate() {
   console.log(1);
   if (editHistory.place > editHistory.timeline.length) {
-    editHistory.timeline = editHistory.timeline.sub(0, editHistory.place);
+    editHistory.timeline = editHistory.timeline.s(0, editHistory.place);
   }
   editHistory.timeline.push({
     blocks,
@@ -165,7 +165,7 @@ function lvlImport() {
     };
     scene = text.scene;
     blocks = text.blocks;
-  } catch {}
+  } catch { }
 }
 
 function playerChangeX() {
