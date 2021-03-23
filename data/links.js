@@ -350,6 +350,7 @@ var links = {
       {
         id: "https://freshtrust.github.io/",
         name: "FreshTrust News",
+        image: "https://freshtrust.github.io/images/icon.png",
       },
       {
         id: "https://coveroil.github.io/",
