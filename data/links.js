@@ -348,8 +348,8 @@ var links = {
     image: 1,
     items: [
       {
-        id: "https://newsorg.github.io/",
-        name: "News Website",
+        id: "https://freshtrust.github.io/",
+        name: "FreshTrust News",
       },
       {
         id: "https://coveroil.github.io/",
