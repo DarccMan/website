@@ -369,9 +369,9 @@ var links = {
         name: "Awesome Dog!",
       },
       {
-        id: "https://github.com/darccman/aeruun/#aeruun",
-        name: "Aeruun",
-        image: "https://darccman.github.io/aeruun/image/favicon.png",
+        id: "https://github.com/darccman/aerun/#aerun",
+        name: "Aerun",
+        image: "https://darccman.github.io/aerun/image/favicon.png",
       },
     ],
   },
