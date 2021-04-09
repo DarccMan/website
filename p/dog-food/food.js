@@ -82,6 +82,16 @@ var food = [
         critic: "Does not really care for broccoli",
       },
       {
+        name: "Cabbage",
+        subtitle: "",
+        tags: [
+          "vege",
+          "lettuce",
+          "leaf",
+        ],
+        desc: "Cabbage is also safe for dogs, but comes with the same gassy warning! Yes, dogs can eat carrots. Carrots are an excellent low-calorie snack that is high in fiber and beta-carotene, which produces vitamin A. Plus, crunching on this orange veggie is great for your dog's teeth (and fun).",
+      },
+      {
         name: "Carrots",
         subtitle: "Small pieces",
         tags: [
@@ -713,6 +723,14 @@ var food = [
           "dessert",
         ],
         desc: "Eating ice cream may cause your dog a stomach ache or worse, depending on how sensitive they are. Ice cream can cause your dog gas, bloating, constipation, diarrhea or vomiting.",
+      },
+      {
+        name: "Liquorice",
+        subtitle: "",
+        tags: [
+          "aniseed",
+        ],
+        desc: "Dogs should not eat liquorice there are no health benefits for dogs to eat liquorice, it is toxic to dogs and therefore must be avoided. Not only is it poisonous, but liquorice can also cause tooth decay, diabetes, and obesity in dogs.",
       },
       {
         name: "Macadamia nuts",
