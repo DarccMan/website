@@ -363,6 +363,7 @@ var links = {
       {
         id: "https://github.com/fnctjs/fnctjs.github.io",
         name: "FunctionsJS",
+        image: "https://fnctjs.github.io/image/icon-alt.png",
       },
       {
         id: "https://snickdog.github.io/",
@@ -371,7 +372,7 @@ var links = {
       {
         id: "https://github.com/darccman/aerun/#aerun",
         name: "Aerun",
-        image: "https://darccman.github.io/aerun/image/favicon.png",
+        image: "https://darccman.github.io/aerun/image/icon-small.png",
       },
     ],
   },
