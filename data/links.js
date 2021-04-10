@@ -1,5 +1,5 @@
 var links = {
-  page: {
+  /* page: {
     name: "Pages",
     local: true,
     image: "p/{0}/image/favicon.png",
@@ -314,6 +314,116 @@ var links = {
         ],
       },
     ]
+  }, */
+  tools: {
+    name: "Tools",
+    local: true,
+    image: "p/{0}/image/favicon.png",
+    items: [
+      {
+        id: "custom-tab",
+        name: "CustomTab",
+      },
+      {
+        id: "bruh",
+        name: "Bruh Button",
+      },
+      {
+        id: "reaction",
+        name: "Test your Reaction Time",
+      },
+      {
+        id: "dog-food",
+        name: "Foods that Dogs can Eat",
+      },
+      {
+        id: "punnett",
+        name: "Punnett Square Generator",
+      },
+      {
+        id: "character",
+        name: "Random Character Generator",
+      },
+      {
+        id: "word-search",
+        name: "Word Search Generator",
+      },
+      {
+        id: "keys",
+        name: "Get Ascii Key Code",
+      },
+      {
+        id: "cave",
+        name: "Cave Generator",
+      },
+      {
+        id: "acronym",
+        name: "Acronym Generator",
+      },
+    ],
+  },
+  games: {
+    name: "Games and Fun Stuff",
+    local: true,
+    image: "p/{0}/image/favicon.png",
+    items: [
+      {
+        id: "solitaire",
+        name: "Solitaire",
+      },
+      {
+        id: "chess",
+        name: "Chess",
+      },
+      {
+        id: "minesweep",
+        name: "MineSweep",
+      },
+      {
+        id: "golad",
+        name: "Conway's Game of Life",
+      },
+      {
+        id: "hacker",
+        name: "Hacker Type",
+      },
+      {
+        id: "download-ram",
+        name: "Download FREE RAM",
+        title: "Not a scam hehe",
+      },
+      {
+        id: "connect4",
+        name: "Connect 4",
+      },
+      {
+        id: "snake",
+        name: "Snake 1",
+        title: "Old one, a bit broken",
+      },
+      {
+        id: "snake2",
+        name: "Snake 2",
+        title: "New one, boring looking",
+      },
+      {
+        id: "tictac",
+        name: "Tick Tack Toe",
+      },
+      {
+        id: "block-game",
+        name: "Block Game",
+      },
+      {
+        id: "heckdude",
+        name: "HeckDude",
+      },
+      {
+        id: "2048",
+        name: "2048",
+        title: "Broken...",
+      },
+    ],
   },
   media: {
     name: "Media / Downloads",

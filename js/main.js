@@ -41,8 +41,7 @@ function showLinks(showHidden) {
       };
       let img = "";
       if (links.values()[t].image?.constructor == String) {
-        img = '<img src="{0}" class="icon_img" onerror="unloadImage(this)">'.format(
-          links.values()[t].items[i].image ? links.values()[t].image.format(links.values()[t].items[i].id) : ""
+        img = '<img src="{0}" class="icon_img" onerror="unloadImage(this)">'.format(links.values()[t].image.format(links.values()[t].items[i].id)
         );
       } else if (links.values()[t].image == 1) {
         if (links.values()[t].items[i].image) {
@@ -55,7 +54,7 @@ function showLinks(showHidden) {
         '<article class="link {noImage}">',
         '  {img}',
         '  <section>',
-        '    <a href="{href}" id="{id}" title="Go to: {dir}{href}">',
+        '    <a href="{href}" id="{id}" title="{title}">',
         '      {name}',
         '    </a>',
         '  </section>',
@@ -64,9 +63,9 @@ function showLinks(showHidden) {
         img,
         noImage: !img ? "noImage" : "",
         href: href,
-        dir: links.values()[t].local ? F.url.href : "",
         name: "{0}{1}".format(icon, links.values()[t].items[i].name ? links.values()[t].items[i].name : links.values()[t].items[i].id),
         id: "link_{0}".format(links.values()[t].items[i].id),
+        title: links.values()[t].items[i].title || "Go to '{0}'".format((links.values()[t].local ? F.url.href : "") + href),
       });
     }
     doc.id("links").innerHTML += [
