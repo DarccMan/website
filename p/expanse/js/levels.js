@@ -1,14 +1,14 @@
 var levels = [
   {
-    name: "First",
+    name: "Spikes",
     dim: [25, 10],
     set: `
       >4;
-      #block*100&3,cracked:1;
+      #block*125&3,cracked:1;
       =6;
       >3;
       #block*2&3,cracked:1;
-      // @rat;
+      @rat;
       =7;
       >2;
       #block*2&3,cracked:1;
@@ -17,42 +17,29 @@ var levels = [
       #block*4&3,cracked:1;
       =10;
       #spike;
+      >2;
+      #pillar;
+      >1;
+      +-1;
+      #pillar;
       =15;
       >3;
       #spike;
-      +1;
+      +2;
       #spike*2;
-      +4;
+      +3;
       #goal;
+      =0;
+      >10;
+      #smile*25;
     `,
     player: {
-      x: 11,
+      x: 3,
       y: 2.5,
     },
   },
   {
-    name: "Torch",
-    dim: [25, 10],
-    set: `
-      >4;
-      #block*100&3,cracked:1;
-      =8;
-      >3;
-      #torch;
-      =15;
-      >3;
-      #torch;
-      =24;
-      >3;
-      #goal;
-    `,
-    player: {
-      x: 2,
-      y: 2,
-    },
-  },
-  {
-    name: "Enemies",
+    name: "Rats...",
     dim: [25, 10],
     set: `
       >6;
@@ -60,18 +47,19 @@ var levels = [
       =5;
       >6;
       #none*3;
-      // >-1;
-      // @rat;
-      // +1;
-      // @rat;
-      // +1;
-      // @rat;
-      // +1;
-      // @rat;
-      // +1;
-      // @rat;
-      // +1;
-      // @rat;
+      +3;
+      >-1;
+      @rat;
+      +1;
+      @rat;
+      +1;
+      @rat;
+      +1;
+      @rat;
+      +1;
+      @rat;
+      +1;
+      @rat;
       =12;
       >4;
       #brick;
@@ -115,7 +103,41 @@ var levels = [
       #goal;
     `,
     player: {
-      x: 11,
+      x: 2,
+      y: 2,
+    },
+  },
+  {
+    name: "...Bats",
+    dim: [25, 10],
+    set: `
+      >6;
+      #block*100&3,cracked:1;
+      =7;
+      >5;
+      @bat;
+      =9;
+      >5;
+      #torch;
+      +5;
+      #torch;
+      +5;
+      @bat;
+      +1;
+      @bat;
+      +1;
+      @bat;
+      +1;
+      @bat;
+      >-2;
+      +-1;
+      @bat;
+      =23;
+      >5;
+      #goal
+    `,
+    player: {
+      x: 2,
       y: 2,
     },
   },

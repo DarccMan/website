@@ -1,6 +1,6 @@
 var data = {
   // tiles: 12,
-  tiles: 12,
+  tiles: 10,
   // tiles: 30,
   parallax: 0.5,
   cam: {
@@ -15,18 +15,30 @@ var data = {
     color: "#354",
   },
   frame_speed: 800,
-  graphics: 2,
+  graphics: 3,
   // graphics: 0,
+  death_lines: [
+    "Uh - Oh!",
+    "Yikers!",
+    "Whoops!",
+    ":(",
+    "Rats!",
+    "AAARRRGGHH!",
+    "Oh MAN!",
+    "oof",
+  ],
   sprites: {
     none: "#18100A",
     block: "#0B0704",
     cracked: "#0B0603",
+    smile: "#0B0704",
     brick: "#0B0A08",
     alt: "#1B1704",
     test: "#F0F",
     torch: "#FF0",
     goal: "#0F0",
     spike: "#444",
+    pillar: "#0000",
   },
   enemies: {
     rat: {
@@ -39,21 +51,66 @@ var data = {
         fa: 1,
         ft: 2,
       },
+      collide: [
+        "block",
+        "cracked",
+        "smile",
+        "brick",
+        "alt",
+        "test",
+      ],
+      death: [
+        "spike",
+      ],
+      attr: {
+        avoidLight: false,
+        fall: true,
+      },
+    },
+    bat: {
+      color: "#622",
+      w: 0.8,
+      h: 0.8,
+      v: {
+        ma: 3,
+        mt: 4,
+        fa: 1,
+        ft: 2,
+      },
+      collide: [
+        "block",
+        "cracked",
+        "smile",
+        "brick",
+        "alt",
+        "test",
+      ],
+      death: [
+        "spike",
+      ],
+      attr: {
+        avoidLight: true,
+        fall: false,
+      },
     },
   },
   image_amount: {
     torch: 3,
     spike: 2,
     goal: 2,
+    rat: 2,
+    bat: 2,
   },
   outlines: [
     "block",
     "cracked",
     "brick",
+    "smile",
   ],
   collide: [
     "block",
     "cracked",
+    "smile",
     "brick",
     "alt",
     "test",
@@ -76,17 +133,20 @@ var data = {
     opacity: 200,
   },
   v: {
-    fa: 25,
-    ft: 40,
-    // jb: 5,
-    jb: 7,
-    ja: 1.1,
-    ji: 70,
-    jt: 30,
-    ma: 40,
-    md: 5,
-    mt: 9,
-    mm: 0.2,
+    // Fall (+y)
+    fa: 25, // Acceleration speed
+    ft: 40, // Terminal velocity
+    // Jump (-y)
+    jb: 8, // Base jump
+    ja: 1.2, // Every millisecond key held down add this to jump
+    jc: 50, // Cooldown before adding adding above amount
+    jm: 80, // Maximum time to hold down key
+    jt: 30, // Terminal jump velocity
+    // Movement (x)
+    ma: 40, // Acceleration speed
+    md: 5, // Decceleration speed
+    mt: 9, // Terminal velocity
+    mm: 0.2, // If less than this number, reset to 0
   },
   font: "dirtyroma",
   hold_size: 0.8,
@@ -117,13 +177,16 @@ var controls = {
       81,
     ],
     "game_restart": [
-      82,
+      84,
     ],
     "game_start": [
       32,
     ],
     "debug": [
       17,
+    ],
+    "debug_all": [
+      16,
     ],
   },
   buttons: {},

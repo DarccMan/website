@@ -280,6 +280,9 @@ function render() {
   }
 
   for (i = 0; i < enemies.length; i++) {
+    if (enemies[i].dead) {
+      continue;
+    }
     ctx.save();
     if (enemies[i].flip < 0) {
       ctx.translate(
@@ -293,18 +296,28 @@ function render() {
       );
     }
     if (data.graphics > 1) {
-      ctx.drawImage(
-        images[enemies[i].type],
-        enemies[i].x,
-        enemies[i].y - enemies[i].w + enemies[i].h,
-        enemies[i].w,
-        enemies[i].w,
-      );
+      if (data.image_amount[enemies[i].type] > 1) {
+        ctx.drawImage(
+          images[enemies[i].type + "_" + frame.current % data.image_amount[enemies[i].type]],
+          enemies[i].x,
+          enemies[i].y - enemies[i].w + enemies[i].h,
+          enemies[i].w,
+          enemies[i].w,
+        );
+      } else {
+        ctx.drawImage(
+          images[enemies[i].type],
+          enemies[i].x,
+          enemies[i].y - enemies[i].w + enemies[i].h,
+          enemies[i].w,
+          enemies[i].w,
+        );
+      }
     } else {
       ctx.fillStyle = data.enemies[enemies[i].type].color;
       ctx.fillRect(
         enemies[i].x,
-        enemies[i].y,
+        enemies[i].y - enemies[i].w + enemies[i].h,
         enemies[i].w,
         enemies[i].w,
       );
@@ -425,7 +438,7 @@ function render() {
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
     ctx.fillText(
-      "Uh - Oh!",
+      global.deathMessage,
       canvas.width / 2,
       canvas.height / 3,
     );

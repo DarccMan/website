@@ -50,11 +50,12 @@ for (i = 0; i < playerImages.keys().length; i++) {
     addImage("player_{0}_{1}".format(playerImages.keys()[i], j), "player/{0}/{1}".format(playerImages.keys()[i], j));
   }
 }
+// addImage("player_idle_0", "player/idle/small");
 addImage("outer", "edge/outer");
 addImage("inner", "edge/inner");
 addImage("side", "edge/side");
 var gameState = "start";
-var gameState = "play";
+// var gameState = "play";
 var lvl = 0;
 // var lvl = 2;
 var tw = (Math.min(canvas.width, canvas.height) / data.tiles);
@@ -106,6 +107,8 @@ main();
 
 async function death() {
   gameState = "death";
+  global.lastDeath = Date.now();
+  global.deathMessage = F.randomChoice(data.death_lines);
   player.animate = 0;
   for (j = 0; j < 100; j += 4) {
     player.animate = j / 100;

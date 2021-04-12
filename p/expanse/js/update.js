@@ -2,8 +2,8 @@
 function update(mod) {
   var keysDown = F.getKeyCodes(controls);
   if (keysDown.game_restart) {
-    location.reload();
-    // reset();
+    // location.reload();
+    reset();
   }
   playerHit = {...player};
   playerHit.w *= data.player.hitX;
@@ -21,9 +21,9 @@ function update(mod) {
 
     cb = null;
     p = {...playerHit};
-    p.x += p.vx;
+    // p.x += p.vx;
     p.y += p.vy;
-    // p.y += p.vy;
+    // p.h += 5;
     X: for (x = minx; x < maxx; x++) {
       for (y = miny; y < maxy; y++) {
         if (data.collide.includes(grid[x][y])) {
@@ -46,13 +46,17 @@ function update(mod) {
     }
 
     if (keysDown.player_up) {
-      if (player.jumpTime > Date.now() - data.v.ji) {
-        // player.vy -= data.v.ja;
+      if (
+        player.jumpTime > Date.now() - data.v.jm
+        && player.jumpTime < Date.now() - data.v.jc
+      ) {
+        player.vy -= data.v.ja;
       }
       cb = null;
       p = {...playerHit};
       // p.x += p.vx * (12 / data.tiles);
-      p.y += p.vy;
+      p.y += p.vy + p.h - 1;
+      p.h = 1;
       X: for (x = minx; x < maxx; x++) {
         for (y = miny; y < maxy; y++) {
           if (data.collide.includes(grid[x][y])) {
@@ -149,14 +153,26 @@ function update(mod) {
       player.y++;
     }
 
-    p = {...player};
+    p = {...playerHit};
     for (i = 0; i < enemies.length; i++) {
-      if (F.collide(p, enemies[i])) {
-        death();
-        break;
+      if (enemies[i].dead) {
+        continue;
       }
-      enemies[i].vx += Math.sign(player.x - enemies[i].x) * data.enemies[enemies[i].type].v.ma * mod;
-      enemies[i].flip = - Math.sign(player.x - enemies[i].x);
+      if (
+        !data.enemies[enemies[i].type].attr.avoidLight
+        || !data.light.includes(player.hold)
+      ) {
+        if (F.collide(p, enemies[i])) {
+          death();
+          break;
+        }
+      }
+      dir = 1;
+      if (data.enemies[enemies[i].type].attr.avoidLight && data.light.includes(player.hold)) {
+        dir = -1;
+      }
+      enemies[i].vx += dir * Math.sign(player.x - enemies[i].x) * data.enemies[enemies[i].type].v.ma * mod;
+      enemies[i].flip = dir * - Math.sign(player.x - enemies[i].x);
 
       cb = null;
       e = {...enemies[i]};
@@ -165,7 +181,7 @@ function update(mod) {
       // todo: Optimise this
       X: for (x = 0; x < grid.length; x++) {
         for (y = 0; y < grid[x].length; y++) {
-          if (grid[x][y] != "none") {
+          if (data.enemies[enemies[i].type].collide.includes(grid[x][y])) {
             if (F.collide(e, {
               x: (x + 0.001) * tw,
               y: (y + 0.001) * tw,
@@ -197,7 +213,7 @@ function update(mod) {
       // todo: Optimise this
       X: for (x = 0; x < grid.length; x++) {
         for (y = 0; y < grid[x].length; y++) {
-          if (grid[x][y] != "none") {
+          if (data.enemies[enemies[i].type].collide.includes(grid[x][y])) {
             if (F.collide(e, {
               x: (x + 0.001) * tw,
               y: (y + 0.001) * tw,
@@ -223,37 +239,39 @@ function update(mod) {
         enemies[i].vy = 0;
       }
 
-      cb = null;
-      e = {...enemies[i]};
-      e.x += e.vx;
-      e.y += e.vy;
-      // todo: Optimise this
-      X: for (x = 0; x < grid.length; x++) {
-        for (y = 0; y < grid[x].length; y++) {
-          if (grid[x][y] != "none") {
-            if (F.collide(e, {
-              x: (x + 0.001) * tw,
-              y: (y + 0.001) * tw,
-              w: tw + 1,
-              h: tw + 1,
-            })) {
-              cb = grid[x][y];
-              break X;
+      if (data.enemies[enemies[i].type].attr.fall) {
+        cb = null;
+        e = {...enemies[i]};
+        e.x += e.vx;
+        e.y += e.vy;
+        // todo: Optimise this
+        X: for (x = 0; x < grid.length; x++) {
+          for (y = 0; y < grid[x].length; y++) {
+            if (data.enemies[enemies[i].type].collide.includes(grid[x][y])) {
+              if (F.collide(e, {
+                x: (x + 0.001) * tw,
+                y: (y + 0.001) * tw,
+                w: tw + 1,
+                h: tw + 1,
+              })) {
+                cb = grid[x][y];
+                break X;
+              }
             }
           }
         }
-      }
-      X: for (j = 0; j < enemies.length; j++) {
-        if (i == j) {
-          continue;
+        X: for (j = 0; j < enemies.length; j++) {
+          if (i == j) {
+            continue;
+          }
+          if (F.collide(e, enemies[j])) {
+            cb = enemies[j];
+            break X;
+          }
         }
-        if (F.collide(e, enemies[j])) {
-          cb = enemies[j];
-          break X;
+        if (!cb) {
+          enemies[i].vy += data.enemies[enemies[i].type].v.fa;
         }
-      }
-      if (!cb) {
-        enemies[i].vy += data.enemies[enemies[i].type].v.fa;
       }
 
       enemies[i].vx = Math.min(Math.max(enemies[i].vx, - data.enemies[enemies[i].type].v.mt), data.enemies[enemies[i].type].v.mt);
@@ -268,15 +286,17 @@ function update(mod) {
       // todo: Optimise this
       X: for (x = 0; x < grid.length; x++) {
         for (y = 0; y < grid[x].length; y++) {
-          if (grid[x][y] != "none") {
-            if (F.collide(e, {
-              x: (x + 0.001) * tw,
-              y: (y + 0.001) * tw,
-              w: tw + 1,
-              h: tw + 1,
-            })) {
+          if (F.collide(e, {
+            x: (x + 0.001) * tw,
+            y: (y + 0.001) * tw,
+            w: tw + 1,
+            h: tw + 1,
+          })) {
+            if (data.enemies[enemies[i].type].collide.includes(grid[x][y])) {
               cb = grid[x][y];
               break X;
+            } else if (data.enemies[enemies[i].type].death.includes(grid[x][y])) {
+              enemies[i].dead = Date.now();
             }
           }
         }
@@ -364,6 +384,16 @@ function update(mod) {
         player.vx = 0;
         player.vy = 0;
       }
+    }
+  }
+  if (keysDown.debug_all) {
+    if (gameState != "debug") {
+      global.lastGameState = gameState;
+      gameState = "debug";
+    }
+  } else {
+    if (gameState == "debug") {
+      gameState = global.lastGameState || "play";
     }
   }
 

@@ -1,5 +1,6 @@
 function reset() {
   if (!levels[lvl]) {
+    console.log("You finished the game!\nIf you are seeing this message then Hello :)");
     lvl = 0;
   }
   grid = [];
@@ -84,6 +85,7 @@ function reset() {
     vx: 0,
     vy: 0,
     hold: null,
+    // hold: "torch",
   };
 
   if (gameState != "start") {
