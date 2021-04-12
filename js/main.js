@@ -41,8 +41,11 @@ function showLinks(showHidden) {
       };
       let img = "";
       if (links.values()[t].image?.constructor == String) {
-        img = '<img src="{0}" class="icon_img" onerror="unloadImage(this)">'.format(links.values()[t].image.format(links.values()[t].items[i].id)
-        );
+        if (links.values()[t].items[i].image) {
+          img = '<img src="{0}" class="icon_img" onerror="unloadImage(this)">'.format(links.values()[t].items[i].image);
+        } else {
+          img = '<img src="{0}" class="icon_img" onerror="unloadImage(this)">'.format(links.values()[t].image.format(links.values()[t].items[i].id));
+        }
       } else if (links.values()[t].image == 1) {
         if (links.values()[t].items[i].image) {
           img = '<img src="{0}" class="icon_img" onerror="unloadImage(this)">'.format(

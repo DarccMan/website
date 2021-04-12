@@ -423,6 +423,12 @@ var links = {
         name: "2048",
         title: "Broken...",
       },
+      {
+        id: "expanse",
+        name: "Expanse of Darkness",
+        title: "Not finished",
+        image: "./p/expanse/image/favicon-large.png",
+      },
     ],
   },
   media: {
