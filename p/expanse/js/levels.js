@@ -43,16 +43,16 @@ var levels = [
   },
   {
     name: "Rats...",
-    dim: [25, 10],
+    dim: [25, 16],
     set: `
       >6;
-      #block*100&3,cracked:1;
+      #block*400&3,cracked:1;
       =0;
       >5;
       #sign{text:Hold_on...,abc:123,itstrue};
       =5;
       >6;
-      #none*3;
+      #trap*3;
       +3;
       >-1;
       #torch;
@@ -109,6 +109,13 @@ var levels = [
       #none*2;
       +-2;
       #goal;
+      =0;
+      >13;
+      #none*4;
+      +-4;
+      >1;
+      #none*3;
+      #sign{text:What's_the_secret_code?};
     `,
     player: {
       x: 2,
@@ -150,6 +157,32 @@ var levels = [
     player: {
       x: 2,
       y: 2,
+    },
+  },
+  {
+    name: "Skelly Wag",
+    dim: [25, 10],
+    set: `
+      >6;
+      #block*100&3,cracked:1;
+      =1;
+      >5;
+      #sign{text:Skelly_is_deceiving};
+      +3;
+      #brick;
+      =9;
+      >4;
+      @rat;
+      +2;
+      >-2;
+      @skelly;
+      =23;
+      >5;
+      #goal;
+    `,
+    player: {
+      x: 2,
+      y: 3,
     },
   },
 ];

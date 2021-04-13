@@ -25,7 +25,8 @@ var debugMode = false;
 var lvl = 0;
 if (debugMode) {
   // data.graphics = 0;
-  var lvl = 2;
+  data.graphics = 2;
+  var lvl = 3;
 }
 var player = null;
 var grid = [];
@@ -104,6 +105,7 @@ playerImages = {
   idle: 2,
   run: 2,
   jump: 2,
+  crouch: 2,
   death: 1,
   transition: 1,
 };
@@ -124,6 +126,7 @@ gameFont.load().then(
     gameState = "start";
     if (debugMode) {
       gameState = "play";
+      // gameState = "pause";
     }
   },
   (err) => {

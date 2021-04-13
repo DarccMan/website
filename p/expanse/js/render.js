@@ -1,5 +1,9 @@
 function render() {
   if (gameState != "load") {
+    /* Align camera to player position */
+    cam.x = player.x + (player.w / 2) - (canvas.width * data.cam.x);
+    cam.y = player.y + (player.h / 2) - (canvas.height * data.cam.y);
+
     ctx.fillCanvas(data.sprites.none);
     ctx.save();
     if (data.graphics > 0) {
@@ -324,13 +328,23 @@ function render() {
         );
       }
       if (data.graphics > 1) {
-        if (data.image_amount[enemies[i].type] > 1) {
+        if (data.image_amount[enemies[i].type] > 0) {
           ctx.drawImage(
             images[enemies[i].type + "_" + frame.current % data.image_amount[enemies[i].type]],
             enemies[i].x,
-            enemies[i].y - enemies[i].w + enemies[i].h,
+            (enemies[i].y) + (data.enemies[enemies[i].type].rh ? (
+              // data.enemies[enemies[i].type].rh * tw
+              0
+            ) : (
+              // data.enemies[enemies[i].type].h * tw
+              enemies[i].h - (enemies[i].w)
+            )),
             enemies[i].w,
-            enemies[i].w,
+            data.enemies[enemies[i].type].rh ? (
+              data.enemies[enemies[i].type].rh * tw
+            ) : (
+              enemies[i].w
+            ),
           );
         } else {
           /* One frame */
@@ -339,7 +353,7 @@ function render() {
             enemies[i].x,
             enemies[i].y - enemies[i].w + enemies[i].h,
             enemies[i].w,
-            enemies[i].w,
+            enemies[i].w * (data.enemies[enemies[i].type].rh || 1),
           );
         }
       } else {
@@ -543,6 +557,16 @@ function render() {
         "By Darcy",
         canvas.width * 0.98,
         canvas.height * 0.98,
+      );
+    } else if (gameState == "debug") {
+      ctx.font = canvas.width * 0.06 + "px " + data.font;
+      ctx.textBaseline = "top";
+      ctx.textAlign = "left";
+      ctx.fillStyle = "#EEEE";
+      ctx.fillText(
+        "<DEBUG MODE>",
+        canvas.width * 0.02,
+        canvas.width * 0.02,
       );
     }
   } else {

@@ -88,9 +88,17 @@ function reset() {
         enemies.push({
           type,
           x: ((x % grid.length) * tw) + ((1 - data.enemies[type].w) * tw / 2),
-          y: ((Math.floor(x / grid.length) + 1) * tw) - (data.enemies[type].h * tw),
+          y: ((Math.floor(x / grid.length) + 1) * tw) - (data.enemies[type].rh ? (
+            data.enemies[type].rh * tw
+          ) : (
+            data.enemies[type].h * tw
+          )),
           w: data.enemies[type].w * tw,
-          h: data.enemies[type].h * tw,
+          h: data.enemies[type].rh ? (
+            data.enemies[type].rh * tw
+          ) : (
+            data.enemies[type].h * tw
+          ),
           vx: 0,
           vy: 0,
         });

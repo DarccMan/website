@@ -11,6 +11,7 @@ var data = {
   player: { // Player settings
     w: 1.2,
     h: 1.2,
+    ch: 0.8,
     hitX: 0.6,
     hitY: 0.95,
     color: "#354",
@@ -31,6 +32,7 @@ var data = {
   sprites: { // Colors of block in low graphics
     none: "#18100A",
     block: "#0B0704",
+    trap: "#0F0704",
     cracked: "#0B0603",
     smile: "#0B0704",
     brick: "#0B0A08",
@@ -96,6 +98,33 @@ var data = {
         fall: false,
       },
     },
+    skelly: { // Refer to rat
+      color: "#CCC",
+      w: 0.8,
+      h: 1,
+      rh: 1.9,
+      v: {
+        ma: 10,
+        mt: 5,
+        fa: 1,
+        ft: 6,
+      },
+      collide: [ // Cannot walk into these bad boys
+        "block",
+        "cracked",
+        "smile",
+        "brick",
+        "alt",
+        "test",
+      ],
+      death: [ // Dies from these
+        "spike",
+      ],
+      attr: { // Attributes
+        avoidLight: false,
+        fall: true,
+      },
+    },
   },
   image_amount: { // Amount of images for block / enemy animation
     torch: 3,
@@ -103,10 +132,12 @@ var data = {
     goal: 2,
     rat: 2,
     bat: 2,
+    skelly: 2,
   },
   outlines: [ // Which blocks use outline
     "block",
     "cracked",
+    "trap",
     "brick",
     "smile",
   ],
@@ -147,13 +178,13 @@ var data = {
     jm: 80, // Maximum time to hold down key
     jt: 30, // Terminal jump velocity
     // Movement (x)
-    // ma: 40, // Acceleration speed
     ma: 100, // Acceleration speed
-    // md: 5, // Decceleration speed
     md: 0, // Decceleration speed
-    // mt: 9, // Terminal velocity
     mt: 10, // Terminal velocity
     mm: 0.2, // If less than this number, reset to 0
+    // Crouching
+    cf: 0.7, // Fall speed
+    cm: 0.3, // Movement speed
   },
   font: "dirtyroma", // Font
   hold_size: 0.8, // Size of held block
@@ -165,7 +196,7 @@ var controls = { // Kinda self explanatory
       38,
       32,
     ],
-    "player_down": [
+    "player_crouch": [
       83,
       40,
     ],
