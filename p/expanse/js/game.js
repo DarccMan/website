@@ -16,7 +16,7 @@ ctx2 = canvas2.getContext("2d");
 
 /* Create global variables */
 var lvl = 0;
-// data.graphics = 0;
+data.graphics = 2;
 // var lvl = 1;
 var player = null;
 var grid = [];
@@ -112,6 +112,7 @@ gameFont.load().then(
   (font) => {
     document.fonts.add(font);
     gameState = "start";
+    gameState = "play";
   },
   (err) => {
     console.log(err);

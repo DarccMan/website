@@ -221,7 +221,7 @@ var food = [
         tags: [
           "pankace",
         ],
-        desc: "Plain pancakes in moderation are unlikely to harm your dog, although some pets have wheat allergies or sensitivities to grains. However, leftover pancakes with toppings added—including sweets like syrup—are less healthy for dogs, and should generally be avoided.",
+        desc: "Plain pancakes in moderation are unlikely to harm your dog, although some pets have wheat allergies or sensitivities to grains. However, leftover pancakes with toppings added-including sweets like syrup-are less healthy for dogs, and should generally be avoided.",
         critic: "Loves Pancakes, but not with maple syrup",
       },
       {

@@ -27,7 +27,7 @@ function update(mod) {
     p.y += p.vy;
     X: for (x = minx; x < maxx; x++) {
       for (y = miny; y < maxy; y++) {
-        if (data.collide.includes(grid[x][y])) {
+        if (data.collide.includes(grid[x][y].block)) {
           if (F.collide(p, {
             x: (x + 0.001) * tw,
             y: (y + 0.001) * tw,
@@ -60,7 +60,7 @@ function update(mod) {
       p.h = 1;
       X: for (x = minx; x < maxx; x++) {
         for (y = miny; y < maxy; y++) {
-          if (data.collide.includes(grid[x][y])) {
+          if (data.collide.includes(grid[x][y].block)) {
             if (F.collide(p, {
               x: (x + 0.001) * tw,
               y: (y + 0.001) * tw,
@@ -108,7 +108,7 @@ function update(mod) {
     p.y += p.vy - 1;
     X: for (x = minx; x < maxx; x++) {
       for (y = miny; y < maxy; y++) {
-        if (data.collide.includes(grid[x][y])) {
+        if (data.collide.includes(grid[x][y].block)) {
           if (F.collide(p, {
             x: (x + 0.001) * tw,
             y: (y + 0.001) * tw,
@@ -143,20 +143,20 @@ function update(mod) {
     p.y -= 1;
     X: for (x = minx; x < maxx; x++) {
       for (y = miny; y < maxy; y++) {
-        if (grid[x][y] != "none") {
+        if (grid[x][y].block != "none") {
           if (F.collide(p, {
             x: (x + 0.001) * tw,
             y: (y + 0.001) * tw,
             w: tw + 1,
             h: tw + 1,
           })) {
-            if (data.collide.includes(grid[x][y])) {
+            if (data.collide.includes(grid[x][y].block)) {
               cb = grid[x][y];
               break X;
-            } else if (data.win.includes(grid[x][y])) {
+            } else if (data.win.includes(grid[x][y].block)) {
               goal();
               break X;
-            } else if (data.death.includes(grid[x][y])) {
+            } else if (data.death.includes(grid[x][y].block)) {
               death();
               break X;
             }
@@ -208,7 +208,7 @@ function update(mod) {
       e.y -= 1;
       X: for (x = minex; x < maxex; x++) {
         for (y = miney; y < maxey; y++) {
-          if (data.enemies[enemies[i].type].collide.includes(grid[x][y])) {
+          if (data.enemies[enemies[i].type].collide.includes(grid[x][y].block)) {
             if (F.collide(e, {
               x: (x + 0.001) * tw,
               y: (y + 0.001) * tw,
@@ -240,7 +240,7 @@ function update(mod) {
       e.x += e.vx;
       X: for (x = minex; x < maxex; x++) {
         for (y = miney; y < maxey; y++) {
-          if (data.enemies[enemies[i].type].collide.includes(grid[x][y])) {
+          if (data.enemies[enemies[i].type].collide.includes(grid[x][y].block)) {
             if (F.collide(e, {
               x: (x + 0.001) * tw,
               y: (y + 0.001) * tw,
@@ -274,7 +274,7 @@ function update(mod) {
         e.y += e.vy;
         X: for (x = minex; x < maxex; x++) {
           for (y = miney; y < maxey; y++) {
-            if (data.enemies[enemies[i].type].collide.includes(grid[x][y])) {
+            if (data.enemies[enemies[i].type].collide.includes(grid[x][y].block)) {
               if (F.collide(e, {
                 x: (x + 0.001) * tw,
                 y: (y + 0.001) * tw,
@@ -321,10 +321,10 @@ function update(mod) {
             w: tw + 1,
             h: tw + 1,
           })) {
-            if (data.enemies[enemies[i].type].collide.includes(grid[x][y])) {
-              cb = grid[x][y];
+            if (data.enemies[enemies[i].type].collide.includes(grid[x][y].block)) {
+              cb = grid[x][y].block;
               break X;
-            } else if (data.enemies[enemies[i].type].death.includes(grid[x][y])) {
+            } else if (data.enemies[enemies[i].type].death.includes(grid[x][y].block)) {
               enemies[i].dead = Date.now();
             }
           }
@@ -353,10 +353,12 @@ function update(mod) {
           grid[x]
           && grid[y]
         ) {
-          switch (grid[x][y]) {
+          switch (grid[x][y].block) {
             case "torch": {
               player.hold = "torch";
-              grid[x][y] = "none";
+              grid[x][y] = {
+                block: "none"
+              };
             }; break;
           }
         }
@@ -370,11 +372,13 @@ function update(mod) {
           grid[x]
           && grid[y]
         ) {
-          if (grid[x][y] == "none") {
+          if (grid[x][y].block == "none") {
             switch (player.hold) {
               case "torch": {
                 player.hold = null;
-                grid[x][y] = "torch";
+                grid[x][y] = {
+                  block: "torch"
+                };
               }; break;
             }
           }

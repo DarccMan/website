@@ -46,14 +46,14 @@ function render() {
 
     for (x = 0; x < grid.length; x++) {
       for (y = 0; y < grid[x].length; y++) {
-        if (grid[x][y] == "none") {
+        if (grid[x][y].block == "none") {
           continue;
         }
         /* Draw block */
         if (data.graphics > 1) {
-          if (data.image_amount[grid[x][y]]) {
+          if (data.image_amount[grid[x][y].block]) {
             ctx.drawImage(
-              images[grid[x][y] + "_" + frame.current % data.image_amount[grid[x][y]]],
+              images[grid[x][y].block + "_" + frame.current % data.image_amount[grid[x][y].block]],
               x * tw - 1,
               y * tw - 1,
               tw + 1,
@@ -61,7 +61,7 @@ function render() {
             );
           } else {
             ctx.drawImage(
-              images[grid[x][y]],
+              images[grid[x][y].block],
               x * tw - 1,
               y * tw - 1,
               tw + 1,
@@ -71,14 +71,14 @@ function render() {
 
           /* Draw outline of blocks (DONT ASK ME HOW IT WORKS, I blacked out and woke up to it working) */
           if (data.graphics > 2) {
-            if (data.outlines.includes(grid[x][y])) {
+            if (data.outlines.includes(grid[x][y].block)) {
               for (c = 0; c < cs.length; c++) {
                 if (
                   x + cs[c][0] < 0
                   || x + cs[c][0] >= grid.length
                   || y + cs[c][1] < 0
                   || y + cs[c][1] >= grid[x].length
-                  || !data.outlines.includes(grid[x + cs[c][0]][y + cs[c][1]])
+                  || !data.outlines.includes(grid[x + cs[c][0]][y + cs[c][1]].block)
                 ) {
                   ctx.save();
                   ctx.translate(
@@ -106,9 +106,9 @@ function render() {
               for (c = 0; c < ci.length; c++) {
                 if (
                   (
-                    !data.outlines.includes(grid[x + ci[c][0][0]]?.[y + ci[c][0][1]])
-                    && data.outlines.includes(grid[x + ci[c][1][0]]?.[y + ci[c][1][1]])
-                    && data.outlines.includes(grid[x + ci[c][2][0]]?.[y + ci[c][2][1]])
+                    !data.outlines.includes(grid[x + ci[c][0][0]]?.[y + ci[c][0][1]].block)
+                    && data.outlines.includes(grid[x + ci[c][1][0]]?.[y + ci[c][1][1]].block)
+                    && data.outlines.includes(grid[x + ci[c][2][0]]?.[y + ci[c][2][1]].block)
                   )
                 ) {
                   ctx.save();
@@ -137,13 +137,13 @@ function render() {
               for (c = 0; c < co.length; c++) {
                 if (
                   (
-                    !data.outlines.includes(grid[x + co[c][0][0]]?.[y + co[c][0][1]])
+                    !data.outlines.includes(grid[x + co[c][0][0]]?.[y + co[c][0][1]].block)
                     || (
                       !grid[x + co[c][0][0]]
                       || !grid[x + co[c][0][0]][y + co[c][0][1]]
                     )
                   ) && (
-                    !data.outlines.includes(grid[x + co[c][1][0]]?.[y + co[c][1][1]])
+                    !data.outlines.includes(grid[x + co[c][1][0]]?.[y + co[c][1][1]].block)
                     || (
                       !grid[x + co[c][1][0]]
                       || !grid[x + co[c][1][0]][y + co[c][1][1]]
@@ -176,7 +176,7 @@ function render() {
           }
         } else {
           /* Low graphics blocks */
-          ctx.fillStyle = data.sprites[grid[x][y]];
+          ctx.fillStyle = data.sprites[grid[x][y].block];
           ctx.fillRect(
             x * tw - 1,
             y * tw - 1,

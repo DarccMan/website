@@ -37,6 +37,7 @@ var data = {
     goal: "#0F0",
     spike: "#444",
     pillar: "#0000",
+    sign: "#753",
   },
   enemies: { // Enemy settings
     rat: {

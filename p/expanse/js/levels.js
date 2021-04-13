@@ -5,6 +5,9 @@ var levels = [
     set: `
       >4;
       #block*125&3,cracked:1;
+      =0;
+      >3;
+      // #sign[text:THIS IS A TEST,abc:123];
       =6;
       >3;
       #block*2&3,cracked:1;

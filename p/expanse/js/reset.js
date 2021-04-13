@@ -11,7 +11,9 @@ function reset() {
     grid[x] = [];
     for (y = 0; y < levels[lvl].dim[1]; y++) {
       if (!grid[x][y]) {
-        grid[x][y] = "none";
+        grid[x][y] = {
+          block: "none",
+        };
       }
     }
   }
@@ -47,7 +49,9 @@ function reset() {
         }
         random = arr;
         for (j = 0; j < amount; j++) {
-          grid[x % grid.length][Math.min(grid[0].length - 1, Math.floor(x / grid.length))] = F.randomChoice(random);
+          grid[x % grid.length][Math.min(grid[0].length - 1, Math.floor(x / grid.length))] = {
+            block: F.randomChoice(random),
+          };
           x++;
         }
       }; break;
