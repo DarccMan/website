@@ -49,6 +49,8 @@ var levels = [
       #none*3;
       +3;
       >-1;
+      #torch;
+      +-1;
       @rat;
       +1;
       @rat;
@@ -119,9 +121,7 @@ var levels = [
       =9;
       >5;
       #torch;
-      +5;
-      #torch;
-      +5;
+      +9;
       @bat;
       +1;
       @bat;

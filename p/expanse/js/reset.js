@@ -1,8 +1,11 @@
 function reset() {
+  /* Reset game if completed all levels */
   if (!levels[lvl]) {
     console.log("You finished the game!\nIf you are seeing this message then Hello :)");
     lvl = 0;
   }
+
+  /* Set up game */
   grid = [];
   for (x = 0; x < levels[lvl].dim[0]; x++) {
     grid[x] = [];
@@ -13,6 +16,7 @@ function reset() {
     }
   }
   enemies = [];
+  /* Read level file */
   fen = levels[lvl].set.replace(/(\r\n|\n|\r| )/gm, "").split(";");
   x = 0;
   y = 0;
@@ -46,7 +50,6 @@ function reset() {
           grid[x % grid.length][Math.min(grid[0].length - 1, Math.floor(x / grid.length))] = F.randomChoice(random);
           x++;
         }
-        // x = x % grid.length;
       }; break;
       case "+": {
         x += parseInt(fen[i].s(1, -1));
@@ -77,6 +80,7 @@ function reset() {
     y = Math.floor(x / grid.length);
   }
 
+  /* Create player */
   player = {
     x: (levels[lvl].player?.x || 2) * tw,
     y: (levels[lvl].player?.y || 2) * tw,
@@ -86,9 +90,11 @@ function reset() {
     vy: 0,
     hold: null,
     // hold: "torch",
+    status: "idle",
   };
 
-  if (gameState != "start") {
+  /* Start level */
+  if (gameState != "load" && gameState != "start") {
     gameState = "play";
   }
   frame.start();

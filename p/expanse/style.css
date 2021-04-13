@@ -1,7 +1,3 @@
-@font-face {
-  font-family: dirtyroma;
-  src: url(../../source/font/dirty-roma.woff2);
-}
 body {
   background-color: rgba(50, 50, 50);
 }
@@ -12,11 +8,11 @@ body {
 #canvas_contain {
   float: left;
 }
+/* This is my favourite programming language */
 canvas {
   background-color: rgba(60, 60, 60);
   border: 3px solid rgba(70, 70, 70);
   margin-right: 10px;
-  /* cursor: none; */
 }
 select, input, button, textarea {
   color: black;

@@ -1,23 +1,20 @@
 var data = {
-  // tiles: 12,
-  tiles: 10,
-  // tiles: 30,
-  parallax: 0.5,
-  cam: {
+  tiles: 10, // Amount of tiles on canvas
+  parallax: 0.5, // How fast the background moves
+  cam: { // Position of player to screen
     x: 0.35,
     y: 0.6,
   },
-  player: {
+  player: { // Player settings
     w: 1.2,
     h: 1.2,
     hitX: 0.6,
     hitY: 0.95,
     color: "#354",
   },
-  frame_speed: 800,
-  graphics: 3,
-  // graphics: 0,
-  death_lines: [
+  frame_speed: 800, // How fast animations are
+  graphics: 3, // Graphics level (0-3)
+  death_lines: [ // Death messages
     "Uh - Oh!",
     "Yikers!",
     "Whoops!",
@@ -27,7 +24,8 @@ var data = {
     "Oh MAN!",
     "oof",
   ],
-  sprites: {
+  //! Rewrite block settings to match enemy settings 
+  sprites: { // Colors of block in low graphics
     none: "#18100A",
     block: "#0B0704",
     cracked: "#0B0603",
@@ -40,9 +38,9 @@ var data = {
     spike: "#444",
     pillar: "#0000",
   },
-  enemies: {
+  enemies: { // Enemy settings
     rat: {
-      color: "#644",
+      color: "#644", // Color for low graphics
       w: 0.8,
       h: 0.5,
       v: {
@@ -51,7 +49,7 @@ var data = {
         fa: 1,
         ft: 2,
       },
-      collide: [
+      collide: [ // Cannot walk into these bad boys
         "block",
         "cracked",
         "smile",
@@ -59,15 +57,15 @@ var data = {
         "alt",
         "test",
       ],
-      death: [
+      death: [ // Dies from these
         "spike",
       ],
-      attr: {
+      attr: { // Attributes
         avoidLight: false,
         fall: true,
       },
     },
-    bat: {
+    bat: { // Refer to rat
       color: "#622",
       w: 0.8,
       h: 0.8,
@@ -84,6 +82,7 @@ var data = {
         "brick",
         "alt",
         "test",
+        "torch",
       ],
       death: [
         "spike",
@@ -94,20 +93,20 @@ var data = {
       },
     },
   },
-  image_amount: {
+  image_amount: { // Amount of images for block / enemy animation
     torch: 3,
     spike: 2,
     goal: 2,
     rat: 2,
     bat: 2,
   },
-  outlines: [
+  outlines: [ // Which blocks use outline
     "block",
     "cracked",
     "brick",
     "smile",
   ],
-  collide: [
+  collide: [ // Player collides with these
     "block",
     "cracked",
     "smile",
@@ -115,43 +114,47 @@ var data = {
     "alt",
     "test",
   ],
-  light: [
+  //! Add light amount
+  light: [ // Give off light
     "torch",
   ],
-  death: [
+  death: [ // Player dies from these
     "spike",
   ],
-  win: [
+  win: [ // Player passes level from these
     "goal",
   ],
-  shadow: {
-    p_r0: 0.5,
-    p_r1: 3,
-    torch_multiply: 2,
-    r0: 0.5,
-    r1: 3,
-    opacity: 200,
+  shadow: { // Shadow settings
+    p_r0: 0.5, // Small radius around player
+    p_r1: 3, // Large radius around player
+    torch_multiply: 2, // How much holding torch multiplies light by
+    r0: 0.5, // Small radius around light blocks
+    r1: 3, // Large radius around light blocks
+    opacity: 210, // Opacity of full shadow (0-255)
   },
-  v: {
+  v: { // Player velocity settings
     // Fall (+y)
     fa: 25, // Acceleration speed
     ft: 40, // Terminal velocity
     // Jump (-y)
     jb: 8, // Base jump
     ja: 1.2, // Every millisecond key held down add this to jump
-    jc: 50, // Cooldown before adding adding above amount
+    jc: 30, // Cooldown before adding adding above amount
     jm: 80, // Maximum time to hold down key
     jt: 30, // Terminal jump velocity
     // Movement (x)
-    ma: 40, // Acceleration speed
-    md: 5, // Decceleration speed
-    mt: 9, // Terminal velocity
+    // ma: 40, // Acceleration speed
+    ma: 100, // Acceleration speed
+    // md: 5, // Decceleration speed
+    md: 0, // Decceleration speed
+    // mt: 9, // Terminal velocity
+    mt: 10, // Terminal velocity
     mm: 0.2, // If less than this number, reset to 0
   },
-  font: "dirtyroma",
-  hold_size: 0.8,
+  font: "dirtyroma", // Font
+  hold_size: 0.8, // Size of held block
 };
-var controls = {
+var controls = { // Kinda self explanatory
   keys: {
     "player_up": [
       87,
@@ -187,6 +190,9 @@ var controls = {
     ],
     "debug_all": [
       16,
+    ],
+    "debug_skipLevel": [
+      66,
     ],
   },
   buttons: {},
