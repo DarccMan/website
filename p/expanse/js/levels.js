@@ -7,7 +7,7 @@ var levels = [
       #block*125&3,cracked:1;
       =0;
       >3;
-      // #sign[text:THIS IS A TEST,abc:123];
+      #sign{text:Watch_out_for_rats!,abc:123,itstrue};
       =6;
       >3;
       #block*2&3,cracked:1;
@@ -47,6 +47,9 @@ var levels = [
     set: `
       >6;
       #block*100&3,cracked:1;
+      =0;
+      >5;
+      #sign{text:Hold_on...,abc:123,itstrue};
       =5;
       >6;
       #none*3;
@@ -118,6 +121,9 @@ var levels = [
     set: `
       >6;
       #block*100&3,cracked:1;
+      =0;
+      >5;
+      #sign{text:Press_E_to_pick_up...,abc:123,itstrue};
       =7;
       >5;
       @bat;
@@ -135,6 +141,8 @@ var levels = [
       >-2;
       +-1;
       @bat;
+      +1;
+      @rat;
       =23;
       >5;
       #goal

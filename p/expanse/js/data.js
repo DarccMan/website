@@ -1,4 +1,7 @@
 var data = {
+  resolution: 1,
+  // resolution: 0.3, // Don't touch this!
+  pixelate: true,
   tiles: 10, // Amount of tiles on canvas
   parallax: 0.5, // How fast the background moves
   cam: { // Position of player to screen
@@ -139,8 +142,8 @@ var data = {
     ft: 40, // Terminal velocity
     // Jump (-y)
     jb: 8, // Base jump
-    ja: 1.2, // Every millisecond key held down add this to jump
-    jc: 30, // Cooldown before adding adding above amount
+    ja: 1.1, // Every millisecond key held down add this to jump
+    jc: 40, // Cooldown before adding adding above amount
     jm: 80, // Maximum time to hold down key
     jt: 30, // Terminal jump velocity
     // Movement (x)

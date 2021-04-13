@@ -1,12 +1,17 @@
 /* Create canvas */
 var canvas = doc.create("canvas");
 canvas.id = "canvas";
-canvas.width = 512 * 1.5;
-canvas.height = 512;
+canvas.style.width = 512 * 1.5 + "px";
+canvas.style.height = 512 + "px";
+canvas.width = parseInt(canvas.style.width) * data.resolution;
+canvas.height = parseInt(canvas.style.height) * data.resolution;
 canvas.setAttribute("oncontextmenu", "return(false);");
 doc.id("canvas_contain").appendChild(canvas);
 var ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = false;
+if (data.pixelate) {
+  canvas.style.imageRendering = "pixelated";
+}
 
 /* Create secondary canvas (for shadow subtraction) */
 canvas2 = doc.create("canvas")
@@ -15,9 +20,13 @@ canvas2.height = canvas.height;
 ctx2 = canvas2.getContext("2d");
 
 /* Create global variables */
+var debugMode = false;
+// debugMode = true;
 var lvl = 0;
-data.graphics = 2;
-// var lvl = 1;
+if (debugMode) {
+  // data.graphics = 0;
+  var lvl = 2;
+}
 var player = null;
 var grid = [];
 var cam = {
@@ -29,6 +38,7 @@ var gameState = "load";
 var global = {};
 var enemies = [];
 var tw = (Math.min(canvas.width, canvas.height) / data.tiles);
+var tw2 = (Math.min(parseInt(canvas.style.width), canvas.height) / data.tiles);
 var tx = data.tiles / Math.min(canvas.width, canvas.height) * Math.max(canvas.width, canvas.height);
 
 /* Outline settings for blocks */
@@ -112,7 +122,9 @@ gameFont.load().then(
   (font) => {
     document.fonts.add(font);
     gameState = "start";
-    gameState = "play";
+    if (debugMode) {
+      gameState = "play";
+    }
   },
   (err) => {
     console.log(err);

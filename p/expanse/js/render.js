@@ -106,9 +106,9 @@ function render() {
               for (c = 0; c < ci.length; c++) {
                 if (
                   (
-                    !data.outlines.includes(grid[x + ci[c][0][0]]?.[y + ci[c][0][1]].block)
-                    && data.outlines.includes(grid[x + ci[c][1][0]]?.[y + ci[c][1][1]].block)
-                    && data.outlines.includes(grid[x + ci[c][2][0]]?.[y + ci[c][2][1]].block)
+                    !data.outlines.includes(grid[x + ci[c][0][0]]?.[y + ci[c][0][1]]?.block)
+                    && data.outlines.includes(grid[x + ci[c][1][0]]?.[y + ci[c][1][1]]?.block)
+                    && data.outlines.includes(grid[x + ci[c][2][0]]?.[y + ci[c][2][1]]?.block)
                   )
                 ) {
                   ctx.save();
@@ -137,13 +137,13 @@ function render() {
               for (c = 0; c < co.length; c++) {
                 if (
                   (
-                    !data.outlines.includes(grid[x + co[c][0][0]]?.[y + co[c][0][1]].block)
+                    !data.outlines.includes(grid[x + co[c][0][0]]?.[y + co[c][0][1]]?.block)
                     || (
                       !grid[x + co[c][0][0]]
                       || !grid[x + co[c][0][0]][y + co[c][0][1]]
                     )
                   ) && (
-                    !data.outlines.includes(grid[x + co[c][1][0]]?.[y + co[c][1][1]].block)
+                    !data.outlines.includes(grid[x + co[c][1][0]]?.[y + co[c][1][1]]?.block)
                     || (
                       !grid[x + co[c][1][0]]
                       || !grid[x + co[c][1][0]][y + co[c][1][1]]
@@ -435,7 +435,7 @@ function render() {
       time0 = 1500;
       time1 = 1000;
       if (global.lastRestart + time0 > Date.now()) {
-        ctx.font = "40px " + data.font;
+        ctx.font = canvas.width * 0.06 + "px " + data.font;
         h = "FF";
         if (data.graphics > 0) {
           h = Math.round((Math.min(time1, time0 - (Date.now() - global.lastRestart)) * (256 / time1)) * 0.7).toString(16);
@@ -448,9 +448,40 @@ function render() {
         ctx.textAlign = "left";
         ctx.fillText(
           "Level {0} '{1}'".format(lvl, levels[lvl].name || "Unknown"),
-          20,
-          20,
+          canvas.width * 0.02,
+          canvas.width * 0.02,
         );
+      }
+
+      /* Draw sign text */
+      if (global.signText) {
+        time0 = 1500;
+        time1 = 1000;
+        if (global.lastReadSign + time0 > Date.now()) {
+          h = "FF";
+          if (data.graphics > 0) {
+            h = Math.round((Math.min(time1, time0 - (Date.now() - global.lastReadSign)) * (256 / time1)) * 0.7).toString(16);
+            if (h.length > 2) {
+              h = "FF";
+            }
+          }
+          ctx.fillStyle = "#B0B0B0" + (h.length < 2 ? "0" : "") + h;
+          ctx.textBaseline = "top";
+          ctx.textAlign = "center";
+          ctx.font = canvas.width * 0.05 + "px " + data.font;
+          ctx.fillText(
+            "The sign reads:",
+            canvas.width * 0.5,
+            canvas.height * 0.1,
+          );
+          ctx.fillStyle = "#FFFFFF" + (h.length < 2 ? "0" : "") + h;
+          ctx.font = canvas.width * 0.08 + "px " + data.font;
+          ctx.fillText(
+            global.signText,
+            canvas.width * 0.5,
+            canvas.height * 0.2,
+          );
+        }
       }
     }
 
@@ -461,7 +492,7 @@ function render() {
         h = Math.round(player.animate * 256 / 10).toString(16);
       }
       ctx.fillCanvas("#FF0000" + (h.length < 2 ? "0" : "") + h);
-      ctx.font = "100px " + data.font;
+      ctx.font = canvas.width * 0.12 + "px " + data.font;
       ctx.fillStyle = "#FFF";
       if (data.graphics > 0) {
         ctx.save();
@@ -474,7 +505,7 @@ function render() {
           - canvas.width / 2,
           - canvas.height / 2,
         );
-        ctx.font = (player.animate * 100) + "px " + data.font;
+        ctx.font = (canvas.width * 0.001) * (player.animate * 100) + "px " + data.font;
         h = Math.round(player.animate * 256 / 2).toString(16);
         ctx.fillStyle = "#FFFFFF" + (h.length < 2 ? "0" : "") + h;
       }
@@ -482,8 +513,8 @@ function render() {
       ctx.textAlign = "center";
       ctx.fillText(
         global.deathMessage,
-        canvas.width / 2,
-        canvas.height / 3,
+        canvas.width * 0.5,
+        canvas.height * 0.3,
       );
       ctx.restore();
     } else if (gameState == "start") {
@@ -492,26 +523,26 @@ function render() {
       ctx.fillStyle = "#EEE";
       ctx.textBaseline = "middle";
       ctx.textAlign = "center";
-      ctx.font = "70px " + data.font;
+      ctx.font = canvas.width * 0.12 + "px " + data.font;
       ctx.fillText(
         "Expanse of Darkness",
-        canvas.width / 2,
-        canvas.height / 2.3,
+        canvas.width * 0.5,
+        canvas.height * 0.45,
       );
-      ctx.font = "40px " + data.font;
+      ctx.font = canvas.width * 0.05 + "px " + data.font;
       ctx.fillText(
         "Press SPACE to continue",
-        canvas.width / 2,
-        canvas.height / 1.6,
+        canvas.width * 0.5,
+        canvas.height * 0.7,
       );
-      ctx.font = "30px " + data.font;
+      ctx.font = canvas.width * 0.05 + "px " + data.font;
       ctx.textBaseline = "bottom";
       ctx.textAlign = "right";
       ctx.fillStyle = "#CCCA";
       ctx.fillText(
         "By Darcy",
-        canvas.width - 10,
-        canvas.height - 10,
+        canvas.width * 0.98,
+        canvas.height * 0.98,
       );
     }
   } else {
@@ -520,11 +551,11 @@ function render() {
     ctx.fillStyle = "#EEE";
     ctx.textBaseline = "top";
     ctx.textAlign = "center";
-    ctx.font = "60px Arial";
+    ctx.font = canvas.width * 0.08 + "px Arial";
     ctx.fillText(
       "Loading Assets...",
-      canvas.width / 2,
-      80,
+      canvas.width * 0.5,
+      canvas.height * 0.1,
     );
   }
 }

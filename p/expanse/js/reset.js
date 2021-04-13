@@ -19,7 +19,7 @@ function reset() {
   }
   enemies = [];
   /* Read level file */
-  fen = levels[lvl].set.replace(/(\r\n|\n|\r| )/gm, "").split(";");
+  fen = levels[lvl].set.replace(/(\r\n|\n|\r| )/gm, "").replaceAll("_", " ").split(";");
   x = 0;
   y = 0;
   for (i = 0; i < fen.length; i++) {
@@ -29,17 +29,31 @@ function reset() {
     switch (fen[i].s(0)) {
       case "#": {
         str = fen[i].s(1, -1).split("*");
+        nbt = {};
+        block = str[0];
+        //! Add comments
+        if (block.split("{").length > 1) {
+          raw = block.split("{")[1].s(0, -2).split(",");
+          for (j = 0; j < raw.length; j++) {
+            if (raw[j].split(":").length > 1) {
+              nbt[raw[j].split(":")[0]] = raw[j].split(":")[1];
+            } else {
+              nbt[raw[j].split(":")[0]] = true;
+            }
+          }
+          block = block.split("{")[0];
+        }
         amount = parseInt(str[1]) || 1;
         random = fen[i].s(1, -1).split("&")[1];
         if (random) {
           random = random.split(",");
           if (random[0].split(":").length < 2) {
-            random = [str[0] + ":" + random[0].split(":"), ...F.toArray(random.s(1, -1))];
+            random = [block + ":" + random[0].split(":"), ...F.toArray(random.s(1, -1))];
           } else {
-            random = [str[0] + ":1", ...random];
+            random = [block + ":1", ...random];
           }
         } else {
-          random = [str[0]];
+          random = [block];
         }
         arr = [];
         for (j = 0; j < random.length; j++) {
@@ -51,6 +65,7 @@ function reset() {
         for (j = 0; j < amount; j++) {
           grid[x % grid.length][Math.min(grid[0].length - 1, Math.floor(x / grid.length))] = {
             block: F.randomChoice(random),
+            ...nbt,
           };
           x++;
         }
