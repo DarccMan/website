@@ -1,3 +1,7 @@
-Add block that can be picked up
-
 Re-add shaky rats
+
+Add End screen
+
+Add timer
+
+Redo css

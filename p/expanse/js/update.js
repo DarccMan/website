@@ -2,9 +2,15 @@
 function update(mod) {
   var keysDown = F.getKeyCodes(controls);
   if (keysDown.game_restart) {
-    // location.reload();
-    reset();
+    if (global.keyOnce_restart) {
+      reset();
+      // location.reload();
+      global.keyOnce_restart = false;
+    }
+  } else {
+    global.keyOnce_restart = true;
   }
+
   /* Create player hitbox */
   playerHit = {...player};
   playerHit.w *= data.player.hitX;
@@ -76,7 +82,10 @@ function update(mod) {
       p.h = 1;
       X: for (x = minx; x < maxx; x++) {
         for (y = miny; y < maxy; y++) {
-          if (data.collide.includes(grid[x][y].block)) {
+          if (
+            data.collide.includes(grid[x][y].block)
+            && !data.walkInto.includes(grid[x][y].block)
+          ) {
             if (F.collide(p, {
               x: (x + 0.001) * tw,
               y: (y + 0.001) * tw,
@@ -100,10 +109,13 @@ function update(mod) {
     cb = null;
     p = {...playerHit};
     p.y += p.vy - 1;
-    p.h -= 10;
+    // p.h -= 10;
     X: for (x = minx; x < maxx; x++) {
       for (y = miny; y < maxy; y++) {
-        if (data.collide.includes(grid[x][y].block)) {
+        if (
+          data.collide.includes(grid[x][y].block)
+          && !data.walkInto.includes(grid[x][y].block)
+        ) {
           if (F.collide(p, {
             x: (x + 0.001) * tw,
             y: (y + 0.001) * tw,
@@ -117,8 +129,8 @@ function update(mod) {
       }
     }
     if (cb) {
-      player.vy = 0;
-      player.y += 1.1;
+      // player.vy = 0;
+      // player.y -= 1.1;
     }
 
     /* Player X movement */
@@ -155,7 +167,10 @@ function update(mod) {
     p.y += p.vy - 1;
     X: for (x = minx; x < maxx; x++) {
       for (y = miny; y < maxy; y++) {
-        if (data.collide.includes(grid[x][y].block)) {
+        if (
+          data.collide.includes(grid[x][y].block)
+          && !data.walkInto.includes(grid[x][y].block)
+        ) {
           if (F.collide(p, {
             x: (x + 0.001) * tw,
             y: (y + 0.001) * tw,
@@ -199,7 +214,16 @@ function update(mod) {
             w: tw + 1,
             h: tw + 1,
           })) {
-            if (data.collide.includes(grid[x][y].block)) {
+            if (
+              data.walkInto.includes(grid[x][y].block)
+            ) {
+              if (keysDown.player_up) {
+                player.y -= tw * 0.1;
+              }
+            } else if (
+              data.collide.includes(grid[x][y].block)
+              && !data.walkInto.includes(grid[x][y].block)
+            ) {
               cb = grid[x][y];
               break X;
             } else if (data.win.includes(grid[x][y].block)) {
@@ -214,7 +238,11 @@ function update(mod) {
       }
     }
     if (cb) {
-      player.y--;
+      player.y -= tw * 0.03;
+    }
+
+    if (player.y / tw > grid[0].length + data.floor_gap - 0.7) {
+      death();
     }
 
     /* Enemies */
@@ -411,6 +439,12 @@ function update(mod) {
                 block: "none"
               };
             }; break;
+            case "scaffold": {
+              player.hold = "scaffold";
+              grid[x][y] = {
+                block: "none"
+              };
+            }; break;
             case "sign": {
               global.signText = grid[x][y].text || "No text";
               global.lastReadSign = Date.now();
@@ -435,6 +469,12 @@ function update(mod) {
                   block: "torch"
                 };
               }; break;
+              case "scaffold": {
+                player.hold = null;
+                grid[x][y] = {
+                  block: "scaffold"
+                };
+              }; break;
             }
           }
         }
@@ -445,6 +485,16 @@ function update(mod) {
       gameState = "play";
       global.lastRestart = Date.now();
     }
+  }
+
+  if (keysDown.graphics_toggle) {
+    if (global.keyOnce_graphics) {
+      // doc.id("graphics").checked = !doc.id("graphics").checked;
+      changeGraphics();
+      global.keyOnce_graphics = false;
+    }
+  } else {
+    global.keyOnce_graphics = true;
   }
 
   if (gameState != "load") {

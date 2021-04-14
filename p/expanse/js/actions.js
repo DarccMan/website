@@ -30,5 +30,11 @@ async function goal() {
 
 /* Change graphics when checkbox toggled */
 function changeGraphics() {
-  data.graphics = doc.id("graphics").checked ? 0 : 3
+  data.graphics = (data.graphics + 1) % 4;
 }
+
+window.addEventListener("keydown", function (e) {
+  if (["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(e.code) > -1) {
+    e.preventDefault();
+  }
+}, false);

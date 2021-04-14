@@ -185,4 +185,45 @@ var levels = [
       y: 3,
     },
   },
+  {
+    name: "Pick Block",
+    dim: [25, 12],
+    set: `
+      >8;
+      #block*100&3,cracked:1;
+      =1;
+      >7;
+      #scaffold*3;
+      >-1;
+      +-3;
+      #scaffold*3;
+      >-1;
+      +-1;
+      #scaffold;
+      =6;
+      >8;
+      #brick;
+      =12;
+      >2;
+      #brick*3;
+      >-1;
+      +-1;
+      #goal;
+      >6;
+      +-5;
+      #sign{text:Go_into_the_blocks};
+      +13;
+      @skelly;
+      >-2;
+      @rat;
+      >-2;
+      @rat;
+      >-2;
+      @rat;
+    `,
+    player: {
+      x: 5.9,
+      y: 6.8,
+    },
+  },
 ];

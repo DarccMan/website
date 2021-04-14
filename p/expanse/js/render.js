@@ -191,6 +191,69 @@ function render() {
       }
     }
 
+    /* Draw virtual floor spikes */
+    ax = Math.floor((cam.x * 1.5) / ((canvas.width / data.tiles)));
+    for (x = 0; x < grid.length; x++) {
+      if (data.graphics > 1) {
+        if (data.image_amount.spike) {
+          ctx.drawImage(
+            images["spike_" + frame.current % data.image_amount.spike],
+            (x + ax) * tw,
+            (data.floor_gap + grid[0].length) * tw,
+            tw,
+            tw,
+          );
+        } else {
+          ctx.drawImage(
+            images.spike,
+            (x + ax) * tw,
+            (data.floor_gap + grid[0].length) * tw,
+            tw,
+            tw,
+          );
+        }
+        if (data.image_amount.block) {
+          for (y = 0; y < 5; y++) {
+            ctx.drawImage(
+              images["block_" + frame.current % data.image_amount.block],
+              (x + ax) * tw,
+              (data.floor_gap + grid[0].length + 1 + y) * tw,
+              tw,
+              tw,
+            );
+          }
+        } else {
+          for (y = 0; y < 5; y++) {
+            ctx.drawImage(
+              images.block,
+              (x + ax) * tw,
+              (data.floor_gap + grid[0].length + 1 + y) * tw,
+              tw,
+              tw,
+            );
+          }
+        }
+      } else {
+        /* Low graphics blocks */
+        ctx.fillStyle = data.sprites.spike;
+        ctx.fillRect(
+          (x + ax) * tw,
+          (data.floor_gap + grid[0].length) * tw,
+          tw,
+          tw,
+        );
+        for (y = 0; y < 5; y++) {
+          ctx.fillStyle = data.sprites.block;
+          ctx.fillRect(
+            (x + ax) * tw,
+            (data.floor_gap + grid[0].length + 1 + y) * tw,
+            tw,
+            tw,
+          );
+        }
+      }
+    }
+
     /* Draw player */
     if (data.graphics > 1) {
       ctx.save();
@@ -249,6 +312,17 @@ function render() {
       /* Draw player holding block */
       if (player.hold) {
         ctx.save();
+        if (player.flip < 0) {
+          ctx.translate(
+            player.x + (player.w / 2),
+            player.y + (player.h / 2),
+          );
+          ctx.scale(-1, 1);
+          ctx.translate(
+            - (player.x + (player.w / 2)),
+            - (player.y + (player.h / 2)),
+          );
+        }
         ctx.translate(
           player.x + player.w / 2,
           player.y + player.h / 2,
@@ -333,10 +407,8 @@ function render() {
             images[enemies[i].type + "_" + frame.current % data.image_amount[enemies[i].type]],
             enemies[i].x,
             (enemies[i].y) + (data.enemies[enemies[i].type].rh ? (
-              // data.enemies[enemies[i].type].rh * tw
               0
             ) : (
-              // data.enemies[enemies[i].type].h * tw
               enemies[i].h - (enemies[i].w)
             )),
             enemies[i].w,
@@ -351,9 +423,17 @@ function render() {
           ctx.drawImage(
             images[enemies[i].type],
             enemies[i].x,
-            enemies[i].y - enemies[i].w + enemies[i].h,
+            (enemies[i].y) + (data.enemies[enemies[i].type].rh ? (
+              0
+            ) : (
+              enemies[i].h - (enemies[i].w)
+            )),
             enemies[i].w,
-            enemies[i].w * (data.enemies[enemies[i].type].rh || 1),
+            data.enemies[enemies[i].type].rh ? (
+              data.enemies[enemies[i].type].rh * tw
+            ) : (
+              enemies[i].w
+            ),
           );
         }
       } else {
@@ -361,85 +441,82 @@ function render() {
         ctx.fillStyle = data.enemies[enemies[i].type].color;
         ctx.fillRect(
           enemies[i].x,
-          enemies[i].y + enemies[i].h - ((data.enemies[enemies[i].type].h) * tw),
-          data.enemies[enemies[i].type].w * tw,
-          data.enemies[enemies[i].type].h * tw,
+          (enemies[i].y) + (data.enemies[enemies[i].type].rh ? (
+            0
+          ) : (
+            enemies[i].h - (enemies[i].w)
+          )),
+          enemies[i].w,
+          data.enemies[enemies[i].type].rh ? (
+            data.enemies[enemies[i].type].rh * tw
+          ) : (
+            enemies[i].w
+          ),
         );
       }
       ctx.restore();
     }
 
     ctx.restore();
-    if (data.graphics > 2) {
-      /* Shadow Subtraction (DONT ASK ME HOW THIS WORKS EITHER) */
-      ctx2.fillCanvas("#000");
+    if (data.graphics > 2 || data.graphics == 1) {
+      /* Shadow Subtraction */
+      res = data.graphics > 2 ? data.shadow.resolution_high : data.shadow.resolution_low;
+      /* Resize canvas to resolution */
+      canvas2.style.width = canvas.style.width;
+      canvas2.style.height = canvas.style.height;
+      canvas2.width = parseInt(canvas2.style.width) * res;
+      canvas2.height = parseInt(canvas2.style.height) * res;
+      ctx2.fillCanvas("#0008");
 
-      radius_0 = 50;
-      radius_1 = 200;
-
+      /* Create inverted opacity shadow around player */
       var grd = ctx2.createRadialGradient(
-        - cam.x + player.x + (player.w / 2),
-        - cam.y + player.y + (player.w / 2),
-        Math.max(player.w, player.h) * data.shadow.p_r0,
-        - cam.x + player.x + (player.w / 2),
-        - cam.y + player.y + (player.w / 2),
-        tw * data.shadow.p_r1 * (data.light.includes(player.hold) ? data.shadow.torch_multiply : 1),
+        (- cam.x + player.x + (player.w / 2)) * res,
+        (- cam.y + player.y + (player.w / 2)) * res,
+        Math.max(player.w, player.h) * data.shadow.p_r0 * res,
+        (- cam.x + player.x + (player.w / 2)) * res,
+        (- cam.y + player.y + (player.w / 2)) * res,
+        tw * data.shadow.p_r1 * (data.light.includes(player.hold) ? data.shadow.torch_multiply : 1) * res,
       );
-      grd.addColorStop(1, "#0000");
       grd.addColorStop(0, "#FFF");
-      ctx2.fillStyle = grd;
-      ctx2.fillRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height,
-      );
+      grd.addColorStop(1, "#0000");
+      ctx2.fillCanvas(grd);
 
+      /* Create inverted opacity shadow around all blocks */
       for (x = 0; x < grid.length; x++) {
         for (y = 0; y < grid[0].length; y++) {
-          if (data.light.includes(grid[x][y])) {
+          if (data.light.includes(grid[x][y]?.block)) {
             grd = ctx2.createRadialGradient(
-              ((x + 0.5) * tw) - cam.x,
-              ((y + 0.5) * tw) - cam.y,
-              tw * data.shadow.r0,
-              ((x + 0.5) * tw) - cam.x,
-              ((y + 0.5) * tw) - cam.y,
-              tw * data.shadow.r1,
+              (- cam.x + (x + 0.5) * tw) * res,
+              (- cam.y + (y + 0.5) * tw) * res,
+              tw * data.shadow.r0 * res,
+              (- cam.x + (x + 0.5) * tw) * res,
+              (- cam.y + (y + 0.5) * tw) * res,
+              tw * data.shadow.r1 * res,
             );
             grd.addColorStop(0, "#FFF");
             grd.addColorStop(1, "#0000");
-            ctx2.fillStyle = grd;
-            ctx2.fillRect(
-              0,
-              0,
-              canvas2.width,
-              canvas2.height,
-            );
+            ctx2.fillCanvas(grd);
           }
         }
       }
 
+      /* Invert opacity of all shadows */
       imgd = ctx2.getImageData(0, 0, canvas.width, canvas.height);
       pix = imgd.data;
-
       for (i = 0, n = pix.length; i < n; i += 4) {
         if (
-          pix[i + 0] > 0 &&
-          pix[i + 1] > 0 &&
-          pix[i + 2] > 0
+          pix[i + 1] > 0
         ) {
           pix[i + 3] = data.shadow.opacity - pix[i + 0];
           pix[i + 0] = 0;
           pix[i + 1] = 0;
           pix[i + 2] = 0;
         } else {
-          pix[i + 0] = 0;
-          pix[i + 1] = 0;
-          pix[i + 2] = 0;
           pix[i + 3] = data.shadow.opacity;
         }
       }
 
+      /* Draw to canvas */
       ctx2.putImageData(imgd, 0, 0);
       ctx.drawImage(canvas2, 0, 0, canvas.width, canvas.height);
     }

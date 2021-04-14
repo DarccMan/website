@@ -1,7 +1,7 @@
 /* Create canvas */
 var canvas = doc.create("canvas");
 canvas.id = "canvas";
-canvas.style.width = 512 * 1.5 + "px";
+canvas.style.width = 512 * data.ratio + "px";
 canvas.style.height = 512 + "px";
 canvas.width = parseInt(canvas.style.width) * data.resolution;
 canvas.height = parseInt(canvas.style.height) * data.resolution;
@@ -22,11 +22,15 @@ ctx2 = canvas2.getContext("2d");
 /* Create global variables */
 var debugMode = false;
 // debugMode = true;
+startState = "start";
+if (F.url.online) {
+  debugMode = false;
+}
 var lvl = 0;
 if (debugMode) {
-  // data.graphics = 0;
   data.graphics = 2;
-  var lvl = 3;
+  var lvl = 0;
+  startState = "play";
 }
 var player = null;
 var grid = [];
@@ -123,11 +127,7 @@ let gameFont = new FontFace(data.font, "url(../../source/font/dirty-roma.woff2)"
 gameFont.load().then(
   (font) => {
     document.fonts.add(font);
-    gameState = "start";
-    if (debugMode) {
-      gameState = "play";
-      // gameState = "pause";
-    }
+    gameState = startState;
   },
   (err) => {
     console.log(err);

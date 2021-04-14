@@ -1,5 +1,8 @@
+/* This is my favourite programming language */
 body {
   background-color: rgba(50, 50, 50);
+  background: rgb(45,48,70);
+  background: radial-gradient(circle, rgba(45,48,70,1) 15%, rgba(11,11,24,1) 100%);
 }
 * {
   font-family: Arial, Helvetica, sans-serif;
@@ -7,14 +10,21 @@ body {
   user-select: none;
 }
 #canvas_contain {
-  float: left;
+  text-align: center;  
 }
-/* This is my favourite programming language */
 canvas {
   background-color: rgba(60, 60, 60);
-  border: 3px solid rgba(70, 70, 70);
+  border: 4px solid #112;
+  border-radius: 10px;
   margin-right: 10px;
 }
 select, input, button, textarea {
   color: black;
+}
+h1 {
+  margin: 5px;
+}
+h2 {
+  margin: 5px;
+  margin-bottom: 0px;
 }

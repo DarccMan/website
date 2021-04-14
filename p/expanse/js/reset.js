@@ -126,4 +126,5 @@ function reset() {
   }
   frame.start();
   global.lastRestart = Date.now();
+  // setTimeout(goal, 1000);
 }

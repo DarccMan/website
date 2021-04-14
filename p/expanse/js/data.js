@@ -1,4 +1,5 @@
 var data = {
+  ratio: 1.8,
   resolution: 1,
   // resolution: 0.3, // Don't touch this!
   pixelate: true,
@@ -43,6 +44,7 @@ var data = {
     spike: "#444",
     pillar: "#0000",
     sign: "#753",
+    scaffold: "#751",
   },
   enemies: { // Enemy settings
     rat: {
@@ -62,6 +64,7 @@ var data = {
         "brick",
         "alt",
         "test",
+        "scaffold",
       ],
       death: [ // Dies from these
         "spike",
@@ -116,6 +119,7 @@ var data = {
         "brick",
         "alt",
         "test",
+        "scaffold",
       ],
       death: [ // Dies from these
         "spike",
@@ -148,6 +152,10 @@ var data = {
     "brick",
     "alt",
     "test",
+    "scaffold",
+  ],
+  walkInto: [
+    "scaffold",
   ],
   //! Add light amount
   light: [ // Give off light
@@ -166,7 +174,10 @@ var data = {
     r0: 0.5, // Small radius around light blocks
     r1: 3, // Large radius around light blocks
     opacity: 210, // Opacity of full shadow (0-255)
+    resolution_low: 0.03,
+    resolution_high: 0.1,
   },
+  floor_gap: 10, // Gap between bottom most block and floor spikes
   v: { // Player velocity settings
     // Fall (+y)
     fa: 25, // Acceleration speed
@@ -219,6 +230,9 @@ var controls = { // Kinda self explanatory
     ],
     "game_start": [
       32,
+    ],
+    "graphics_toggle": [
+      86,
     ],
     "debug": [
       17,
