@@ -22,9 +22,19 @@ select, input, button, textarea {
   color: black;
 }
 h1 {
-  margin: 5px;
+  margin: 10px;
 }
 h2 {
   margin: 5px;
   margin-bottom: 0px;
+}
+ul {
+  text-align: left;
+  margin-left: 30%;
+}
+li {
+  margin-bottom: 5px;
+}
+a:not(:hover) {
+  text-decoration: none;
 }

@@ -5,17 +5,17 @@ function render() {
     cam.y = player.y + (player.h / 2) - (canvas.height * data.cam.y);
 
     ctx.fillCanvas(data.sprites.none);
-    ctx.save();
     if (data.graphics > 0) {
       /* Background parallax effect */
+      ctx.save();
       ctx.translate(
-        - cam.x * (1 - data.parallax),
-        - cam.y * (1 - data.parallax),
+        - cam.x * data.parallax,
+        - cam.y * data.parallax,
       );
 
       /* Background follows player */
-      ax = Math.floor((cam.x * (1 - data.parallax) * 1.5) / ((canvas.width / data.tiles)));
-      ay = Math.floor((cam.y * (1 - data.parallax)) / ((canvas.height / data.tiles)));
+      ax = Math.floor(cam.x * data.parallax / tw);
+      ay = Math.floor(cam.y * data.parallax / tw);
 
       for (x = 0; x < tx + 1; x++) {
         for (y = 0; y < data.tiles + 1; y++) {
@@ -41,11 +41,11 @@ function render() {
       ctx.restore();
     }
 
-    ctx.save();
     /* Remove parallax effect and move for camera */
+    ctx.save();
     ctx.translate(
-      - cam.x * (data.parallax * 2),
-      - cam.y * (data.parallax * 2),
+      - cam.x,
+      - cam.y,
     );
 
     for (x = 0; x < grid.length; x++) {
@@ -192,7 +192,7 @@ function render() {
     }
 
     /* Draw virtual floor spikes */
-    ax = Math.floor((cam.x * 1.5) / ((canvas.width / data.tiles)));
+    ax = Math.floor(cam.x / tw);
     for (x = 0; x < grid.length; x++) {
       if (data.graphics > 1) {
         if (data.image_amount.spike) {
@@ -526,7 +526,7 @@ function render() {
       time0 = 1500;
       time1 = 1000;
       if (global.lastRestart + time0 > Date.now()) {
-        ctx.font = canvas.width * 0.06 + "px " + data.font;
+        ctx.font = canvas.width * 0.05 + "px " + data.font;
         h = "FF";
         if (data.graphics > 0) {
           h = Math.round((Math.min(time1, time0 - (Date.now() - global.lastRestart)) * (256 / time1)) * 0.7).toString(16);
@@ -614,19 +614,19 @@ function render() {
       ctx.fillStyle = "#EEE";
       ctx.textBaseline = "middle";
       ctx.textAlign = "center";
-      ctx.font = canvas.width * 0.12 + "px " + data.font;
+      ctx.font = canvas.width * 0.1 + "px " + data.font;
       ctx.fillText(
         "Expanse of Darkness",
         canvas.width * 0.5,
         canvas.height * 0.45,
       );
-      ctx.font = canvas.width * 0.05 + "px " + data.font;
+      ctx.font = canvas.width * 0.04 + "px " + data.font;
       ctx.fillText(
         "Press SPACE to continue",
         canvas.width * 0.5,
         canvas.height * 0.7,
       );
-      ctx.font = canvas.width * 0.05 + "px " + data.font;
+      ctx.font = canvas.width * 0.04 + "px " + data.font;
       ctx.textBaseline = "bottom";
       ctx.textAlign = "right";
       ctx.fillStyle = "#CCCA";
@@ -636,7 +636,7 @@ function render() {
         canvas.height * 0.98,
       );
     } else if (gameState == "debug") {
-      ctx.font = canvas.width * 0.06 + "px " + data.font;
+      ctx.font = canvas.width * 0.04 + "px " + data.font;
       ctx.textBaseline = "top";
       ctx.textAlign = "left";
       ctx.fillStyle = "#EEEE";
