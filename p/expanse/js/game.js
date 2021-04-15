@@ -21,7 +21,7 @@ ctx2 = canvas2.getContext("2d");
 
 /* Create global variables */
 var debugMode = false;
-debugMode = true;
+// debugMode = true;
 startState = "start";
 if (F.url.online) {
   debugMode = false;
@@ -29,7 +29,7 @@ if (F.url.online) {
 var lvl = 0;
 if (debugMode) {
   data.graphics = 2;
-  var lvl = 0;
+  var lvl = 5;
   startState = "play";
 }
 var player = null;
@@ -76,7 +76,7 @@ frame.start = () => {
   }
 }
 frame.increase = () => {
-  if (gameState == "play") {
+  if (["play", "start"].includes(gameState)) {
     frame.current++;
   }
 }
@@ -127,6 +127,7 @@ let gameFont = new FontFace(data.font, "url(../../source/font/dirty-roma.woff2)"
 gameFont.load().then(
   (font) => {
     document.fonts.add(font);
+    global.lastStart = Date.now();
     gameState = startState;
   },
   (err) => {

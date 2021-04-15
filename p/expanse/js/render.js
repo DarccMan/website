@@ -1,5 +1,5 @@
 function render() {
-  if (gameState != "load") {
+  if (gameState != "load" && gameState != "start") {
     /* Align camera to player position */
     cam.x = player.x + (player.w / 2) - (canvas.width * data.cam.x);
     cam.y = player.y + (player.h / 2) - (canvas.height * data.cam.y);
@@ -55,6 +55,18 @@ function render() {
         }
         /* Draw block */
         if (data.graphics > 1) {
+          ctx.save();
+          if (grid[x][y].rotate) {
+            ctx.translate(
+              (x * tw) + (tw / 2),
+              (y * tw) + (tw / 2),
+            );
+            ctx.rotate(grid[x][y].rotate * Math.PI / 2);
+            ctx.translate(
+              - ((x * tw) + (tw / 2)),
+              - ((y * tw) + (tw / 2)),
+            );
+          }
           if (data.image_amount[grid[x][y].block]) {
             ctx.drawImage(
               images[grid[x][y].block + "_" + frame.current % data.image_amount[grid[x][y].block]],
@@ -72,6 +84,7 @@ function render() {
               tw + 1,
             );
           }
+          ctx.restore();
 
           /* Draw outline of blocks (DONT ASK ME HOW IT WORKS, I blacked out and woke up to it working) */
           if (data.graphics > 2) {
@@ -608,33 +621,6 @@ function render() {
         canvas.height * 0.3,
       );
       ctx.restore();
-    } else if (gameState == "start") {
-      /* Title screen */
-      ctx.fillCanvas("#2226");
-      ctx.fillStyle = "#EEE";
-      ctx.textBaseline = "middle";
-      ctx.textAlign = "center";
-      ctx.font = canvas.width * 0.1 + "px " + data.font;
-      ctx.fillText(
-        "Expanse of Darkness",
-        canvas.width * 0.5,
-        canvas.height * 0.45,
-      );
-      ctx.font = canvas.width * 0.04 + "px " + data.font;
-      ctx.fillText(
-        "Press SPACE to continue",
-        canvas.width * 0.5,
-        canvas.height * 0.7,
-      );
-      ctx.font = canvas.width * 0.04 + "px " + data.font;
-      ctx.textBaseline = "bottom";
-      ctx.textAlign = "right";
-      ctx.fillStyle = "#CCCA";
-      ctx.fillText(
-        "By Darcy",
-        canvas.width * 0.98,
-        canvas.height * 0.98,
-      );
     } else if (gameState == "debug") {
       ctx.font = canvas.width * 0.04 + "px " + data.font;
       ctx.textBaseline = "top";
@@ -646,10 +632,150 @@ function render() {
         canvas.width * 0.02,
       );
     }
-  } else {
+  } else if (gameState == "start") {
+    /* Title screen */
+    ctx.fillCanvas("#222");
+
+    if (data.graphics > 1) {
+      /* Draw background */
+      for (i = 0; i < Math.ceil(canvas.width / canvas.height) + 1; i++) {
+        ctx.drawImage(
+          images.none,
+          ((i - 1) * canvas.height) + ((Date.now() / 10)) % canvas.height,
+          0,
+          canvas.height + 1,
+          canvas.height,
+        );
+      }
+
+      /* Draw player */
+      m = (Math.sin(Date.now() / 800) / 4) + 0.5;
+
+      if (data.graphics > 2) {
+        /* Draw shadow */
+        var grd = ctx2.createRadialGradient(
+          canvas.width * m,
+          canvas.height * 0.6,
+          0,
+          canvas.width * m,
+          canvas.height * 0.6,
+          canvas.height * 0.6,
+        );
+        grd.addColorStop(0, "#000");
+        grd.addColorStop(1, "#0000");
+        ctx.fillStyle = grd;
+        ctx.fillCanvas(grd);
+      }
+
+      ctx.save();
+      ctx.translate(
+        canvas.width * m,
+        canvas.height / 2,
+      );
+      ctx.scale(
+        2 * Math.floor(Math.sin((Date.now() / 800) + Math.PI / 2)) + 1,
+        1,
+      );
+      ctx.translate(
+        - (canvas.width * m),
+        - (canvas.height / 2),
+      );
+      ctx.drawImage(
+        images["player_idle_" + frame.current % playerImages[player.status]],
+        canvas.width * m - canvas.height / 2,
+        0,
+        canvas.height,
+        canvas.height,
+      );
+      ctx.restore();
+    } else {
+      ctx.fillCanvas(data.sprites.none);
+
+      if (data.graphics > 0) {
+        ctx.strokeStyle = "#140C06";
+        ctx.lineWidth = 50;
+        for (i = 0; i < Math.ceil(canvas.width / canvas.height) + 1; i++) {
+          ctx.strokeRect(
+            ((i - 1) * canvas.height) + ((Date.now() / 10)) % canvas.height,
+            0,
+            canvas.height + 1,
+            canvas.height,
+          );
+        }
+      }
+    }
+
+    /* Draw text */
+    ctx.textBaseline = "middle";
+    ctx.textAlign = "center";
+    ctx.font = canvas.width * 0.1 + "px " + data.font;
+    ctx.shadowColor = "#000";
+    ctx.shadowBlur = 3;
+    ctx.lineWidth = 8;
+    ctx.strokeStyle = "#1116";
+    ctx.fillStyle = "#DDE";
+    if (data.graphics > 2) {
+      ctx.strokeText(
+        "Expanse of Darkness",
+        canvas.width * 0.5,
+        canvas.height * 0.45,
+      );
+    }
+    ctx.fillText(
+      "Expanse of Darkness",
+      canvas.width * 0.5,
+      canvas.height * 0.45,
+    );
+    ctx.font = canvas.width * 0.04 + "px " + data.font;
+    ctx.lineWidth = 5;
+    if (data.graphics > 2) {
+      ctx.strokeText(
+        "Press SPACE to continue",
+        canvas.width * 0.5,
+        canvas.height * 0.7,
+      );
+    }
+    ctx.fillText(
+      "Press SPACE to continue",
+      canvas.width * 0.5,
+      canvas.height * 0.7,
+    );
+    ctx.font = canvas.width * 0.04 + "px " + data.font;
+    ctx.textBaseline = "bottom";
+    ctx.textAlign = "right";
+    ctx.fillStyle = "#CCCA";
+    ctx.lineWidth = 4;
+    if (data.graphics > 2) {
+      ctx.strokeText(
+        "By Darcy",
+        canvas.width * 0.98,
+        canvas.height * 0.98,
+      );
+    }
+    ctx.fillText(
+      "By Darcy",
+      canvas.width * 0.98,
+      canvas.height * 0.98,
+    );
+    ctx.shadowColor = "#0000";
+    ctx.shadowBlur = 0;
+  }
+  if (
+    gameState == "load"
+    || (
+      gameState == "start"
+    )
+  ) {
     /* Loading screen */
-    ctx.fillCanvas("#111");
-    ctx.fillStyle = "#EEE";
+    h = Math.max(0, Math.round(256 - ((Date.now() - global.lastStart) * 0.4))).toString(16);
+    if (h.length > 2) {
+      h = "FF";
+    }
+    if (h.length == 1) {
+      h = "0" + h;
+    }
+    ctx.fillCanvas("#101010" + h);
+    ctx.fillStyle = "#E0E0E0" + h;
     ctx.textBaseline = "top";
     ctx.textAlign = "center";
     ctx.font = canvas.width * 0.08 + "px Arial";

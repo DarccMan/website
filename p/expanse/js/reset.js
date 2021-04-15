@@ -57,8 +57,21 @@ function reset() {
         }
         arr = [];
         for (j = 0; j < random.length; j++) {
-          for (k = 0; k < (parseInt(random[j].split(":")[1]) || 1); k++) {
-            arr.push(random[j].split(":")[0]);
+          block = random[j].split(":");
+          if (data.sprites[block[0]]) {
+            arr.push(block);
+          } else {
+            console.error("Level Generation:\n'{0}' is not a valid block".format(block[0]));
+          }
+        }
+        random = arr;
+        if (random.length < 1) {
+          random = [["unknown", 1]];
+        }
+        arr = [];
+        for (j = 0; j < random.length; j++) {
+          for (k = 0; k < (parseInt(random[j][1]) || 1); k++) {
+            arr.push(random[j][0]);
           }
         }
         random = arr;
@@ -85,23 +98,27 @@ function reset() {
       }; break;
       case "@": {
         type = fen[i].s(1, -1);
-        enemies.push({
-          type,
-          x: ((x % grid.length) * tw) + ((1 - data.enemies[type].w) * tw / 2),
-          y: ((Math.floor(x / grid.length) + 1) * tw) - (data.enemies[type].rh ? (
-            data.enemies[type].rh * tw
-          ) : (
-            data.enemies[type].h * tw
-          )),
-          w: data.enemies[type].w * tw,
-          h: data.enemies[type].rh ? (
-            data.enemies[type].rh * tw
-          ) : (
-            data.enemies[type].h * tw
-          ),
-          vx: 0,
-          vy: 0,
-        });
+        if (data.enemies[type]) {
+          enemies.push({
+            type,
+            x: ((x % grid.length) * tw) + ((1 - data.enemies[type].w) * tw / 2),
+            y: ((Math.floor(x / grid.length) + 1) * tw) - (data.enemies[type].rh ? (
+              data.enemies[type].rh * tw
+            ) : (
+              data.enemies[type].h * tw
+            )),
+            w: data.enemies[type].w * tw,
+            h: data.enemies[type].rh ? (
+              data.enemies[type].rh * tw
+            ) : (
+              data.enemies[type].h * tw
+            ),
+            vx: 0,
+            vy: 0,
+          });
+        } else {
+          console.error("Level Generation:\n'{0}' is not a valid enemy".format(type));
+        }
       }; break;
     }
     y = Math.floor(x / grid.length);

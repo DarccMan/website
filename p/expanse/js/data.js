@@ -33,6 +33,7 @@ var data = {
   sprites: { // Colors of block in low graphics
     none: "#18100A",
     block: "#0B0704",
+    unknown: "#0B0704",
     trap: "#0F0704",
     cracked: "#0B0603",
     smile: "#0B0704",
@@ -59,6 +60,7 @@ var data = {
       },
       collide: [ // Cannot walk into these bad boys
         "block",
+        "unknown",
         "cracked",
         "smile",
         "brick",
@@ -86,6 +88,7 @@ var data = {
       },
       collide: [
         "block",
+        "unknown",
         "cracked",
         "smile",
         "brick",
@@ -114,6 +117,7 @@ var data = {
       },
       collide: [ // Cannot walk into these bad boys
         "block",
+        "unknown",
         "cracked",
         "smile",
         "brick",
@@ -140,6 +144,7 @@ var data = {
   },
   outlines: [ // Which blocks use outline
     "block",
+    "unknown",
     "cracked",
     "trap",
     "brick",
@@ -147,6 +152,7 @@ var data = {
   ],
   collide: [ // Player collides with these
     "block",
+    "unknown",
     "cracked",
     "smile",
     "brick",
