@@ -37,16 +37,17 @@ function update(mod) {
     if (keysDown.player_crouch) {
       player.crouch = true;
       player.status = "crouch";
-      player.vy += data.v.cf;
-      playerSpeed = data.v.cm;
+      player.vy += data.v.cfa * data.v.fa;
+      playerSpeed = data.v.cma;
     } else {
       player.crouch = false;
     }
 
     /* Player fall */
+    blockUnder = false;
     cb = null;
     p = {...playerHit};
-    p.y += p.vy;
+    p.y += player.vy;
     X: for (x = minx; x < maxx; x++) {
       for (y = miny; y < maxy; y++) {
         if (data.collide.includes(grid[x][y].block)) {
@@ -66,6 +67,7 @@ function update(mod) {
       player.vy += data.v.fa * mod * (10 / data.tiles);
     } else {
       player.vy = 0;
+      blockUnder = true;
     }
 
     /* Player jump */
@@ -78,7 +80,7 @@ function update(mod) {
       }
       cb = null;
       p = {...playerHit};
-      p.y += p.vy + p.h - 1;
+      p.y += player.vy + p.h - 1;
       p.h = 1;
       X: for (x = minx; x < maxx; x++) {
         for (y = miny; y < maxy; y++) {
@@ -108,7 +110,7 @@ function update(mod) {
     /* Idk? */
     cb = null;
     p = {...playerHit};
-    p.y += p.vy - 1;
+    p.y += player.vy - 1;
     // p.h -= 10;
     X: for (x = minx; x < maxx; x++) {
       for (y = miny; y < maxy; y++) {
@@ -164,7 +166,7 @@ function update(mod) {
     cb = null;
     p = {...playerHit};
     p.x += player.vx;
-    p.y += p.vy - 1;
+    p.y += player.vy - 1;
     X: for (x = minx; x < maxx; x++) {
       for (y = miny; y < maxy; y++) {
         if (
@@ -187,6 +189,35 @@ function update(mod) {
       player.vx = 0;
     }
 
+    /* Player crouching don't fall off */
+    if (player.crouch && blockUnder) {
+      cb = null;
+      p = {...playerHit};
+      p.x += player.vx * 4;
+      // p.y += player.vy - 1;
+      X: for (x = minx; x < maxx; x++) {
+        for (y = miny; y < maxy; y++) {
+          if (
+            data.collide.includes(grid[x][y].block)
+            && !data.walkInto.includes(grid[x][y].block)
+          ) {
+            if (F.collide(p, {
+              x: (x + 0.001) * tw,
+              y: (y + 0.001) * tw,
+              w: tw + 1,
+              h: tw + 1,
+            })) {
+              cb = grid[x][y];
+              break X;
+            }
+          }
+        }
+      }
+      if (!cb) {
+        player.vx = 0;
+      }
+    }
+
     /* Minimum and maximum velocity */
     player.vx = Math.min(Math.max(player.vx, - data.v.mt), data.v.mt);
     player.vy = Math.min(Math.max(player.vy, - data.v.jt), data.v.ft);
@@ -195,6 +226,9 @@ function update(mod) {
       if (F.diff(player.vy, 0) > 4) {
         player.status = "jump";
       }
+    } else {
+      player.vx = Math.min(Math.max(player.vx, - (data.v.mt * data.v.cmt)), (data.v.mt * data.v.cmt));
+      player.vy = Math.min(Math.max(player.vy, - (data.v.jt * data.v.cft)), data.v.ft * data.v.cft);
     }
 
     /* Add velocity to player position */
@@ -276,7 +310,11 @@ function update(mod) {
       if (data.enemies[enemies[i].type].attr.avoidLight && data.light.includes(player.hold)) {
         dir = -1;
       }
-      enemies[i].vx += dir * Math.sign(player.x - enemies[i].x) * data.enemies[enemies[i].type].v.ma * mod;
+      fast = 1;
+      if (enemies[i].type == "skelly") {
+        fast = Math.max(1, (500 - Math.abs(player.x - enemies[i].x)) * 0.01);
+      }
+      enemies[i].vx += dir * Math.sign(player.x - enemies[i].x) * data.enemies[enemies[i].type].v.ma * mod * fast;
       enemies[i].flip = dir * - Math.sign(player.x - enemies[i].x);
 
       /* Enemy stop X collision */
@@ -502,7 +540,7 @@ function update(mod) {
     if (keysDown.debug) {
       /* Show hitboxes */
       p = {...playerHit};
-      ctx.fillStyle = "#0F08";
+      ctx.fillStyle = "#0F02";
       ctx.fillRect(
         - cam.x + p.x + player.vx,
         - cam.y + p.y + player.vy + 1 + (player.crouch ? p.h - (data.player.ch * tw) : 0),
@@ -511,7 +549,7 @@ function update(mod) {
       );
 
       for (i = 0; i < enemies.length; i++) {
-        ctx.fillStyle = "#F0F8";
+        ctx.fillStyle = "#F0F2";
         ctx.fillRect(
           - cam.x + enemies[i].x + enemies[i].vx,
           - cam.y + enemies[i].y + enemies[i].vy,
@@ -541,7 +579,7 @@ function update(mod) {
       }
     }
     /* Toggle debug mode */
-    if (keysDown.debug_all) {
+    if (keysDown.debug_mode) {
       if (gameState != "debug") {
         global.lastGameState_debug = gameState;
         gameState = "debug";

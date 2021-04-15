@@ -200,53 +200,56 @@ var data = {
     mt: 10, // Terminal velocity
     mm: 0.2, // If less than this number, reset to 0
     // Crouching
-    cf: 0.7, // Fall speed
-    cm: 0.3, // Movement speed
+    cfa: 0.05, // Fall acceleration
+    cft: 1.1, // Fall terminal
+    cma: 0.2, // Movement acceleration
+    cmt: 0.6, // Movement terminal
   },
   font: "dirtyroma", // Font
   hold_size: 0.8, // Size of held block
 };
 var controls = { // Kinda self explanatory
   keys: {
-    "player_up": [
+    player_up: [
       87,
       38,
       32,
     ],
-    "player_crouch": [
+    player_crouch: [
       83,
       40,
+      16,
     ],
-    "player_left": [
+    player_left: [
       65,
       37,
     ],
-    "player_right": [
+    player_right: [
       68,
       39,
     ],
-    "player_pick": [
+    player_pick: [
       69,
     ],
-    "player_drop": [
+    player_drop: [
       81,
     ],
-    "game_restart": [
+    game_restart: [
       84,
     ],
-    "game_start": [
+    game_start: [
       32,
     ],
-    "graphics_toggle": [
+    graphics_toggle: [
       86,
     ],
-    "debug": [
-      17,
+    debug: [
+      90,
     ],
-    "debug_all": [
-      16,
+    debug_mode: [
+      192,
     ],
-    "debug_skipLevel": [
+    debug_skipLevel: [
       66,
     ],
   },

@@ -21,7 +21,7 @@ ctx2 = canvas2.getContext("2d");
 
 /* Create global variables */
 var debugMode = false;
-// debugMode = true;
+// debugMode = tx`rue;
 startState = "start";
 if (F.url.online) {
   debugMode = false;

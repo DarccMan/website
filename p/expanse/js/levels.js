@@ -173,7 +173,7 @@ var levels = [
       =9;
       >4;
       @rat;
-      +2;
+      +3;
       >-2;
       @skelly;
       =23;
@@ -186,7 +186,7 @@ var levels = [
     },
   },
   {
-    name: "Pick Block",
+    name: "Steps",
     dim: [25, 12],
     set: `
       >8;
@@ -218,7 +218,11 @@ var levels = [
       @rat;
       >-2;
       @rat;
-      >-2;
+      >-1;
+      @rat;
+      >-1;
+      @rat;
+      >-1;
       @rat;
     `,
     player: {
@@ -226,4 +230,19 @@ var levels = [
       y: 6.8,
     },
   },
+  /* {
+    name: "Crouch",
+    dim: [25, 12],
+    set: `
+      >8;
+      #block*100&3,cracked:1;
+      =7;
+      >7;
+      #block*10;
+    `,
+    player: {
+      x: 6.9,
+      y: 5.8,
+    },
+  }, */
 ];
