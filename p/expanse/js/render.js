@@ -581,7 +581,7 @@ function render() {
       /* Draw background */
       for (i = 0; i < Math.ceil(canvas.width / canvas.height) + 1; i++) {
         ctx.drawImage(
-          images.none,
+          images.none_0,
           ((i - 1) * canvas.height) + ((Date.now() / 10)) % canvas.height,
           0,
           canvas.height + 1,
