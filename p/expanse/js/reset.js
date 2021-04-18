@@ -2,7 +2,9 @@ function reset() {
   /* Reset game if completed all levels */
   if (!levels[lvl]) {
     console.log("You finished the game!\nIf you are seeing this message then Hello :)");
-    lvl = 0;
+    gameState = "end";
+    global.timerEnd = ((Date.now() - global.timeStart) / 1000).toFixed(2).toString();
+    return;
   }
 
   /* Set up game */
@@ -143,5 +145,8 @@ function reset() {
   }
   frame.start();
   global.lastRestart = Date.now();
-  // setTimeout(goal, 1000);
+
+  if (lvl == 0) {
+    global.timeStart = Date.now();
+  }
 }

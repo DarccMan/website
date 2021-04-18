@@ -1,8 +1,6 @@
 Re-add shaky rats
 
-Add End screen
-
-Add timer
+Update favicon
 
 
 

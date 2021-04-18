@@ -29,8 +29,9 @@ if (F.url.online) {
 var lvl = 0;
 if (debugMode) {
   data.graphics = 2;
-  var lvl = 0;
+  lvl = 0;
   startState = "play";
+  levels[1] = null;
 }
 var player = null;
 var grid = [];
@@ -76,7 +77,7 @@ frame.start = () => {
   // }
 }
 frame.increase = () => {
-  if (["play", "start"].includes(gameState)) {
+  if (["play", "start", "end"].includes(gameState)) {
     frame.current++;
   }
 }

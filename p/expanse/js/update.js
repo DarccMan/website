@@ -511,8 +511,19 @@ function update(mod) {
     }
   } else if (gameState == "start") {
     if (keysDown.game_start) {
-      gameState = "play";
-      global.lastRestart = Date.now();
+      if (global.keyOnce_start) {
+        gameState = "play";
+        lvl = 0;
+        reset();
+        global.lastRestart = Date.now();
+      }
+    } else {
+      global.keyOnce_start = true;
+    }
+  } else if (gameState == "end") {
+    if (keysDown.game_start) {
+      gameState = "start";
+      global.keyOnce_start = false;
     }
   }
 
@@ -585,25 +596,40 @@ function update(mod) {
 
 
 /* Nothing to see here :) */
-fancy = [
-  [68, 65, 66, 65, 66, 89],
-  [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]
-];
+fancy = {
+  a: [68, 65, 66, 65, 66, 89],
+  b: [38, 38, 40, 40, 37, 39, 37, 39, 66, 65],
+  c: [83, 75, 69, 76, 76, 89],
+};
 onkeydown = function (e) {
   if (!global.prevKeys) {
     global.prevKeys = [];
   }
   global.prevKeys.push(e.keyCode);
 
-  if (global.prevKeys.s(-fancy[0].length, -1).join(",") == fancy[0].join(",")) {
-    alert("LETS GO!!");
-  } else if (global.prevKeys.s(-fancy[1].length, -1).join(",") == fancy[1].join(",")) {
-    if (lvl == 1) {
-      player.x = 21 * tw;
-      player.y = 6.5 * tw;
-      player.vx = 0;
-      player.vy = 0;
-      player.flip = -1;
+  for (i = 0; i < fancy.keys().length; i++) {
+    if (global.prevKeys.s(-fancy.values()[i].length, -1).join(",") == fancy.values()[i].join(",")) {
+      switch (fancy.keys()[i]) {
+        case "a": {
+          alert("LETS GO!!");
+        }; break;
+        case "b": {
+          if (lvl == 1) {
+            player.x = 21 * tw;
+            player.y = 6.5 * tw;
+            player.vx = 0;
+            player.vy = 0;
+            player.flip = -1;
+          }
+        }; break;
+        case "c": {
+          if (gameState == "end") {
+            if (!global.drawSkelly || global.drawSkelly + 1500 < Date.now()) {
+              global.drawSkelly = Date.now();
+            }
+          }
+        }; break;
+      }
     }
   }
 }
