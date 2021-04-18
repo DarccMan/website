@@ -17,6 +17,7 @@ function update(mod) {
   playerHit.h *= data.player.hitY;
   playerHit.x += player.w / 2 - playerHit.w / 2;
   playerHit.y += player.h - playerHit.h;
+  playerHitNC = {...playerHit};
   if (player.crouch) {
     playerHit.y += player.h - (data.player.ch * tw);
     playerHit.y -= 3;
@@ -40,7 +41,30 @@ function update(mod) {
       player.vy += data.v.cfa * data.v.fa;
       playerSpeed = data.v.cma;
     } else {
-      player.crouch = false;
+      /* Dont uncrouch unless no block above */
+      if (player.crouch) {
+        cb = null;
+        p = {...playerHitNC};
+        p.h = 10;
+        X: for (x = minx; x < maxx; x++) {
+          for (y = miny; y < maxy; y++) {
+            if (data.blocks[grid[x][y].block]?.collide) {
+              if (F.collide(p, {
+                x: (x + 0.001) * tw,
+                y: (y + 0.001) * tw,
+                w: tw + 1,
+                h: tw + 1,
+              })) {
+                cb = grid[x][y];
+                break X;
+              }
+            }
+          }
+        }
+        if (!cb) {
+          player.crouch = false;
+        }
+      }
     }
 
     /* Player fall */
@@ -107,34 +131,6 @@ function update(mod) {
       }
     }
 
-    //! Remove?
-    /* cb = null;
-    p = {...playerHit};
-    p.y += player.vy - 1;
-    // p.h -= 10;
-    X: for (x = minx; x < maxx; x++) {
-      for (y = miny; y < maxy; y++) {
-        if (
-          data.collide.includes(grid[x][y].block)
-          && !data.walkInto.includes(grid[x][y].block)
-        ) {
-          if (F.collide(p, {
-            x: (x + 0.001) * tw,
-            y: (y + 0.001) * tw,
-            w: tw + 1,
-            h: tw + 1,
-          })) {
-            cb = grid[x][y];
-            break X;
-          }
-        }
-      }
-    }
-    if (cb) {
-      // player.vy = 0;
-      // player.y -= 1.1;
-    } */
-
     /* Player X movement */
     switch (F.bool_bin(keysDown.player_left, keysDown.player_right)) {
       case "10": {
@@ -152,10 +148,7 @@ function update(mod) {
         }
       }; break;
       default: {
-        //! DECELERATE
-        //? DECELERATE
-        //* DECELERATE
-        player.vx = Math.sign(player.vx) * (Math.abs(player.vx) - data.v.ma * mod);
+        player.vx = Math.sign(player.vx) * (Math.abs(player.vx) - data.v.md * mod);
         if (Math.abs(player.vx - 0) < data.v.mm) {
           player.vx = 0;
         }
@@ -197,7 +190,6 @@ function update(mod) {
       cb = null;
       p = {...playerHit};
       p.x += player.vx * 4;
-      // p.y += player.vy - 1;
       X: for (x = minx; x < maxx; x++) {
         for (y = miny; y < maxy; y++) {
           if (

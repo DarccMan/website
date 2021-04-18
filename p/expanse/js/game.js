@@ -29,7 +29,7 @@ if (F.url.online) {
 var lvl = 0;
 if (debugMode) {
   data.graphics = 0;
-  lvl = 3;
+  lvl = 5;
   startState = "play";
   // levels[1] = null;
 }
@@ -136,5 +136,6 @@ function main() {
   requestAnimationFrame(main);
 }
 var then = Date.now();
+console.log("Good job.\nYou opened the console.");
 reset();
 main();

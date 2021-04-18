@@ -87,8 +87,14 @@ var data = {
     torch: {
       color: "#FF0",
       images: 2,
-      light: 3,
+      light: 1.3,
       pick: true,
+    },
+    lamp: {
+      color: "#FF8",
+      images: 3,
+      light: 2,
+      death: true,
     },
     sign: {
       color: "#753",
@@ -251,8 +257,8 @@ var data = {
     jm: 80, // Maximum time to hold down key
     jt: 30, // Terminal jump velocity
     // Movement (x)
-    ma: 100, // Acceleration speed
-    md: 0, // Decceleration speed
+    ma: 80, // Acceleration speed
+    md: 60, // Decceleration speed
     mt: 10, // Terminal velocity
     mm: 0.2, // If less than this number, reset to 0
     // Crouching

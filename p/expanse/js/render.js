@@ -329,22 +329,32 @@ function render() {
       ctx.fillStyle = data.player.color;
       ctx.fillRect(
         player.x + (player.w / 2 - (player.w * (data.player.hitX) / 2)),
-        player.y + (player.h - player.h * (data.player.hitY)),
+        player.y + (player.crouch ? (
+          player.h - data.player.ch * tw
+        ) : (
+          player.h - player.h * data.player.hitY
+        )),
         player.w * data.player.hitX,
-        player.h * data.player.hitY,
+        player.crouch ? (
+          data.player.ch * tw
+        ) : (
+          player.h * data.player.hitY
+        ),
       );
 
       if (player.hold) {
         ctx.save();
-        ctx.translate(
-          player.x + player.w / 2,
-          player.y + player.h / 2,
-        );
-        ctx.rotate(30 * Math.PI / 180);
-        ctx.translate(
-          - (player.x + player.w / 2),
-          - (player.y + player.h / 2),
-        );
+        if (data.graphics > 0) {
+          ctx.translate(
+            player.x + player.w / 2,
+            player.y + player.h / 2,
+          );
+          ctx.rotate(30 * Math.PI / 180);
+          ctx.translate(
+            - (player.x + player.w / 2),
+            - (player.y + player.h / 2),
+          );
+        }
         ctx.fillStyle = data.blocks[player.hold].color;
         ctx.fillRect(
           player.x + 20,
@@ -442,10 +452,10 @@ function render() {
             grd = ctx2.createRadialGradient(
               (- cam.x + (x + 0.5) * tw) * res,
               (- cam.y + (y + 0.5) * tw) * res,
-              tw * data.shadow.r0 * res,
+              tw * data.shadow.r0 * res * data.blocks[grid[x][y]?.block].light,
               (- cam.x + (x + 0.5) * tw) * res,
               (- cam.y + (y + 0.5) * tw) * res,
-              tw * data.shadow.r1 * res,
+              tw * data.shadow.r1 * res * data.blocks[grid[x][y]?.block].light,
             );
             grd.addColorStop(0, "#FFF");
             grd.addColorStop(1, "#0000");
@@ -758,7 +768,7 @@ function render() {
           0,
           canvas.width * 0.26,
           canvas.height * 0.21,
-          canvas.height * 0.25,
+          canvas.height * 0.2,
         );
         grd.addColorStop(0, "#FFF2");
         grd.addColorStop(1, "#0000");
@@ -786,7 +796,7 @@ function render() {
             canvas.height * 0.19,
             canvas.height * 0.15,
           );
-          grd.addColorStop(0, "#0006");
+          grd.addColorStop(0, "#0004");
           grd.addColorStop(1, "#0000");
           ctx.fillStyle = grd;
           ctx.fillCanvas(grd);
@@ -821,49 +831,6 @@ function render() {
         );
         ctx.globalAlpha = "1";
       }
-
-      x = canvas.width * 0.07;
-      y = canvas.height * 0.42;
-      w = canvas.height * 0.2;
-      h = canvas.height * 0.2;
-      ctx.save();
-      ctx.translate(
-        x + w / 2,
-        y + h,
-      );
-      ctx.rotate(330 * Math.PI / 180);
-      ctx.translate(
-        - (x + w / 2),
-        - (y + h),
-      );
-      ctx.drawImage(
-        images.torch_0,
-        x,
-        y,
-        w,
-        h,
-      );
-      ctx.restore();
-
-      x = canvas.width - x - w;
-      ctx.save();
-      ctx.translate(
-        x + w / 2,
-        y + h,
-      );
-      ctx.rotate(30 * Math.PI / 180);
-      ctx.translate(
-        - (x + w / 2),
-        - (y + h),
-      );
-      ctx.drawImage(
-        images.torch_0,
-        x,
-        y,
-        w,
-        h,
-      );
-      ctx.restore();
     } else {
       ctx.fillCanvas(data.blocks.none.color);
 
@@ -968,6 +935,62 @@ function render() {
     );
     ctx.shadowColor = "#0000";
     ctx.shadowBlur = 0;
+
+    /* Draw torches */
+    if (data.graphics > 1) {
+      x = canvas.width * 0.07;
+      y = canvas.height * 0.42;
+      w = canvas.height * 0.2;
+      h = canvas.height * 0.2;
+      for (i = 0; i < 2; i++) {
+        if (i) {
+          x = canvas.width - x - w;
+        }
+
+        ctx.save();
+        ctx.translate(
+          x + w / 2,
+          y + h,
+        );
+        ctx.rotate((i ? 30 : 330) * Math.PI / 180);
+        ctx.translate(
+          - (x + w / 2),
+          - (y + h),
+        );
+
+        ctx.fillStyle = "#433";
+        ctx.fillRect(
+          x + w / 2 - 10,
+          y + h - 15,
+          20,
+          20,
+        );
+        ctx.drawImage(
+          images["torch_" + (data.graphics < 3 ? 0 : frame.current % data.blocks.torch.images)],
+          x,
+          y,
+          w,
+          h,
+        );
+
+        if (data.graphics > 2) {
+          /* Draw light */
+          var grd = ctx2.createRadialGradient(
+            x + w * 0.5,
+            y + h * 0.4,
+            0,
+            x + w * 0.5,
+            y + h * 0.4,
+            w * 1.3,
+          );
+          grd.addColorStop(0, "#FF82");
+          grd.addColorStop(1, "#0000");
+          ctx.fillStyle = grd;
+          ctx.fillCanvas(grd);
+        }
+        ctx.restore();
+      }
+    }
   }
   if (
     gameState == "load"
