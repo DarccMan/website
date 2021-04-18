@@ -29,13 +29,31 @@ var data = {
     "Oh MAN!",
     "oof",
   ],
-  blocks: { // Block data
+  //! Rewrite block settings to match enemy settings 
+  sprites: { // Colors of block in low graphics
+    none: "#18100A",
+    block: "#0B0704",
+    unknown: "#0B0704",
+    trap: "#0F0704",
+    cracked: "#0B0603",
+    smile: "#0B0704",
+    brick: "#0B0A08",
+    alt: "#1B1704",
+    test: "#F0F",
+    torch: "#FF0",
+    goal: "#0F0",
+    spike: "#444",
+    pillar: "#0000",
+    sign: "#753",
+    scaffold: "#751",
+  },
+  blocks: {
     none: {
-      color: "#18100A",
+      color: "#F0F",
       images: 1,
     },
     test: {
-      color: "#F0F",
+      color: "#0B0704",
       images: 1,
       outline: true,
       collide: true,
@@ -66,7 +84,6 @@ var data = {
     trap: {
       color: "#0F0704",
       images: 1,
-      outline: true,
     },
     brick: {
       color: "#0B0A08",
@@ -99,12 +116,10 @@ var data = {
       color: "#0001",
       images: 1,
     },
-    scaffold: {
+    pillar: {
       color: "#751",
       images: 1,
-      collide: true,
       walkInto: true,
-      pick: true,
     },
   },
   enemies: { // Enemy settings
@@ -197,11 +212,14 @@ var data = {
       images: 2,
     },
   },
-  /* image_amount: { // Amount of images for block / enemy animation
+  image_amount: { // Amount of images for block / enemy animation
+    torch: 3,
+    spike: 2,
+    goal: 2,
     rat: 2,
     bat: 2,
     skelly: 2,
-  }, */
+  },
   outlines: [ // Which blocks use outline
     "block",
     "unknown",

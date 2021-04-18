@@ -230,19 +230,4 @@ var levels = [
       y: 6.8,
     },
   },
-  /* {
-    name: "Crouch",
-    dim: [25, 12],
-    set: `
-      >8;
-      #block*100&3,cracked:1;
-      =7;
-      >7;
-      #block*10;
-    `,
-    player: {
-      x: 6.9,
-      y: 5.8,
-    },
-  }, */
 ];

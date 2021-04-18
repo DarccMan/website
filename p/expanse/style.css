@@ -5,8 +5,9 @@ body {
   background: radial-gradient(circle, rgba(45,48,70,1) 15%, rgba(11,11,24,1) 100%);
 }
 * {
-  font-family: Arial, Helvetica, sans-serif;
-  color: white;
+  letter-spacing: 2px;
+  font-family: dirtyroma, Arial, sans-serif;
+  color: #EEE;
   user-select: none;
 }
 #canvas_contain {

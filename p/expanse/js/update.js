@@ -50,7 +50,7 @@ function update(mod) {
     p.y += player.vy;
     X: for (x = minx; x < maxx; x++) {
       for (y = miny; y < maxy; y++) {
-        if (data.collide.includes(grid[x][y].block)) {
+        if (data.blocks[grid[x][y].block]?.collide) {
           if (F.collide(p, {
             x: (x + 0.001) * tw,
             y: (y + 0.001) * tw,
@@ -85,8 +85,8 @@ function update(mod) {
       X: for (x = minx; x < maxx; x++) {
         for (y = miny; y < maxy; y++) {
           if (
-            data.collide.includes(grid[x][y].block)
-            && !data.walkInto.includes(grid[x][y].block)
+            data.blocks[grid[x][y].block]?.collide
+            && !data.blocks[grid[x][y].block]?.walkInto
           ) {
             if (F.collide(p, {
               x: (x + 0.001) * tw,
@@ -107,8 +107,8 @@ function update(mod) {
       }
     }
 
-    /* Idk? */
-    cb = null;
+    //! Remove?
+    /* cb = null;
     p = {...playerHit};
     p.y += player.vy - 1;
     // p.h -= 10;
@@ -133,7 +133,7 @@ function update(mod) {
     if (cb) {
       // player.vy = 0;
       // player.y -= 1.1;
-    }
+    } */
 
     /* Player X movement */
     switch (F.bool_bin(keysDown.player_left, keysDown.player_right)) {
@@ -173,8 +173,8 @@ function update(mod) {
     X: for (x = minx; x < maxx; x++) {
       for (y = miny; y < maxy; y++) {
         if (
-          data.collide.includes(grid[x][y].block)
-          && !data.walkInto.includes(grid[x][y].block)
+          data.blocks[grid[x][y].block]?.collide
+          && !data.blocks[grid[x][y].block]?.walkInto
         ) {
           if (F.collide(p, {
             x: (x + 0.001) * tw,
@@ -201,8 +201,8 @@ function update(mod) {
       X: for (x = minx; x < maxx; x++) {
         for (y = miny; y < maxy; y++) {
           if (
-            data.collide.includes(grid[x][y].block)
-            && !data.walkInto.includes(grid[x][y].block)
+            data.blocks[grid[x][y].block]?.collide
+            && !data.blocks[grid[x][y].block]?.walkInto
           ) {
             if (F.collide(p, {
               x: (x + 0.001) * tw,
@@ -252,21 +252,21 @@ function update(mod) {
             h: tw + 1,
           })) {
             if (
-              data.walkInto.includes(grid[x][y].block)
+              data.blocks[grid[x][y].block]?.walkInto
             ) {
               if (keysDown.player_up) {
                 player.y -= tw * 0.1;
               }
             } else if (
-              data.collide.includes(grid[x][y].block)
-              && !data.walkInto.includes(grid[x][y].block)
+              data.blocks[grid[x][y].block]?.collide
+              && !data.blocks[grid[x][y].block]?.walkInto
             ) {
               cb = grid[x][y];
               break X;
-            } else if (data.win.includes(grid[x][y].block)) {
+            } else if (data.blocks[grid[x][y].block]?.goal) {
               goal();
               break X;
-            } else if (data.death.includes(grid[x][y].block)) {
+            } else if (data.blocks[grid[x][y].block]?.death) {
               death();
               break X;
             }
@@ -285,20 +285,21 @@ function update(mod) {
     /* Enemies */
     p = {...playerHit};
     for (i = 0; i < enemies.length; i++) {
-      //! Make the mfing rats SHAKE
+      //! Make the mfing rats SHAKE !!!
       if (enemies[i].dead) {
         continue;
       }
       /* Player death from enemy */
       if (
         !data.enemies[enemies[i].type].attr.avoidLight
-        || !data.light.includes(player.hold)
+        || !data.blocks[player.hold]?.light
       ) {
         if (F.collide(p, enemies[i])) {
           death();
           break;
         }
       }
+
       /* Get enemy hitbox */
       ex = (enemies[i].x + (enemies[i].w / 2)) / tw;
       ey = (enemies[i].y + (enemies[i].h / 2)) / tw;
@@ -310,7 +311,7 @@ function update(mod) {
 
       /* Move enemy towards / away from player */
       dir = 1;
-      if (data.enemies[enemies[i].type].attr.avoidLight && data.light.includes(player.hold)) {
+      if (data.enemies[enemies[i].type].attr.avoidLight && data.blocks[player.hold]?.light) {
         dir = -1;
       }
       fast = 1;
@@ -327,7 +328,7 @@ function update(mod) {
       e.y -= 1;
       X: for (x = minex; x < maxex; x++) {
         for (y = miney; y < maxey; y++) {
-          if (data.enemies[enemies[i].type].collide.includes(grid[x][y].block)) {
+          if (data.enemies[enemies[i].type]?.collide.includes(grid[x][y].block)) {
             if (F.collide(e, {
               x: (x + 0.001) * tw,
               y: (y + 0.001) * tw,
@@ -361,7 +362,7 @@ function update(mod) {
         e.y += e.vy;
         X: for (x = minex; x < maxex; x++) {
           for (y = miney; y < maxey; y++) {
-            if (data.enemies[enemies[i].type].collide.includes(grid[x][y].block)) {
+            if (data.enemies[enemies[i].type]?.collide.includes(grid[x][y].block)) {
               if (F.collide(e, {
                 x: (x + 0.001) * tw,
                 y: (y + 0.001) * tw,
@@ -395,7 +396,7 @@ function update(mod) {
       e.y += e.vy;
       X: for (x = minex; x < maxex; x++) {
         for (y = miney; y < maxey; y++) {
-          if (data.enemies[enemies[i].type].collide.includes(grid[x][y].block)) {
+          if (data.enemies[enemies[i].type]?.collide.includes(grid[x][y].block)) {
             if (F.collide(e, {
               x: (x + 0.001) * tw,
               y: (y + 0.001) * tw,
@@ -441,7 +442,7 @@ function update(mod) {
             w: tw + 1,
             h: tw + 1,
           })) {
-            if (data.enemies[enemies[i].type].collide.includes(grid[x][y].block)) {
+            if (data.enemies[enemies[i].type]?.collide.includes(grid[x][y].block)) {
               cb = grid[x][y].block;
               break X;
             } else if (data.enemies[enemies[i].type].death.includes(grid[x][y].block)) {
@@ -471,25 +472,20 @@ function update(mod) {
         y = Math.floor((playerHit.y + playerHit.h / 2) / tw);
         if (
           grid[x]
-          && grid[y]
+          && grid[x][y]
         ) {
-          switch (grid[x][y].block) {
-            case "torch": {
-              player.hold = "torch";
-              grid[x][y] = {
-                block: "none"
-              };
-            }; break;
-            case "scaffold": {
-              player.hold = "scaffold";
-              grid[x][y] = {
-                block: "none"
-              };
-            }; break;
-            case "sign": {
-              global.signText = grid[x][y].text || "No text";
-              global.lastReadSign = Date.now();
-            }; break;
+          if (data.blocks[grid[x][y].block].use) {
+            switch (grid[x][y].block) {
+              case "sign": {
+                global.signText = grid[x][y].text || "No text";
+                global.lastReadSign = Date.now();
+              }; break;
+            }
+          } else if (data.blocks[grid[x][y].block].pick) {
+            player.hold = grid[x][y].block;
+            grid[x][y] = {
+              block: "none"
+            };
           }
         }
       }
@@ -503,19 +499,11 @@ function update(mod) {
           && grid[y]
         ) {
           if (grid[x][y].block == "none") {
-            switch (player.hold) {
-              case "torch": {
-                player.hold = null;
-                grid[x][y] = {
-                  block: "torch"
-                };
-              }; break;
-              case "scaffold": {
-                player.hold = null;
-                grid[x][y] = {
-                  block: "scaffold"
-                };
-              }; break;
+            if (data.blocks[player.hold].pick) {
+              grid[x][y] = {
+                block: player.hold,
+              };
+              player.hold = null;
             }
           }
         }

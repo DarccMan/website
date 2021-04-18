@@ -1,0 +1,15 @@
+Re-add shaky rats
+
+Add End screen
+
+Add timer
+
+
+
+Add light amount
+
+Deccelerate player
+
+Extract level gen from reset function
+
+Add more error handling to level gen

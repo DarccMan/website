@@ -1,7 +1,0 @@
-Re-add shaky rats
-
-Add End screen
-
-Add timer
-
-Redo css

@@ -21,7 +21,7 @@ ctx2 = canvas2.getContext("2d");
 
 /* Create global variables */
 var debugMode = false;
-// debugMode = tx`rue;
+debugMode = true;
 startState = "start";
 if (F.url.online) {
   debugMode = false;
@@ -29,7 +29,7 @@ if (F.url.online) {
 var lvl = 0;
 if (debugMode) {
   data.graphics = 2;
-  var lvl = 5;
+  var lvl = 0;
   startState = "play";
 }
 var player = null;
@@ -71,9 +71,9 @@ var frame = {};
 frame.current = 0;
 frame.start = () => {
   clearInterval(frame.interval);
-  if (data.graphics > 2) {
-    frame.interval = setInterval(frame.increase, data.frame_speed);
-  }
+  frame.interval = setInterval(frame.increase, data.frame_speed);
+  // if (data.graphics > 2) {
+  // }
 }
 frame.increase = () => {
   if (["play", "start"].includes(gameState)) {
@@ -87,22 +87,14 @@ function addImage(name, path) {
   img.src = "./image/{0}.png".format(path);
   images[name] = img;
 }
-for (i = 0; i < data.sprites.keys().length; i++) {
-  if (data.image_amount[data.sprites.keys()[i]]) {
-    for (j = 0; j < data.image_amount[data.sprites.keys()[i]]; j++) {
-      addImage("{0}_{1}".format(data.sprites.keys()[i], j), "sprite/" + data.sprites.keys()[i] + "_" + j);
-    }
-  } else {
-    addImage(data.sprites.keys()[i], "sprite/" + data.sprites.keys()[i]);
+for (i = 0; i < data.blocks.keys().length; i++) {
+  for (j = 0; j < data.blocks.values()[i].images; j++) {
+    addImage("{0}_{1}".format(data.blocks.keys()[i], j), "block/" + data.blocks.keys()[i] + "_" + j);
   }
 }
 for (i = 0; i < data.enemies.keys().length; i++) {
-  if (data.image_amount[data.enemies.keys()[i]]) {
-    for (j = 0; j < data.image_amount[data.enemies.keys()[i]]; j++) {
-      addImage("{0}_{1}".format(data.enemies.keys()[i], j), "enemy/" + data.enemies.keys()[i] + "_" + j);
-    }
-  } else {
-    addImage(data.enemies.keys()[i], "enemy/" + data.enemies.keys()[i]);
+  for (j = 0; j < data.enemies.values()[i].images; j++) {
+    addImage("{0}_{1}".format(data.enemies.keys()[i], j), "enemy/" + data.enemies.keys()[i] + "_" + j);
   }
 }
 playerImages = {

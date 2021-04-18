@@ -58,7 +58,7 @@ function reset() {
         arr = [];
         for (j = 0; j < random.length; j++) {
           block = random[j].split(":");
-          if (data.sprites[block[0]]) {
+          if (data.blocks[block[0]]) {
             arr.push(block);
           } else {
             console.error("Level Generation:\n'{0}' is not a valid block".format(block[0]));

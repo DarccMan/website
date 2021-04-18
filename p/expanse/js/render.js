@@ -4,7 +4,7 @@ function render() {
     cam.x = player.x + (player.w / 2) - (canvas.width * data.cam.x);
     cam.y = player.y + (player.h / 2) - (canvas.height * data.cam.y);
 
-    ctx.fillCanvas(data.sprites.none);
+    ctx.fillCanvas(data.blocks.none.color);
     if (data.graphics > 0) {
       /* Background parallax effect */
       ctx.save();
@@ -21,7 +21,7 @@ function render() {
         for (y = 0; y < data.tiles + 1; y++) {
           if (data.graphics > 1) {
             ctx.drawImage(
-              images.none,
+              images.none_0,
               (ax + x) * tw,
               (ay + y) * tw,
               tw,
@@ -67,133 +67,125 @@ function render() {
               - ((y * tw) + (tw / 2)),
             );
           }
-          if (data.image_amount[grid[x][y].block]) {
-            ctx.drawImage(
-              images[grid[x][y].block + "_" + frame.current % data.image_amount[grid[x][y].block]],
-              x * tw - 1,
-              y * tw - 1,
-              tw + 1,
-              tw + 1,
-            );
-          } else {
-            ctx.drawImage(
-              images[grid[x][y].block],
-              x * tw - 1,
-              y * tw - 1,
-              tw + 1,
-              tw + 1,
-            );
-          }
+          ctx.drawImage(
+            images[grid[x][y].block + "_" + (data.graphics < 3 ? 0 : (frame.current % data.blocks[grid[x][y].block]?.images))] || images.unknown_0,
+            x * tw - 1,
+            y * tw - 1,
+            tw + 1,
+            tw + 1,
+          );
           ctx.restore();
 
           /* Draw outline of blocks (DONT ASK ME HOW IT WORKS, I blacked out and woke up to it working) */
           if (data.graphics > 2) {
-            if (data.outlines.includes(grid[x][y].block)) {
-              for (c = 0; c < cs.length; c++) {
-                if (
-                  x + cs[c][0] < 0
-                  || x + cs[c][0] >= grid.length
-                  || y + cs[c][1] < 0
-                  || y + cs[c][1] >= grid[x].length
-                  || !data.outlines.includes(grid[x + cs[c][0]][y + cs[c][1]].block)
-                ) {
-                  ctx.save();
-                  ctx.translate(
-                    (x * tw - 1) + ((tw + 1) / 2),
-                    (y * tw - 1) + ((tw + 1) / 2),
-                  );
-                  ctx.rotate(
-                    ((c - 1) * 90) * Math.PI / 180,
-                  );
-                  ctx.translate(
-                    - ((x * tw - 1) + ((tw + 1) / 2)),
-                    - ((y * tw - 1) + ((tw + 1) / 2)),
-                  );
-                  ctx.drawImage(
-                    images.side,
-                    x * tw - 1,
-                    y * tw - 1,
-                    tw + 1,
-                    tw + 1,
-                  );
-                  ctx.restore();
+            if (data.blocks[grid[x][y].block]) {
+              if (data.blocks[grid[x][y].block].outline) {
+                for (c = 0; c < cs.length; c++) {
+                  if (
+                    x + cs[c][0] < 0
+                    || x + cs[c][0] >= grid.length
+                    || y + cs[c][1] < 0
+                    || y + cs[c][1] >= grid[x].length
+                    || !data.blocks[grid[x + cs[c][0]][y + cs[c][1]].block]?.outline
+                  ) {
+                    ctx.save();
+                    ctx.translate(
+                      (x * tw - 1) + ((tw + 1) / 2),
+                      (y * tw - 1) + ((tw + 1) / 2),
+                    );
+                    ctx.rotate(
+                      ((c - 1) * 90) * Math.PI / 180,
+                    );
+                    ctx.translate(
+                      - ((x * tw - 1) + ((tw + 1) / 2)),
+                      - ((y * tw - 1) + ((tw + 1) / 2)),
+                    );
+                    ctx.drawImage(
+                      images.side,
+                      x * tw - 1,
+                      y * tw - 1,
+                      tw + 1,
+                      tw + 1,
+                    );
+                    ctx.restore();
+                  }
                 }
-              }
 
-              for (c = 0; c < ci.length; c++) {
-                if (
-                  (
-                    !data.outlines.includes(grid[x + ci[c][0][0]]?.[y + ci[c][0][1]]?.block)
-                    && data.outlines.includes(grid[x + ci[c][1][0]]?.[y + ci[c][1][1]]?.block)
-                    && data.outlines.includes(grid[x + ci[c][2][0]]?.[y + ci[c][2][1]]?.block)
-                  )
-                ) {
-                  ctx.save();
-                  ctx.translate(
-                    (x * tw - 1) + ((tw + 1) / 2),
-                    (y * tw - 1) + ((tw + 1) / 2),
-                  );
-                  ctx.rotate(
-                    ((c - 0) * 90) * Math.PI / 180,
-                  );
-                  ctx.translate(
-                    - ((x * tw - 1) + ((tw + 1) / 2)),
-                    - ((y * tw - 1) + ((tw + 1) / 2)),
-                  );
-                  ctx.drawImage(
-                    images.inner,
-                    x * tw - 1,
-                    y * tw - 1,
-                    tw + 1,
-                    tw + 1,
-                  );
-                  ctx.restore();
+                for (c = 0; c < ci.length; c++) {
+                  if (
+                    (
+                      !data.blocks[grid[x + ci[c][0][0]]?.[y + ci[c][0][1]]?.block]?.outline
+                      && data.blocks[grid[x + ci[c][1][0]]?.[y + ci[c][1][1]]?.block]?.outline
+                      && data.blocks[grid[x + ci[c][2][0]]?.[y + ci[c][2][1]]?.block]?.outline
+                    )
+                  ) {
+                    ctx.save();
+                    ctx.translate(
+                      (x * tw - 1) + ((tw + 1) / 2),
+                      (y * tw - 1) + ((tw + 1) / 2),
+                    );
+                    ctx.rotate(
+                      ((c - 0) * 90) * Math.PI / 180,
+                    );
+                    ctx.translate(
+                      - ((x * tw - 1) + ((tw + 1) / 2)),
+                      - ((y * tw - 1) + ((tw + 1) / 2)),
+                    );
+                    ctx.drawImage(
+                      images.inner,
+                      x * tw - 1,
+                      y * tw - 1,
+                      tw + 1,
+                      tw + 1,
+                    );
+                    ctx.restore();
+                  }
                 }
-              }
 
-              for (c = 0; c < co.length; c++) {
-                if (
-                  (
-                    !data.outlines.includes(grid[x + co[c][0][0]]?.[y + co[c][0][1]]?.block)
-                    || (
-                      !grid[x + co[c][0][0]]
-                      || !grid[x + co[c][0][0]][y + co[c][0][1]]
+                for (c = 0; c < co.length; c++) {
+                  if (
+                    (
+                      !data.blocks[grid[x + co[c][0][0]]?.[y + co[c][0][1]]?.block]?.outline
+                      || (
+                        !grid[x + co[c][0][0]]
+                        || !grid[x + co[c][0][0]][y + co[c][0][1]]
+                      )
+                    ) && (
+                      !data.blocks[grid[x + co[c][1][0]]?.[y + co[c][1][1]]?.block]?.outline
+                      || (
+                        !grid[x + co[c][1][0]]
+                        || !grid[x + co[c][1][0]][y + co[c][1][1]]
+                      )
                     )
-                  ) && (
-                    !data.outlines.includes(grid[x + co[c][1][0]]?.[y + co[c][1][1]]?.block)
-                    || (
-                      !grid[x + co[c][1][0]]
-                      || !grid[x + co[c][1][0]][y + co[c][1][1]]
-                    )
-                  )
-                ) {
-                  ctx.save();
-                  ctx.translate(
-                    (x * tw - 1) + ((tw + 1) / 2),
-                    (y * tw - 1) + ((tw + 1) / 2),
-                  );
-                  ctx.rotate(
-                    ((c - 0) * 90) * Math.PI / 180,
-                  );
-                  ctx.translate(
-                    - ((x * tw - 1) + ((tw + 1) / 2)),
-                    - ((y * tw - 1) + ((tw + 1) / 2)),
-                  );
-                  ctx.drawImage(
-                    images.outer,
-                    x * tw - 1,
-                    y * tw - 1,
-                    tw + 1,
-                    tw + 1,
-                  );
-                  ctx.restore();
+                  ) {
+                    ctx.save();
+                    ctx.translate(
+                      (x * tw - 1) + ((tw + 1) / 2),
+                      (y * tw - 1) + ((tw + 1) / 2),
+                    );
+                    ctx.rotate(
+                      ((c - 0) * 90) * Math.PI / 180,
+                    );
+                    ctx.translate(
+                      - ((x * tw - 1) + ((tw + 1) / 2)),
+                      - ((y * tw - 1) + ((tw + 1) / 2)),
+                    );
+                    ctx.drawImage(
+                      images.outer,
+                      x * tw - 1,
+                      y * tw - 1,
+                      tw + 1,
+                      tw + 1,
+                    );
+                    ctx.restore();
+                  }
                 }
               }
             }
           }
         } else {
           /* Low graphics blocks */
-          ctx.fillStyle = data.sprites[grid[x][y].block];
+          ctx.fillStyle = data.blocks[grid[x][y].block]?.color;
           ctx.fillRect(
             x * tw - 1,
             y * tw - 1,
@@ -208,47 +200,25 @@ function render() {
     ax = Math.floor(cam.x / tw);
     for (x = 0; x < grid.length; x++) {
       if (data.graphics > 1) {
-        if (data.image_amount.spike) {
+        ctx.drawImage(
+          images["spike_" + (data.graphics < 3 ? 0 : (frame.current % data.blocks.spike.images))],
+          (x + ax) * tw,
+          (data.floor_gap + grid[0].length) * tw,
+          tw,
+          tw,
+        );
+        for (y = 0; y < 5; y++) {
           ctx.drawImage(
-            images["spike_" + frame.current % data.image_amount.spike],
+            images["block_" + (data.graphics < 3 ? 0 : (frame.current % data.blocks.block.images))],
             (x + ax) * tw,
-            (data.floor_gap + grid[0].length) * tw,
+            (data.floor_gap + grid[0].length + 1 + y) * tw,
             tw,
             tw,
           );
-        } else {
-          ctx.drawImage(
-            images.spike,
-            (x + ax) * tw,
-            (data.floor_gap + grid[0].length) * tw,
-            tw,
-            tw,
-          );
-        }
-        if (data.image_amount.block) {
-          for (y = 0; y < 5; y++) {
-            ctx.drawImage(
-              images["block_" + frame.current % data.image_amount.block],
-              (x + ax) * tw,
-              (data.floor_gap + grid[0].length + 1 + y) * tw,
-              tw,
-              tw,
-            );
-          }
-        } else {
-          for (y = 0; y < 5; y++) {
-            ctx.drawImage(
-              images.block,
-              (x + ax) * tw,
-              (data.floor_gap + grid[0].length + 1 + y) * tw,
-              tw,
-              tw,
-            );
-          }
         }
       } else {
         /* Low graphics blocks */
-        ctx.fillStyle = data.sprites.spike;
+        ctx.fillStyle = data.blocks.spike.color;
         ctx.fillRect(
           (x + ax) * tw,
           (data.floor_gap + grid[0].length) * tw,
@@ -256,7 +226,7 @@ function render() {
           tw,
         );
         for (y = 0; y < 5; y++) {
-          ctx.fillStyle = data.sprites.block;
+          ctx.fillStyle = data.blocks.block.color;
           ctx.fillRect(
             (x + ax) * tw,
             (data.floor_gap + grid[0].length + 1 + y) * tw,
@@ -292,7 +262,7 @@ function render() {
           cam.y,
         );
         ctx.drawImage(
-          images["player_transition_" + frame.current % playerImages.transition],
+          images["player_transition_" + (data.graphics < 3 ? 0 : (frame.current % playerImages.transition))],
           (player.animate - 0.5) * (canvas.width + (player.w / player.h) * canvas.height),
           canvas.height / 10,
           (player.w / player.h) * canvas.height,
@@ -313,7 +283,7 @@ function render() {
           );
         }
         ctx.drawImage(
-          images["player_" + player.status + "_" + frame.current % playerImages[player.status]],
+          images["player_" + player.status + "_" + (data.graphics < 3 ? 0 : (frame.current % playerImages[player.status]))],
           player.x,
           player.y,
           player.w,
@@ -345,23 +315,13 @@ function render() {
           - (player.x + player.w / 2),
           - (player.y + player.h / 2),
         );
-        if (data.image_amount[player.hold]) {
-          ctx.drawImage(
-            images[player.hold + "_" + frame.current % data.image_amount[player.hold]],
-            player.x + 20,
-            player.y,
-            player.w * data.hold_size,
-            player.h * data.hold_size,
-          );
-        } else {
-          ctx.drawImage(
-            images[player.hold],
-            player.x,
-            player.y,
-            player.w * data.hold_size,
-            player.h * data.hold_size,
-          );
-        }
+        ctx.drawImage(
+          images[player.hold + "_" + (data.graphics < 3 ? 0 : (frame.current % data.blocks[player.hold].images))],
+          player.x + 20,
+          player.y,
+          player.w * data.hold_size,
+          player.h * data.hold_size,
+        );
         ctx.restore();
       }
     } else {
@@ -385,7 +345,7 @@ function render() {
           - (player.x + player.w / 2),
           - (player.y + player.h / 2),
         );
-        ctx.fillStyle = data.sprites[player.hold];
+        ctx.fillStyle = data.blocks[player.hold].color;
         ctx.fillRect(
           player.x + 20,
           player.y,
@@ -415,40 +375,21 @@ function render() {
         );
       }
       if (data.graphics > 1) {
-        if (data.image_amount[enemies[i].type] > 0) {
-          ctx.drawImage(
-            images[enemies[i].type + "_" + frame.current % data.image_amount[enemies[i].type]],
-            enemies[i].x,
-            (enemies[i].y) + (data.enemies[enemies[i].type].rh ? (
-              0
-            ) : (
-              enemies[i].h - (enemies[i].w)
-            )),
-            enemies[i].w,
-            data.enemies[enemies[i].type].rh ? (
-              data.enemies[enemies[i].type].rh * tw
-            ) : (
-              enemies[i].w
-            ),
-          );
-        } else {
-          /* One frame */
-          ctx.drawImage(
-            images[enemies[i].type],
-            enemies[i].x,
-            (enemies[i].y) + (data.enemies[enemies[i].type].rh ? (
-              0
-            ) : (
-              enemies[i].h - (enemies[i].w)
-            )),
-            enemies[i].w,
-            data.enemies[enemies[i].type].rh ? (
-              data.enemies[enemies[i].type].rh * tw
-            ) : (
-              enemies[i].w
-            ),
-          );
-        }
+        ctx.drawImage(
+          images[enemies[i].type + "_" + (data.graphics < 3 ? 0 : (frame.current % data.enemies[enemies[i].type].images))],
+          enemies[i].x,
+          (enemies[i].y) + (data.enemies[enemies[i].type].rh ? (
+            0
+          ) : (
+            enemies[i].h - (enemies[i].w)
+          )),
+          enemies[i].w,
+          data.enemies[enemies[i].type].rh ? (
+            data.enemies[enemies[i].type].rh * tw
+          ) : (
+            enemies[i].w
+          ),
+        );
       } else {
         /* Low graphics enemies */
         ctx.fillStyle = data.enemies[enemies[i].type].color;
@@ -488,7 +429,7 @@ function render() {
         Math.max(player.w, player.h) * data.shadow.p_r0 * res,
         (- cam.x + player.x + (player.w / 2)) * res,
         (- cam.y + player.y + (player.w / 2)) * res,
-        tw * data.shadow.p_r1 * (data.light.includes(player.hold) ? data.shadow.torch_multiply : 1) * res,
+        tw * data.shadow.p_r1 * (player.hold && data.blocks[player.hold].light ? data.shadow.torch_multiply : 1) * res,
       );
       grd.addColorStop(0, "#FFF");
       grd.addColorStop(1, "#0000");
@@ -497,7 +438,7 @@ function render() {
       /* Create inverted opacity shadow around all blocks */
       for (x = 0; x < grid.length; x++) {
         for (y = 0; y < grid[0].length; y++) {
-          if (data.light.includes(grid[x][y]?.block)) {
+          if (data.blocks[grid[x][y]?.block]?.light) {
             grd = ctx2.createRadialGradient(
               (- cam.x + (x + 0.5) * tw) * res,
               (- cam.y + (y + 0.5) * tw) * res,
@@ -681,7 +622,7 @@ function render() {
         - (canvas.height / 2),
       );
       ctx.drawImage(
-        images["player_idle_" + frame.current % playerImages[player.status]],
+        images["player_idle_" + (data.graphics < 3 ? 0 : (frame.current % playerImages.idle))],
         canvas.width * m - canvas.height / 2,
         0,
         canvas.height,
@@ -689,7 +630,7 @@ function render() {
       );
       ctx.restore();
     } else {
-      ctx.fillCanvas(data.sprites.none);
+      ctx.fillCanvas(data.blocks.none.color);
 
       if (data.graphics > 0) {
         ctx.strokeStyle = "#140C06";
