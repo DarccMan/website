@@ -492,7 +492,10 @@ function render() {
         ctx.textBaseline = "top";
         ctx.textAlign = "left";
         ctx.fillText(
-          "Level {0} '{1}'".format(lvl, levels[lvl].name || "Unknown"),
+          lang.level.format({
+            number: lvl,
+            name: levels[lvl].name || "Unknown",
+          }),
           canvas.width * 0.02,
           canvas.width * 0.02,
         );
@@ -515,7 +518,7 @@ function render() {
           ctx.textAlign = "center";
           ctx.font = canvas.width * 0.05 + "px " + data.font;
           ctx.fillText(
-            "The sign reads:",
+            lang.sign,
             canvas.width * 0.5,
             canvas.height * 0.1,
           );
@@ -568,7 +571,7 @@ function render() {
       ctx.textAlign = "left";
       ctx.fillStyle = "#EEEE";
       ctx.fillText(
-        "<DEBUG MODE>",
+        lang.debug,
         canvas.width * 0.02,
         canvas.width * 0.02,
       );
@@ -581,7 +584,7 @@ function render() {
     ctx.lineWidth = 4;
     time = ((Date.now() - global.timeStart) / 1000).toFixed(2).toString();
     ctx.fillText(
-      "Time: {0}".format(time),
+      lang.time_game.format(time),
       canvas.width * 0.87 - canvas.width * 0.01 * time.length,
       canvas.height * 0.02,
     );
@@ -669,13 +672,13 @@ function render() {
     ctx.fillStyle = "#DDE";
     if (data.graphics > 2) {
       ctx.strokeText(
-        "Expanse of Darkness",
+        lang.title,
         canvas.width * 0.5,
         canvas.height * 0.45,
       );
     }
     ctx.fillText(
-      "Expanse of Darkness",
+      lang.title,
       canvas.width * 0.5,
       canvas.height * 0.45,
     );
@@ -683,13 +686,13 @@ function render() {
     ctx.lineWidth = 5;
     if (data.graphics > 2) {
       ctx.strokeText(
-        "Press SPACE to continue",
+        lang.continue,
         canvas.width * 0.5,
         canvas.height * 0.7,
       );
     }
     ctx.fillText(
-      "Press SPACE to continue",
+      lang.continue,
       canvas.width * 0.5,
       canvas.height * 0.7,
     );
@@ -717,13 +720,13 @@ function render() {
     ctx.lineWidth = 4;
     if (data.graphics > 2) {
       ctx.strokeText(
-        "By Darcy",
+        lang.name,
         canvas.width * 0.98,
         canvas.height * 0.98,
       );
     }
     ctx.fillText(
-      "By Darcy",
+      lang.name,
       canvas.width * 0.98,
       canvas.height * 0.98,
     );
@@ -889,13 +892,13 @@ function render() {
     ctx.fillStyle = "#DDE";
     if (data.graphics > 2) {
       ctx.strokeText(
-        "Thanks for playing!",
+        lang.thank,
         canvas.width * 0.5,
         canvas.height * 0.45,
       );
     }
     ctx.fillText(
-      "Thanks for playing!",
+      lang.thank,
       canvas.width * 0.5,
       canvas.height * 0.45,
     );
@@ -903,25 +906,29 @@ function render() {
     ctx.lineWidth = 5;
     if (data.graphics > 2) {
       ctx.strokeText(
-        "Your time: {0}".format(global.timerEnd),
+        lang.time_end.format({
+          time: global.timerEnd
+        }),
         canvas.width * 0.5,
         canvas.height * 0.65,
       );
     }
     ctx.fillText(
-      "Your time: {0}".format(global.timerEnd),
+      lang.time_end.format({
+        time: global.timerEnd
+      }),
       canvas.width * 0.5,
       canvas.height * 0.65,
     );
     if (data.graphics > 2) {
       ctx.strokeText(
-        "Press SPACE to continue...",
+        lang.continue,
         canvas.width * 0.5,
         canvas.height * 0.8,
       );
     }
     ctx.fillText(
-      "Press SPACE to continue...",
+      lang.continue,
       canvas.width * 0.5,
       canvas.height * 0.8,
     );
@@ -949,13 +956,13 @@ function render() {
     ctx.lineWidth = 4;
     if (data.graphics > 2) {
       ctx.strokeText(
-        "By Darcy",
+        lang.name,
         canvas.width * 0.98,
         canvas.height * 0.98,
       );
     }
     ctx.fillText(
-      "By Darcy",
+      lang.name,
       canvas.width * 0.98,
       canvas.height * 0.98,
     );
@@ -982,7 +989,7 @@ function render() {
     ctx.textAlign = "center";
     ctx.font = canvas.width * 0.08 + "px Arial";
     ctx.fillText(
-      "Loading Assets...",
+      lang.loading,
       canvas.width * 0.5,
       canvas.height * 0.1,
     );

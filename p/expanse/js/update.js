@@ -286,6 +286,11 @@ function update(mod) {
     p = {...playerHit};
     for (i = 0; i < enemies.length; i++) {
       //! Make the mfing rats SHAKE !!!
+      /* 
+      Only rats
+      Check for other rats in 3x3 radius
+      If more than threshold, then SHAKE 
+      */
       if (enemies[i].dead) {
         continue;
       }
