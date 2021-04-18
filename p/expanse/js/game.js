@@ -29,9 +29,9 @@ if (F.url.online) {
 var lvl = 0;
 if (debugMode) {
   data.graphics = 2;
-  lvl = 0;
+  lvl = 5;
   startState = "play";
-  levels[1] = null;
+  // levels[1] = null;
 }
 var player = null;
 var grid = [];

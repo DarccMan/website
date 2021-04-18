@@ -285,12 +285,6 @@ function update(mod) {
     /* Enemies */
     p = {...playerHit};
     for (i = 0; i < enemies.length; i++) {
-      //! Make the mfing rats SHAKE !!!
-      /* 
-      Only rats
-      Check for other rats in 3x3 radius
-      If more than threshold, then SHAKE 
-      */
       if (enemies[i].dead) {
         continue;
       }
@@ -434,6 +428,26 @@ function update(mod) {
       /* Add velocity to enemy position */
       enemies[i].x += enemies[i].vx;
       enemies[i].y += enemies[i].vy;
+
+      /* Shaky rats */
+      if (enemies[i].type == "rat") {
+        amount = 0;
+        X: for (j = 0; j < enemies.length; j++) {
+          if (i == j) {
+            continue;
+          }
+          if (
+            Math.abs(enemies[i].x - enemies[j].x) < tw
+            && Math.abs(enemies[i].y - enemies[j].y) < tw
+          ) {
+            amount++;
+            if (amount >= 5) {
+              enemies[i].y -= ((Date.now() % 2) * 2 - 1) * mod * 60;
+              break X;
+            }
+          }
+        }
+      }
 
       /* Stop enemy getting stuck in block */
       cb = null;
