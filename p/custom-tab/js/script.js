@@ -130,6 +130,7 @@ sc.init = function () {
     doc.id("sc_contain").innerHTML += [
       '<article class="sc {unknown}" id="sc_n{num};">',
       '  <button class="sc link">',
+      '    {img}',
       '    <a href="{href}" title="Go to \'{href}\'" class="{unknown}">',
       '      {name}',
       '    </a>',
@@ -143,6 +144,9 @@ sc.init = function () {
       name: name.truncate(15, "..."),
       unknown,
       num: i,
+      img: unknown ? "" : '<img src="{src}" onerror="sc.img_err(this)">'.format({
+        src: "https://s2.googleusercontent.com/s2/favicons?domain_url={0}".format(href),
+      }),
     });
   }
 }
@@ -186,6 +190,11 @@ sc.edit = function (el) {
       sc.init();
     }
   }
+}
+
+sc.img_err = function (el) {
+  el.src = "./image/error.png";
+  el.className += " unloaded";
 }
 
 

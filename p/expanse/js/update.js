@@ -152,6 +152,9 @@ function update(mod) {
         }
       }; break;
       default: {
+        //! DECELERATE
+        //? DECELERATE
+        //* DECELERATE
         player.vx = Math.sign(player.vx) * (Math.abs(player.vx) - data.v.ma * mod);
         if (Math.abs(player.vx - 0) < data.v.mm) {
           player.vx = 0;
