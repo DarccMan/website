@@ -49,7 +49,7 @@ var levels = [
       #block*400&3,cracked:1;
       =0;
       >5;
-      #sign{text:Hold_on...,abc:123,itstrue};
+      #sign{text:Rats_get_funky,abc:123,itstrue};
       =5;
       >6;
       #trap*3;

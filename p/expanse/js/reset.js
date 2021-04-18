@@ -117,6 +117,7 @@ function reset() {
             ),
             vx: 0,
             vy: 0,
+            stamp: F.randomInt(0, 1000),
           });
         } else {
           console.error("Level Generation:\n'{0}' is not a valid enemy".format(type));

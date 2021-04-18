@@ -138,7 +138,7 @@ var data = {
       images: 2,
     },
     bat: { // Refer to rat
-      color: "#622",
+      color: "#413",
       w: 0.8,
       h: 0.8,
       v: {
@@ -167,7 +167,7 @@ var data = {
       images: 2,
     },
     skelly: { // Refer to rat
-      color: "#CCC",
+      color: "#999",
       w: 0.8,
       h: 1,
       rh: 1.9,
@@ -197,11 +197,7 @@ var data = {
       images: 2,
     },
   },
-  /* image_amount: { // Amount of images for block / enemy animation
-    rat: 2,
-    bat: 2,
-    skelly: 2,
-  }, */
+  SHAKY: 50,
   outlines: [ // Which blocks use outline
     "block",
     "unknown",

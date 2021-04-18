@@ -430,6 +430,7 @@ function update(mod) {
       enemies[i].y += enemies[i].vy;
 
       /* Shaky rats */
+      dist = 2;
       if (enemies[i].type == "rat") {
         amount = 0;
         X: for (j = 0; j < enemies.length; j++) {
@@ -437,12 +438,12 @@ function update(mod) {
             continue;
           }
           if (
-            Math.abs(enemies[i].x - enemies[j].x) < tw
-            && Math.abs(enemies[i].y - enemies[j].y) < tw
+            Math.abs(enemies[i].x - enemies[j].x) < tw * dist
+            && Math.abs(enemies[i].y - enemies[j].y) < tw * dist
           ) {
             amount++;
             if (amount >= 5) {
-              enemies[i].y -= ((Date.now() % 2) * 2 - 1) * mod * 60;
+              enemies[i].y += (((Date.now() + enemies[i].stamp / 100).round() % 2) * 2 - 1) * mod * data.SHAKY;
               break X;
             }
           }
@@ -471,7 +472,7 @@ function update(mod) {
         }
       }
       X: for (j = 0; j < enemies.length; j++) {
-        if (i == j) {
+        if (i <= j) {
           continue;
         }
         if (F.collide(e, enemies[j])) {
