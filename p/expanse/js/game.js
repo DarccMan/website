@@ -28,9 +28,9 @@ if (F.url.online) {
 }
 var lvl = 0;
 if (debugMode) {
-  data.graphics = 0;
-  lvl = 5;
-  startState = "play";
+  data.graphics = 2;
+  lvl = 0;
+  startState = "end";
   // levels[1] = null;
 }
 var player = null;
@@ -116,7 +116,7 @@ addImage("inner", "edge/inner");
 addImage("side", "edge/side");
 
 /* Finish loading when font loads */
-let gameFont = new FontFace(data.font, "url(../../source/font/dirty-roma.woff2)");
+let gameFont = new FontFace(data.font, `url(../../source/font/${data.font}.woff2)`);
 gameFont.load().then(
   (font) => {
     document.fonts.add(font);
@@ -124,7 +124,7 @@ gameFont.load().then(
     gameState = startState;
   },
   (err) => {
-    console.log(err);
+    console.error(err);
   }
 )
 

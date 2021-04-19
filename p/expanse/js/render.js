@@ -1,8 +1,29 @@
 function render() {
   if (!["load", "start", "end"].includes(gameState)) {
     /* Align camera to player position */
-    cam.x = player.x + (player.w / 2) - (canvas.width * data.cam.x);
-    cam.y = player.y + (player.h / 2) - (canvas.height * data.cam.y);
+    if (data.graphics >= data.cam.graphics) {
+      minx = canvas.width * data.cam.minx;
+      maxx = canvas.width * data.cam.minx;
+      miny = canvas.height * data.cam.miny;
+      maxy = canvas.height * data.cam.maxy;
+      posx = player.x - cam.x
+      posy = player.y - cam.y
+      if (posx < minx) {
+        cam.x -= minx - posx;
+      }
+      if (posx > maxx) {
+        cam.x += posx - maxx;
+      }
+      if (posy < miny) {
+        cam.y -= miny - posy;
+      }
+      if (posy > maxy) {
+        cam.y += posy - maxy;
+      }
+    } else {
+      cam.x = player.x + (player.w / 2) - (canvas.width * data.cam.x);
+      cam.y = player.y + (player.h / 2) - (canvas.height * data.cam.y);
+    }
 
     ctx.fillCanvas(data.blocks.none.color);
     if (data.graphics > 0) {
@@ -839,7 +860,7 @@ function render() {
         ctx.lineWidth = 50;
         for (i = 0; i < Math.ceil(canvas.width / canvas.height) + 1; i++) {
           ctx.strokeRect(
-            ((i - 1) * canvas.height) + ((Date.now() / 10)) % canvas.height,
+            (i * canvas.height) + (-(Date.now() / 10)) % canvas.height,
             0,
             canvas.height + 1,
             canvas.height,

@@ -6,8 +6,15 @@ var data = {
   tiles: 10, // Amount of tiles on canvas
   parallax: 0.5, // How fast the background moves
   cam: { // Position of player to screen
-    x: 0.35,
-    y: 0.6,
+    // Non-fancy graphics
+    x: 0.35, // X position of player on canvas
+    y: 0.6, // Y position of player on canvas
+    // Fancy graphics
+    graphics: 3, // Graphics level needed for fancy camera positioning. Set to 4 to never use it
+    minx: 0.4, // Minimum amount of canvas for camera X not to change
+    maxx: 0.6, // Maximum amount of canvas for camera X not to change
+    miny: 0.4, // Minimum amount of canvas for camera Y not to change
+    maxy: 0.6, // Maximum amount of canvas for camera Y not to change
   },
   player: { // Player settings
     w: 1.2,
@@ -267,7 +274,8 @@ var data = {
     cma: 0.2, // Movement acceleration
     cmt: 0.6, // Movement terminal
   },
-  font: "dirtyroma", // Font
+  // font: "skull-void", // Font
+  font: "samdan", // Font
   hold_size: 0.8, // Size of held block
 };
 var controls = { // Kinda self explanatory

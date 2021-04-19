@@ -244,7 +244,7 @@ var levels = [
       #brick;
     `,
     player: {
-      x: 2,
+      x: 4,
       y: 5,
     },
   },
