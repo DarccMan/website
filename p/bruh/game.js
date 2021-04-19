@@ -180,7 +180,7 @@ function update(mod) {
           }, true, true)
         )
       )
-      || keysDown.includes("play")
+      || keysDown.play
       || (
         F.touch.down
         && (
