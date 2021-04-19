@@ -159,30 +159,32 @@ function update(mod) {
     }
 
     /* Player hit wall */
-    cb = null;
-    p = {...playerHit};
-    p.x += player.vx;
-    p.y += player.vy - 1;
-    X: for (x = minx; x < maxx; x++) {
-      for (y = miny; y < maxy; y++) {
-        if (
-          data.blocks[grid[x][y].block]?.collide
-          && !data.blocks[grid[x][y].block]?.walkInto
-        ) {
-          if (F.collide(p, {
-            x: (x + 0.001) * tw,
-            y: (y + 0.001) * tw,
-            w: tw + 1,
-            h: tw + 1,
-          })) {
-            cb = grid[x][y];
-            break X;
+    if (!global.playerInBlock) {
+      cb = null;
+      p = {...playerHit};
+      p.x += player.vx;
+      p.y += player.vy - 1;
+      X: for (x = minx; x < maxx; x++) {
+        for (y = miny; y < maxy; y++) {
+          if (
+            data.blocks[grid[x][y].block]?.collide
+            && !data.blocks[grid[x][y].block]?.walkInto
+          ) {
+            if (F.collide(p, {
+              x: (x + 0.001) * tw,
+              y: (y + 0.001) * tw,
+              w: tw + 1,
+              h: tw + 1,
+            })) {
+              cb = grid[x][y];
+              break X;
+            }
           }
         }
       }
-    }
-    if (cb) {
-      player.vx = 0;
+      if (cb) {
+        player.vx = 0;
+      }
     }
 
     /* Player crouching don't fall off */
@@ -268,6 +270,9 @@ function update(mod) {
     }
     if (cb) {
       player.y -= tw * 0.03;
+      global.playerInBlock = true;
+    } else {
+      global.playerInBlock = false;
     }
 
     if (player.y / tw > grid[0].length + data.floor_gap - 0.7) {

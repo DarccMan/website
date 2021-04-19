@@ -1,6 +1,6 @@
 var levels = [
   {
-    name: "Spikes",
+    name: "Spiky :(",
     dim: [25, 10],
     set: `
       y=4;
@@ -48,7 +48,7 @@ var levels = [
     },
   },
   {
-    name: "Rats...",
+    name: "Da Rats...",
     dim: [25, 16],
     set: `
       y=6;
@@ -137,7 +137,7 @@ var levels = [
     },
   },
   {
-    name: "...Bats",
+    name: "...Da Bats",
     dim: [25, 10],
     set: `
       y=6;
@@ -174,7 +174,7 @@ var levels = [
     },
   },
   {
-    name: "Skelly Wag",
+    name: "Skelly Wag and the Gang",
     dim: [25, 10],
     set: `
       y=6;
@@ -183,7 +183,7 @@ var levels = [
       y=5;
       #sign{text:Press_SHIFT_to_crouch};
       x+3;
-      #glass;
+      #brick;
       x=9;
       y=4;
       @rat;
@@ -201,11 +201,17 @@ var levels = [
       x-3;
       y-2;
       #glass;
-      y+1;
+      y+2;
+      x-1;
+      #pillar;
+      y-1;
       x-1;
       #glass*4;
       x-1;
-      y-2;
+      y+1;
+      #pillar;
+      x-1;
+      y-3;
       #glass;
       x-8;
       y-1;
@@ -213,6 +219,18 @@ var levels = [
       x-1;
       y-1;
       #goal;
+      x-1;
+      y+2;
+      #pillar;
+      x-1;
+      y+1;
+      #pillar;
+      x-1;
+      y+1;
+      #pillar;
+      x-1;
+      y+1;
+      #pillar;
     `,
     player: {
       x: 2,
@@ -220,7 +238,7 @@ var levels = [
     },
   },
   {
-    name: "Steps",
+    name: "Go up, idiot",
     dim: [25, 12],
     set: `
       y=8;
@@ -265,15 +283,19 @@ var levels = [
     },
   },
   {
-    name: "Level Gen",
+    name: "Change level name!",
     disabled: true,
     dim: [25, 10],
     set: `
       y=6;
       #block*100&3,cracked:1;
-      x=4;
-      y=4;
-      #brick;
+      x=0;
+      y=5;
+      #lamp;
+      x+2;
+      #block;
+      x+1;
+      #block;
     `,
     player: {
       x: 4,

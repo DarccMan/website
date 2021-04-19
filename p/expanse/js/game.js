@@ -29,7 +29,7 @@ if (F.url.online) {
 var lvl = 0;
 if (debugMode) {
   data.graphics = 2;
-  lvl = 3;
+  lvl = 5;
   startState = "play";
   // levels[1] = null;
 }

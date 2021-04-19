@@ -90,10 +90,10 @@ function render() {
           }
           ctx.drawImage(
             images[grid[x][y].block + "_" + (data.graphics < 3 ? 0 : (frame.current % data.blocks[grid[x][y].block]?.images))] || images.unknown_0,
-            x * tw - 1,
-            y * tw - 1,
-            tw + 1,
-            tw + 1,
+            x * tw,
+            y * tw,
+            tw,
+            tw ,
           );
           ctx.restore();
 

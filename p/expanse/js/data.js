@@ -83,7 +83,7 @@ var data = {
     },
     spike: {
       color: "#444",
-      images: 1,
+      images: 2,
       death: true,
     },
     goal: {
@@ -257,7 +257,7 @@ var data = {
     r1: 3, // Large radius around light blocks
     opacity: 210, // Opacity of full shadow (0-255)
     resolution_low: 0.03,
-    resolution_high: 0.07,
+    resolution_high: 0.06,
   },
   floor_gap: 10, // Gap between bottom most block and floor spikes
   v: { // Player velocity settings
