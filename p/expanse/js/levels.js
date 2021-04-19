@@ -10,11 +10,11 @@ var levels = [
       #sign{text:Watch_out_for_rats!,abc:123,itstrue};
       x=6;
       y=3;
-      #block*2&3,cracked:1;
+      #brick*2;
       @rat;
       x=7;
       y=2;
-      #block*2&3,cracked:1;
+      #brick*3;
       x=8;
       y=1;
       #block*4&3,cracked:1;
@@ -31,6 +31,12 @@ var levels = [
       x+2;
       #spike*2;
       x+3;
+      #brick*2;
+      x-2;
+      y-1;
+      #brick;
+      x-1;
+      y-1;
       #goal;
       x=0;
       y=10;
@@ -68,6 +74,9 @@ var levels = [
       @rat;
       x+1;
       @rat;
+      x=16;
+      y=4;
+      @bat;
       x=12;
       y=4;
       #brick;
@@ -110,6 +119,9 @@ var levels = [
       x-4;
       #goal;
       #none*3;
+      x-3;
+      y+1;
+      #trap*3;
       x=0;
       y=13;
       #none*3;
@@ -129,7 +141,7 @@ var levels = [
     dim: [25, 10],
     set: `
       y=6;
-      #block*100&3,cracked:1;
+      #block*100&30,cracked:1,brick:2;
       x=0;
       y=5;
       #sign{text:Press_E_to_pick_up...,abc:123,itstrue};
@@ -169,17 +181,37 @@ var levels = [
       #block*100&3,cracked:1;
       x=1;
       y=5;
-      #sign{text:Skelly_is_deceiving};
+      #sign{text:Press_SHIFT_to_crouch};
       x+3;
-      #brick;
+      #glass;
       x=9;
       y=4;
       @rat;
       x+3;
       y-2;
       @skelly;
+      x=17;
+      y=2;
+      @bat;
+      x=24;
+      y=5;
+      @bat;
       x=23;
       y=5;
+      x-3;
+      y-2;
+      #glass;
+      y+1;
+      x-1;
+      #glass*4;
+      x-1;
+      y-2;
+      #glass;
+      x-8;
+      y-1;
+      #glass;
+      x-1;
+      y-1;
       #goal;
     `,
     player: {

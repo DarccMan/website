@@ -627,6 +627,7 @@ onkeydown = function (e) {
         }; break;
         case "b": {
           if (lvl == 1) {
+            console.log("Cool.");
             player.x = 21 * tw;
             player.y = 6.5 * tw;
             player.vx = 0;

@@ -119,6 +119,11 @@ var data = {
       walkInto: true,
       pick: true,
     },
+    glass: {
+      color: "#C9FFFF30",
+      images: 1,
+      collide: true,
+    },
   },
   enemies: { // Enemy settings
     rat: {
@@ -140,6 +145,7 @@ var data = {
         "alt",
         "test",
         "scaffold",
+        "glass",
       ],
       death: [ // Dies from these
         "spike",
@@ -199,6 +205,7 @@ var data = {
         "alt",
         "test",
         "scaffold",
+        "glass",
       ],
       death: [ // Dies from these
         "spike",
