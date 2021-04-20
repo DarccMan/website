@@ -34,6 +34,16 @@ if (debugMode) {
   /* Add ignoreDisabled */
   // levels[1] = null;
 }
+if (F.url.query.speedrun) {
+  startState = "play";
+}
+if (F.url.query.graphics) {
+  if (
+    parseInt(F.url.query.graphics) == F.url.query.graphics
+  ) {
+    data.graphics = parseInt(F.url.query.graphics);
+  }
+}
 var player = null;
 var grid = [];
 var cam = {

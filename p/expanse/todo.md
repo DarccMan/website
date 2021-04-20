@@ -1,5 +1,6 @@
 # Features
  - Add Levels
+ - Change controls
 
 # Levels
  - 4 Shorten staircase
@@ -15,6 +16,7 @@
 # Technical
  <!-- - Load all levels at start -->
  - OPTIMISE on high graphics
+ - Image smoothing
 
 
 
