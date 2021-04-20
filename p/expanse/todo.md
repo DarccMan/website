@@ -6,6 +6,7 @@
 
 # Small stuff
  - Hide player hold in transition
+ - Change background colour
 
 # Bugs
  - Fix crouch under block not moving

@@ -574,6 +574,17 @@ function update(mod) {
       if (global.keyOnce_start) {
         gameState = "play";
         lvl = 0;
+        if (!global.firstStarted) {
+          if (F.url.query.lvl) {
+            if (
+              parseInt(F.url.query.lvl) >= 0
+              && parseInt(F.url.query.lvl) < levels.length
+            ) {
+              lvl = parseInt(F.url.query.lvl);
+              global.firstStarted = true;
+            }
+          }
+        }
         reset();
         global.lastRestart = Date.now();
       }
