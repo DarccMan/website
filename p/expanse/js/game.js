@@ -21,7 +21,7 @@ ctx2 = canvas2.getContext("2d");
 
 /* Create global variables */
 var debugMode = false;
-debugMode = true;
+// debugMode = true;
 startState = "start";
 if (F.url.online) {
   debugMode = false;
@@ -31,6 +31,7 @@ if (debugMode) {
   data.graphics = 2;
   lvl = 4;
   startState = "play";
+  /* Add ignoreDisabled */
   // levels[1] = null;
 }
 var player = null;

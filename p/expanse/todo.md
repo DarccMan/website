@@ -8,10 +8,11 @@
  - Hide player hold in transition
 
 # Bugs
- - 
+ - Fix crouch under block not moving
+ - FIX JUMP MECHS OH MY GOSH
 
 # Technical
- - Load all levels at start
+ <!-- - Load all levels at start -->
  - OPTIMISE on high graphics
 
 

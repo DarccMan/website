@@ -72,12 +72,13 @@ function update(mod) {
     cb = null;
     p = {...playerHit};
     p.y += player.vy;
+    p2 = {...playerHit};
+    p2.y -= 5;
+    p2.h = 20;
+    walkInto = false;
     X: for (x = minx; x < maxx; x++) {
       for (y = miny; y < maxy; y++) {
-        if (
-          data.blocks[grid[x][y].block]?.collide
-          && !data.blocks[grid[x][y].block]?.walkInto
-        ) {
+        if (data.blocks[grid[x][y].block]?.collide) {
           if (F.collide(p, {
             x: (x + 0.001) * tw,
             y: (y + 0.001) * tw,
@@ -85,7 +86,23 @@ function update(mod) {
             h: tw + 1,
           })) {
             cb = grid[x][y];
-            break X;
+
+            /* Go into walkInto block */
+            if (
+              data.blocks[grid[x][y].block]?.walkInto
+            ) {
+              if (F.collide(p2, {
+                x: (x + 0.001) * tw,
+                y: (y + 0.001) * tw,
+                w: tw + 1,
+                h: tw + 1,
+              })) {
+                walkInto = true;
+                cb = null;
+              }
+            } else {
+              break X;
+            }
           }
         }
       }
@@ -99,12 +116,35 @@ function update(mod) {
 
     /* Player jump */
     if (!player.crouch && keysDown.player_up) {
-      if (
-        player.jumpTime > Date.now() - data.v.jm
-        && player.jumpTime < Date.now() - data.v.jc
-      ) {
-        player.vy -= data.v.ja;
+      /* Extra jump */
+      //! Fix. Not working
+      X: for (x = minx; x < maxx; x++) {
+        for (y = miny; y < maxy; y++) {
+          if (
+            data.blocks[grid[x][y].block]?.walkInto
+          ) {
+            if (F.collide(p, {
+              x: (x + 0.001) * tw,
+              y: (y + 0.001) * tw,
+              w: tw + 1,
+              h: tw + 1,
+            })) {
+              cb = grid[x][y];
+              break X;
+            }
+          }
+        }
       }
+      if (!cb) {
+        if (
+          player.jumpTime > Date.now() - data.v.jm
+          && player.jumpTime < Date.now() - data.v.jc
+        ) {
+          player.vy -= data.v.ja;
+        }
+      }
+
+      //! Fix. Add collision for walkInto
       cb = null;
       p = {...playerHit};
       p.y += player.vy + p.h - 1;

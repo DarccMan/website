@@ -245,7 +245,7 @@ var levels = [
       #block*100&3,cracked:1;
       x=1;
       y=7;
-      #scaffold*3;
+      #scaffold;
       x=6;
       y=8;
       #brick;
@@ -255,10 +255,12 @@ var levels = [
       y-1;
       x-1;
       #goal;
+      x-1;
+      @rat;
       y=7;
       x-5;
       #sign{text:Go_into_the_blocks};
-      x+13;
+      x+7;
       @skelly;
       y-2;
       @rat;
@@ -287,9 +289,24 @@ var levels = [
       y=5;
       #lamp;
       x+2;
+      y-1;
       #block;
+      y-1;
+      #block;
+      #block;
+      #scaffold;
+      #scaffold;
       x+1;
-      #block;
+      y+2;
+      #scaffold;
+      x+1;
+      #scaffold;
+      x-1;
+      y-1;
+      #scaffold;
+      x-1;
+      y-1;
+      #scaffold;
     `,
     player: {
       x: 4,
