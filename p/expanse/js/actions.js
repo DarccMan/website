@@ -44,26 +44,28 @@ yoMama = {
 };
 
 /* Set up game */
-function setLevel(number) {
-  grid = [];
-  for (x = 0; x < levels[number].dim[0]; x++) {
-    grid[x] = [];
-    for (y = 0; y < levels[number].dim[1]; y++) {
-      if (!grid[x][y]) {
-        grid[x][y] = {
-          block: "none",
-        };
-      }
+var loadedLevels = [];
+function loadLevels() {
+  for (l = 0; l < levels.length; l++) {
+    if (levels[l] && !levels[l].disabled) {
+      ld = readLevelData(levels[l].set);
+      loadedLevels.push({
+        ...ld,
+        ...levels[l],
+      });
     }
   }
-  enemies = [];
+}
+
+function setLevel(number) {
   /* Read level file */
-  readLevelData(levels[number].set, grid, enemies);
+  grid = JSON.parse(JSON.stringify(loadedLevels[number].grid));
+  enemies = JSON.parse(JSON.stringify(loadedLevels[number].enemies));
 
   /* Create player */
   player = {
-    x: (levels[number].player?.x || 2) * tw,
-    y: (levels[number].player?.y || 2) * tw,
+    x: (loadedLevels[number].player?.x || 2) * tw,
+    y: (loadedLevels[number].player?.y || 2) * tw,
     w: tw * data.player.w,
     h: tw * data.player.h,
     vx: 0,
@@ -73,7 +75,19 @@ function setLevel(number) {
   };
 }
 
-function readLevelData(str, grid, enemies) {
+function readLevelData(str) {
+  __grid = [];
+  for (x = 0; x < levels[l].dim[0]; x++) {
+    __grid[x] = [];
+    for (y = 0; y < levels[l].dim[1]; y++) {
+      if (!__grid[x][y]) {
+        __grid[x][y] = {
+          block: "none",
+        };
+      }
+    }
+  }
+  __enemies = [];
   fen = str.replace(/(\r\n|\n|\r| )/gm, "").replaceAll("_", " ").split(";");
   x = 0;
   y = 0;
@@ -131,7 +145,7 @@ function readLevelData(str, grid, enemies) {
         }
         random = arr;
         for (j = 0; j < amount; j++) {
-          grid[x % grid.length][Math.min(grid[0].length - 1, Math.floor(x / grid.length))] = {
+          __grid[x % __grid.length][Math.min(__grid[0].length - 1, Math.floor(x / __grid.length))] = {
             block: F.randomChoice(random),
             ...nbt,
           };
@@ -162,13 +176,13 @@ function readLevelData(str, grid, enemies) {
         if (parseFloat(value) == value) {
           value = parseFloat(value);
           if (fen[i].s(1) == "+") {
-            x += value * grid.length;
+            x += value * __grid.length;
           } else if (fen[i].s(1) == "-") {
-            x -= value * grid.length;
+            x -= value * __grid.length;
           } else if (fen[i].s(1) == "=") {
             ox = x;
-            x = value * grid.length;
-            x += ox % grid.length;
+            x = value * __grid.length;
+            x += ox % __grid.length;
           } else {
             console.error("Level Generation:\nSet Y operater must be '=', '+' or '-'")
           }
@@ -192,10 +206,10 @@ function readLevelData(str, grid, enemies) {
           }
         }
         if (data.enemies[type]) {
-          enemies.push({
+          __enemies.push({
             type,
-            x: ((x % grid.length) * tw) + ((1 - data.enemies[type].w) * tw / 2),
-            y: ((Math.floor(x / grid.length) + 1) * tw) - (data.enemies[type].rh ? (
+            x: ((x % __grid.length) * tw) + ((1 - data.enemies[type].w) * tw / 2),
+            y: ((Math.floor(x / __grid.length) + 1) * tw) - (data.enemies[type].rh ? (
               data.enemies[type].rh * tw
             ) : (
               data.enemies[type].h * tw
@@ -216,6 +230,11 @@ function readLevelData(str, grid, enemies) {
         }
       }; break;
     }
-    y = Math.floor(x / grid.length);
+    y = Math.floor(x / __grid.length);
   }
+
+  return ({
+    grid: __grid,
+    enemies: __enemies,
+  });
 }

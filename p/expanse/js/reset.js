@@ -12,6 +12,11 @@ function reset() {
     global.timerEnd = ((Date.now() - global.timeStart) / 1000).toFixed(2).toString();
     return;
   }
+
+  /* Load all levels */
+  if (gameState == "load") {
+    loadLevels();
+  }
   setLevel(lvl);
 
   /* Start level */

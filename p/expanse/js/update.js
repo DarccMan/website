@@ -74,7 +74,10 @@ function update(mod) {
     p.y += player.vy;
     X: for (x = minx; x < maxx; x++) {
       for (y = miny; y < maxy; y++) {
-        if (data.blocks[grid[x][y].block]?.collide) {
+        if (
+          data.blocks[grid[x][y].block]?.collide
+          && !data.blocks[grid[x][y].block]?.walkInto
+        ) {
           if (F.collide(p, {
             x: (x + 0.001) * tw,
             y: (y + 0.001) * tw,
@@ -110,7 +113,7 @@ function update(mod) {
         for (y = miny; y < maxy; y++) {
           if (
             data.blocks[grid[x][y].block]?.collide
-            && !data.blocks[grid[x][y].block]?.walkInto
+            // && !data.blocks[grid[x][y].block]?.walkInto
           ) {
             if (F.collide(p, {
               x: (x + 0.001) * tw,
