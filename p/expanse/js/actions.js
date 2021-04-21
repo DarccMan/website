@@ -12,6 +12,9 @@ async function death() {
   player.animate = 1;
   await F.sleep(0.4);
   player.animate = 0;
+  if (F.url.query.restart) {
+    lvl = 0;
+  }
   reset();
 }
 

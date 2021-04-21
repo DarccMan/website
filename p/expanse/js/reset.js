@@ -1,4 +1,18 @@
 function reset() {
+  if (F.url.query.speedrun) {
+    if (!global.firstStarted) {
+      if (F.url.query.lvl) {
+        if (
+          parseInt(F.url.query.lvl) >= 0
+          && parseInt(F.url.query.lvl) < levels.length
+        ) {
+          lvl = parseInt(F.url.query.lvl);
+          global.firstStarted = true;
+        }
+      }
+    }
+  }
+
   /* Skip level if marked as disabled */
   for (i = 0; i < levels.length; i++) {
     if (!levels[lvl] || levels[lvl].disabled) {

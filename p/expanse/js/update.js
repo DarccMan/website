@@ -3,6 +3,9 @@ function update(mod) {
   var keysDown = F.getKeyCodes(controls);
   if (keysDown.game_restart) {
     if (global.keyOnce_restart) {
+      if (F.url.query.restart) {
+        lvl = 0;
+      }
       reset();
       // location.reload();
       global.keyOnce_restart = false;

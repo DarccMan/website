@@ -12,6 +12,7 @@
 # Bugs
  - Fix crouch under block not moving
  - FIX JUMP MECHS OH MY GOSH
+ - Fix restart
 
 # Technical
  <!-- - Load all levels at start -->
