@@ -13,10 +13,14 @@
  - Fix crouch under block not moving
  - FIX JUMP MECHS OH MY GOSH
  - Fix restart
+ - Fix player dynamic camera movement
 
 # Technical
  <!-- - Load all levels at start -->
  - OPTIMISE on high graphics
+ - - Lower shadow render resolution
+ - - Floor renders
+ - - Move sections to seperate canvases
  - Image smoothing
 
 

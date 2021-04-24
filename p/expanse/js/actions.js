@@ -1,6 +1,7 @@
 /* Death function */
 async function death() {
   gameState = "death";
+  global.deaths++;
   global.lastDeath = Date.now();
   global.deathMessage = F.randomChoice(data.death_lines);
   player.status = "death";
@@ -12,7 +13,7 @@ async function death() {
   player.animate = 1;
   await F.sleep(0.4);
   player.animate = 0;
-  if (F.url.query.restart) {
+  if (F.url.query.speedrun) {
     lvl = 0;
   }
   reset();
@@ -240,4 +241,51 @@ function readLevelData(str) {
     grid: __grid,
     enemies: __enemies,
   });
+}
+
+/* Start game */
+function startPlay() {
+  gameState = "play";
+  lvl = 0;
+  if (!global.firstStarted) {
+    if (F.url.query.lvl) {
+      if (
+        parseInt(F.url.query.lvl) >= 0
+        && parseInt(F.url.query.lvl) < levels.length
+      ) {
+        lvl = parseInt(F.url.query.lvl);
+        global.firstStarted = true;
+      }
+    }
+  }
+  reset();
+  global.lastRestart = Date.now();
+}
+
+function decodeStats(str) {
+  stats = {
+    time: parseInt(str.s(20, 26)) / 100,
+    dateCode: parseInt(str.s(2, 15)),
+    date: new Date(parseInt(str.s(2, 15))),
+    deaths: parseInt(str[28]),
+    restarts: parseInt(str[29]),
+    cheats: str[1] == 1,
+    debug: str[16] == 1,
+    egg: str[17] == 1,
+    speedrun: str[18] == 1,
+    key: str[19] == 1,
+    graphics: parseInt(str[15]),
+    levels: parseInt(str.s(26, 28)),
+    valid: str.s(-1) == 1,
+  };
+
+  console.table(stats);
+}
+
+function checkStats() {
+  if (global.lastStats) {
+    decodeStats(global.lastStats);
+  } else {
+    console.log("No previous stats available :(");
+  }
 }

@@ -18,6 +18,7 @@ canvas2 = doc.create("canvas")
 canvas2.width = canvas.width;
 canvas2.height = canvas.height;
 ctx2 = canvas2.getContext("2d");
+ctx2.imageSmoothingEnabled = false;
 
 /* Create global variables */
 var debugMode = false;
@@ -31,7 +32,8 @@ if (debugMode) {
   data.graphics = 2;
   // lvl = 4;
   startState = "play";
-  /* Add ignoreDisabled */
+  // levels = [levels[0]];
+  // levels = [levels[0], levels[1]];
   // levels[1] = null;
 }
 if (F.url.query.speedrun) {

@@ -43,10 +43,10 @@ function render() {
           if (data.graphics > 1) {
             ctx.drawImage(
               images.none_0,
-              (ax + x) * tw,
-              (ay + y) * tw,
-              tw,
-              tw,
+              Math.floor((ax + x) * tw),
+              Math.floor((ay + y) * tw),
+              Math.floor(tw),
+              Math.floor(tw),
             );
           } else {
             ctx.strokeStyle = "black";
@@ -1038,4 +1038,7 @@ function render() {
       canvas.height * 0.1,
     );
   }
+
+  // ctx.fillCanvas("white");
+  // ctx.drawImage(canvas2, 0, 0, canvas.width, canvas.height);
 }

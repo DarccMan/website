@@ -218,37 +218,6 @@ var data = {
     },
   },
   SHAKY: 50,
-  outlines: [ // Which blocks use outline
-    "block",
-    "unknown",
-    "cracked",
-    "trap",
-    "brick",
-    "smile",
-  ],
-  collide: [ // Player collides with these
-    "block",
-    "unknown",
-    "cracked",
-    "smile",
-    "brick",
-    "alt",
-    "test",
-    "scaffold",
-  ],
-  walkInto: [
-    "scaffold",
-  ],
-  //! Add light amount
-  light: [ // Give off light
-    "torch",
-  ],
-  death: [ // Player dies from these
-    "spike",
-  ],
-  win: [ // Player passes level from these
-    "goal",
-  ],
   shadow: { // Shadow settings
     p_r0: 0.5, // Small radius around player
     p_r1: 3, // Large radius around player

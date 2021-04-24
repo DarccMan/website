@@ -44,7 +44,7 @@ var levels = [
     `,
     player: {
       x: 3,
-      y: 2.5,
+      y: 2.8,
     },
   },
   {

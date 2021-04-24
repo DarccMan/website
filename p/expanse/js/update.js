@@ -3,11 +3,12 @@ function update(mod) {
   var keysDown = F.getKeyCodes(controls);
   if (keysDown.game_restart) {
     if (global.keyOnce_restart) {
-      if (F.url.query.restart) {
+      if (F.url.query.speedrun) {
         lvl = 0;
       }
       reset();
       // location.reload();
+      global.restartCount++;
       global.keyOnce_restart = false;
     }
   } else {
@@ -275,8 +276,28 @@ function update(mod) {
     }
 
     /* Add velocity to player position */
+    old = {...player};
     player.x += player.vx;
     player.y += player.vy;
+
+    /* Check for change in movement */
+    if (
+      old.x != player.x
+      || old.y != player.y
+    ) {
+      if (!global.playerMoveAmount) {
+        global.playerMoveAmount = 0;
+      }
+      global.playerMoveAmount++;
+
+      if (
+        F.url.query.speedrun
+        && lvl == 0
+        && global.playerMoveAmount == 2
+      ) {
+        global.timeStart = Date.now();
+      }
+    }
 
     /* Stop player getting stuck in block */
     cb = null;
@@ -575,29 +596,19 @@ function update(mod) {
   } else if (gameState == "start") {
     if (keysDown.game_start) {
       if (global.keyOnce_start) {
-        gameState = "play";
-        lvl = 0;
-        if (!global.firstStarted) {
-          if (F.url.query.lvl) {
-            if (
-              parseInt(F.url.query.lvl) >= 0
-              && parseInt(F.url.query.lvl) < levels.length
-            ) {
-              lvl = parseInt(F.url.query.lvl);
-              global.firstStarted = true;
-            }
-          }
-        }
-        reset();
-        global.lastRestart = Date.now();
+        startPlay();
       }
     } else {
       global.keyOnce_start = true;
     }
   } else if (gameState == "end") {
     if (keysDown.game_start) {
-      gameState = "start";
-      global.keyOnce_start = false;
+      if (!F.url.query.speedrun) {
+        gameState = "start";
+        global.keyOnce_start = false;
+      } else {
+        startPlay();
+      }
     }
   }
 
@@ -614,6 +625,7 @@ function update(mod) {
   if (gameState != "load") {
     /* Debug mode */
     if (keysDown.debug) {
+      global.stats.debug = true;
       /* Show hitboxes */
       p = {...playerHit};
       ctx.fillStyle = "#0F02";
@@ -641,6 +653,7 @@ function update(mod) {
           player.y += - ((- cam.y + player.y) - F.mouse.y) * mod * 5;
           player.vx = 0;
           player.vy = 0;
+          global.stats.cheat = true;
         }
       }
 
@@ -648,6 +661,7 @@ function update(mod) {
       if (keysDown.debug_skipLevel) {
         if (global.keyOnce_skipLevel) {
           goal();
+          global.stats.cheat = true;
           global.keyOnce_skipLevel = false;
         }
       } else {
@@ -686,6 +700,7 @@ onkeydown = function (e) {
       switch (fancy.keys()[i]) {
         case "a": {
           alert("LETS GO!!");
+          global.stats.key = true;
         }; break;
         case "b": {
           if (lvl == 1) {
@@ -696,6 +711,8 @@ onkeydown = function (e) {
             player.vy = 0;
             player.flip = -1;
           }
+          global.stats.cheat = true;
+          global.stats.key = true;
         }; break;
         case "c": {
           if (gameState == "end") {
@@ -703,6 +720,7 @@ onkeydown = function (e) {
               global.drawSkelly = Date.now();
             }
           }
+          global.stats.key = true;
         }; break;
       }
     }
