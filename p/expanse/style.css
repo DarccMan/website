@@ -16,6 +16,9 @@ body {
   color: #EEE;
   user-select: none;
 }
+#contain {
+  
+}
 #wrap {
   position: relative;
   border: 4px solid #112;

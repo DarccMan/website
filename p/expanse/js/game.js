@@ -12,8 +12,8 @@ cv.main.style.width = _ws + "px";
 cv.main.style.height = _hs + "px";
 cv.main.w = _w * data.resolution;
 cv.main.h = _h * data.resolution;
-cv.main.parentNode.style.width = _ws + "px";
-cv.main.parentNode.style.height = _hs + "px";
+cv.main.parentNode.style.width = _ws;
+cv.main.parentNode.style.height = _hs;
 cv.main.setAttribute("oncontextmenu", "return(false);");
 ctxs.main = cv.main.getContext("2d");
 var ctx = ctxs.main;
@@ -29,7 +29,7 @@ cv.shadow.initialize();
 
 /* Create global variables */
 var debugMode = false;
-debugMode = true;
+// debugMode = true;
 startState = "start";
 if (F.url.online) {
   debugMode = false;
@@ -37,7 +37,7 @@ if (F.url.online) {
 var lvl = 0;
 if (debugMode) {
   // data.graphics = 2;
-  lvl = 1;
+  lvl = 5;
   startState = "play";
   // levels = [levels[0]];
   // levels = [levels[0], levels[1]];

@@ -452,7 +452,7 @@ function render() {
       // cv.shadow.w = cv.main.w * res;
       cv.shadow.style.width = _ws;
       cv.shadow.style.height = _hs;
-      res = 0.8;
+      res = 0.2;
       cv.shadow.width = _w * res;
       cv.shadow.height = _h * res;
       ctxs.shadow.fillCanvas("#0008");
@@ -471,22 +471,18 @@ function render() {
       ctxs.shadow.fillCanvas(grd);
 
       /* Create inverted opacity shadow around all blocks */
-      ctxs.shadow.translate(
-        - cam.x / 2,
-        - cam.y / 2,
-      );
-      ctxs.shadow.fillRect(
-        10, 10, 10, 10,
-      );
-      for (x = Math.max(0, Math.floor(cam.x / tw)); x < Math.min(grid.length, Math.floor((cam.x + cv.main.w) / tw)); x++) {
-        for (y = Math.max(0, Math.floor(cam.y / tw)); y < Math.min(grid[0].length, Math.floor((cam.y + cv.main.h) / tw)); y++) {
+      /* for (x = Math.max(0, Math.floor(cam.x / tw)); x < Math.min(grid.length, Math.floor((cam.x + cv.main.w) / tw)); x++) {
+        for (y = Math.max(0, Math.floor(cam.y / tw)); y < Math.min(grid[0].length, Math.floor((cam.y + cv.main.h) / tw)); y++) { */
+      res1 = res;
+      for (x = 0; x < grid.length; x++) {
+        for (y = 0; y < grid[x].length; y++) {
           if (data.blocks[grid[x][y]?.block]?.light) {
             grd = ctxs.shadow.createRadialGradient(
-              ((x + 0.5) * tw) * res,
-              ((y + 0.5) * tw) * res,
+              - cam.x * res + (x + 0.5) * tw * res1,
+              - cam.y * res + (y + 0.5) * tw * res1,
               tw * data.shadow.r0 * res * data.blocks[grid[x][y]?.block].light,
-              ((x + 0.5) * tw) * res,
-              ((y + 0.5) * tw) * res,
+              - cam.x * res + (x + 0.5) * tw * res1,
+              - cam.y * res + (y + 0.5) * tw * res1,
               tw * data.shadow.r1 * res * data.blocks[grid[x][y]?.block].light,
             );
             grd.addColorStop(0, "#FFF");
@@ -514,13 +510,6 @@ function render() {
 
       /* Draw to cv.main */
       ctxs.shadow.putImageData(imgd, 0, 0);
-      /* ctx.drawImage(
-        cv.shadow,
-        0,
-        0,
-        cv.main.width,
-        cv.main.height,
-      ); */
     } else {
       cv.shadow.style.display = "none";
     }
