@@ -16,14 +16,21 @@ body {
   color: #EEE;
   user-select: none;
 }
-#canvas_contain {
-  text-align: center;  
-}
-canvas {
-  background-color: rgba(60, 60, 60);
+#wrap {
+  position: relative;
   border: 4px solid #112;
   border-radius: 10px;
+  background-color: rgba(60, 60, 60);
   margin-right: 10px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+canvas {
+  border-radius: 6px;
+  position: fixed;
+}
+canvas.hidden {
+  display: none;
 }
 select, input, button, textarea {
   color: black;

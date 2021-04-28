@@ -8,6 +8,7 @@ function init() {
   // uncomment_for_error;'
   handle.continue();
 }
+global = {};
 
 
 /* Error Handling */
@@ -129,9 +130,9 @@ sc.init = function () {
 
     doc.id("sc_contain").innerHTML += [
       '<article class="sc {unknown}" id="sc_n{num};">',
-      '  <button class="sc link">',
+      '  <button class="sc link" tabindex=-1>',
       '    {img}',
-      '    <a href="{href}" title="Go to \'{href}\'" class="{unknown}">',
+      '    <a href="{href}" title="Go to \'{href}\'" class="{unknown}" onfocus="sc.focus(this)" onblur="sc.blur(this)">',
       '      {name}',
       '    </a>',
       '  </button>',
@@ -197,6 +198,42 @@ sc.img_err = function (el) {
   el.className += " unloaded";
 }
 
+sc.getAll = function () {
+  arr = [];
+  doc.id("sc_contain").childNodes.forEach((el) => {
+    el.childNodes[1].childNodes.forEach((el2) => {
+      if (el2.tagName == "A") {
+        arr.push(el2);
+      }
+    })
+  });
+  return (arr);
+}
+
+addEventListener("mousedown", (e) => {
+  if (e.button == 0) {
+    global.scFocusVal = false;
+    sc.getAll().forEach((el) => {
+      sc.blur(el);
+    });
+  }
+});
+addEventListener("keydown", (e) => {
+  if (e.key == "Tab") {
+    global.scFocusVal = true;
+  }
+});
+
+sc.focus = function (el) {
+  if (global.scFocusVal) {
+    el.parentNode.className += " focus";
+  }
+}
+
+sc.blur = function (el) {
+  el.parentNode.className = el.parentNode.className.replaceAll(" focus", "");
+}
+
 
 /* Header */
 var header = {};
@@ -213,23 +250,28 @@ header.init = function () {
   doc.id("title").innerText = text;
 }
 
-header.change = function () {
-  old = ls.get().header;
-  if (!old) {
-    header.reset();
-    old = "New Tab";
-  }
-  text = prompt("Change Header", old);
-  if (text) {
-    ls.set(d => {
-      d.header = text;
-    });
-  } else {
-    if (text == "") {
+header.change = function (e) {
+  if (
+    !e
+    || ["Enter", "Space"].includes(e.code)
+  ) {
+    old = ls.get().header;
+    if (!old) {
       header.reset();
+      old = "New Tab";
     }
+    text = prompt("Change Header", old);
+    if (text) {
+      ls.set(d => {
+        d.header = text;
+      });
+    } else {
+      if (text == "") {
+        header.reset();
+      }
+    }
+    header.init();
   }
-  header.init();
 }
 
 

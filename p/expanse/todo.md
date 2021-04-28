@@ -1,31 +1,55 @@
 # Features
- - Add Levels
  - Change controls
+ - Add shadow block (Negative light source)
 
 # Levels
- - 4 Shorten staircase
+ - Add Levels
 
 # Small stuff
  - Hide player hold in transition
  - Change background colour
 
 # Bugs
- - Fix crouch under block not moving
- - FIX JUMP MECHS OH MY GOSH
- - Fix restart
- - Fix player dynamic camera movement
+ - Crouching while moving stops movement until uncrouch
+ - Jump mechanics ALL broken
+ - Completing level 0 restarts
+ - Debug movement not aligned to player
+ - Fix shadow misalignment
+ - Shadows not aligned to blocks or player
+ - Shadow stops rendering if block off screen, even if shadow is not
 
 # Technical
- <!-- - Load all levels at start -->
- - OPTIMISE on high graphics
- - - Lower shadow render resolution
- - - Floor renders
- - - Move sections to seperate canvases
  - Image smoothing
 
+ - Overhaul
+ - - ALL CSS!
+ - - Canvas creation
+ - - - Size
+
+# Optimisations
+ - Lower shadow render resolution
+ - Floor renders
+ - Move sections to seperate canvases
+
+# CSS / HTML
+ - Fix scroll
+ - Rewrite text
+ - Change background (Red?)
+ - Add footer
 
 
 
+---
 
-# End
+# Do when finished
  - Remove levels
+
+
+
+
+
+<br>
+<br>
+<p style="color:#555">
+Depression levels are directly proportional to the length of this list
+</p>

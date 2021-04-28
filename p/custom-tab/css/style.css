@@ -8,6 +8,11 @@ header {
   font-size: 40px;
   background-color: #050505B0;
 }
+header:focus {
+  outline: none;
+  background: #0b0b18;
+  background: linear-gradient(180deg, #0b0b18 0%, #2d3046 100%);
+}
 header h1 {
   margin-top: 25px;
   font-size: 60px;
@@ -74,6 +79,9 @@ header h1 {
 #sc_contain .sc button.link:hover {
   background-color: #030303C0;
 }
+#sc_contain .sc button.link.focus {
+  background-color: #202020B0;
+}
 #sc_contain .sc button.link a {
   display: inline-block;
   margin-left: -2.5%;
@@ -83,21 +91,30 @@ header h1 {
   border-radius: 10px;
 }
 #sc_contain .sc button.link a.unknown {
-  color: #AAA;
+  color: #666;
+}
+#sc_contain .sc button.link a:focus {
+  outline: none;
 }
 #sc_contain .sc button.edit {
   position: absolute;
-  right: 5px;
-  bottom: -5px;
+  right: 2px;
+  bottom: -7px;
   height: 25px;
   width: 25px;
-  padding: 5px;
+  padding-top: 3px;
+  padding-left: 4px;
   font-size: 20px;
   border: none;
   background-color: #0000;
 }
 #sc_contain .sc button.edit:focus {
   outline: none;
+  background-color: #888A;
+  border-radius: 30%;
+}
+#sc_contain .sc button.edit:focus i {
+  color: white;
 }
 #sc_contain .sc button.edit i {
   color: #CCC;

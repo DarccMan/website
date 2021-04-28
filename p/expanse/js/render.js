@@ -2,10 +2,10 @@ function render() {
   if (!["load", "start", "end"].includes(gameState)) {
     /* Align camera to player position */
     if (data.graphics >= data.cam.graphics) {
-      minx = canvas.width * data.cam.minx;
-      maxx = canvas.width * data.cam.minx;
-      miny = canvas.height * data.cam.miny;
-      maxy = canvas.height * data.cam.maxy;
+      minx = cv.main.width * data.cam.minx;
+      maxx = cv.main.width * data.cam.minx;
+      miny = cv.main.height * data.cam.miny;
+      maxy = cv.main.height * data.cam.maxy;
       posx = player.x - cam.x
       posy = player.y - cam.y
       if (posx < minx) {
@@ -21,8 +21,8 @@ function render() {
         cam.y += posy - maxy;
       }
     } else {
-      cam.x = player.x + (player.w / 2) - (canvas.width * data.cam.x);
-      cam.y = player.y + (player.h / 2) - (canvas.height * data.cam.y);
+      cam.x = player.x + (player.w / 2) - (cv.main.width * data.cam.x);
+      cam.y = player.y + (player.h / 2) - (cv.main.height * data.cam.y);
     }
 
     ctx.fillCanvas(data.blocks.none.color);
@@ -45,8 +45,8 @@ function render() {
               images.none_0,
               Math.floor((ax + x) * tw),
               Math.floor((ay + y) * tw),
-              Math.floor(tw),
-              Math.floor(tw),
+              Math.ceil(tw),
+              Math.ceil(tw),
             );
           } else {
             ctx.strokeStyle = "black";
@@ -284,10 +284,10 @@ function render() {
         );
         ctx.drawImage(
           images["player_transition_" + (data.graphics < 3 ? 0 : (frame.current % playerImages.transition))],
-          (player.animate - 0.5) * (canvas.width + (player.w / player.h) * canvas.height),
-          canvas.height / 10,
-          (player.w / player.h) * canvas.height,
-          canvas.height,
+          (player.animate - 0.5) * (cv.main.width + (player.w / player.h) * cv.main.height),
+          cv.main.height / 10,
+          (player.w / player.h) * cv.main.height,
+          cv.main.height,
         );
         ctx.restore();
       } else {
@@ -445,16 +445,20 @@ function render() {
     ctx.restore();
     if (data.graphics > 2 || data.graphics == 1) {
       /* Shadow Subtraction */
+      cv.shadow.style.display = "block";
       res = data.graphics > 2 ? data.shadow.resolution_high : data.shadow.resolution_low;
-      /* Resize canvas to resolution */
-      canvas2.style.width = canvas.style.width;
-      canvas2.style.height = canvas.style.height;
-      canvas2.width = parseInt(canvas2.style.width) * res;
-      canvas2.height = parseInt(canvas2.style.height) * res;
-      ctx2.fillCanvas("#0008");
+      /* Resize cv.main to resolution */
+      // cv.shadow.h = cv.main.h * res;
+      // cv.shadow.w = cv.main.w * res;
+      cv.shadow.style.width = _ws;
+      cv.shadow.style.height = _hs;
+      res = 0.8;
+      cv.shadow.width = _w * res;
+      cv.shadow.height = _h * res;
+      ctxs.shadow.fillCanvas("#0008");
 
       /* Create inverted opacity shadow around player */
-      var grd = ctx2.createRadialGradient(
+      var grd = ctxs.shadow.createRadialGradient(
         (- cam.x + player.x + (player.w / 2)) * res,
         (- cam.y + player.y + (player.w / 2)) * res,
         Math.max(player.w, player.h) * data.shadow.p_r0 * res,
@@ -464,29 +468,36 @@ function render() {
       );
       grd.addColorStop(0, "#FFF");
       grd.addColorStop(1, "#0000");
-      ctx2.fillCanvas(grd);
+      ctxs.shadow.fillCanvas(grd);
 
       /* Create inverted opacity shadow around all blocks */
-      for (x = 0; x < grid.length; x++) {
-        for (y = 0; y < grid[0].length; y++) {
+      ctxs.shadow.translate(
+        - cam.x / 2,
+        - cam.y / 2,
+      );
+      ctxs.shadow.fillRect(
+        10, 10, 10, 10,
+      );
+      for (x = Math.max(0, Math.floor(cam.x / tw)); x < Math.min(grid.length, Math.floor((cam.x + cv.main.w) / tw)); x++) {
+        for (y = Math.max(0, Math.floor(cam.y / tw)); y < Math.min(grid[0].length, Math.floor((cam.y + cv.main.h) / tw)); y++) {
           if (data.blocks[grid[x][y]?.block]?.light) {
-            grd = ctx2.createRadialGradient(
-              (- cam.x + (x + 0.5) * tw) * res,
-              (- cam.y + (y + 0.5) * tw) * res,
+            grd = ctxs.shadow.createRadialGradient(
+              ((x + 0.5) * tw) * res,
+              ((y + 0.5) * tw) * res,
               tw * data.shadow.r0 * res * data.blocks[grid[x][y]?.block].light,
-              (- cam.x + (x + 0.5) * tw) * res,
-              (- cam.y + (y + 0.5) * tw) * res,
+              ((x + 0.5) * tw) * res,
+              ((y + 0.5) * tw) * res,
               tw * data.shadow.r1 * res * data.blocks[grid[x][y]?.block].light,
             );
             grd.addColorStop(0, "#FFF");
             grd.addColorStop(1, "#0000");
-            ctx2.fillCanvas(grd);
+            ctxs.shadow.fillCanvas(grd);
           }
         }
       }
 
       /* Invert opacity of all shadows */
-      imgd = ctx2.getImageData(0, 0, canvas.width, canvas.height);
+      imgd = ctxs.shadow.getImageData(0, 0, cv.main.width, cv.main.height);
       pix = imgd.data;
       for (i = 0, n = pix.length; i < n; i += 4) {
         if (
@@ -501,9 +512,17 @@ function render() {
         }
       }
 
-      /* Draw to canvas */
-      ctx2.putImageData(imgd, 0, 0);
-      ctx.drawImage(canvas2, 0, 0, canvas.width, canvas.height);
+      /* Draw to cv.main */
+      ctxs.shadow.putImageData(imgd, 0, 0);
+      /* ctx.drawImage(
+        cv.shadow,
+        0,
+        0,
+        cv.main.width,
+        cv.main.height,
+      ); */
+    } else {
+      cv.shadow.style.display = "none";
     }
 
     if (gameState == "play") {
@@ -511,7 +530,7 @@ function render() {
       time0 = 1500;
       time1 = 1000;
       if (global.lastRestart + time0 > Date.now()) {
-        ctx.font = canvas.width * 0.05 + "px " + data.font;
+        ctx.font = cv.main.width * 0.05 + "px " + data.font;
         h = "FF";
         if (data.graphics > 0) {
           h = Math.round((Math.min(time1, time0 - (Date.now() - global.lastRestart)) * (256 / time1)) * 0.7).toString(16);
@@ -527,8 +546,8 @@ function render() {
             number: lvl,
             name: levels[lvl].name || "Unknown",
           }),
-          canvas.width * 0.02,
-          canvas.width * 0.02,
+          cv.main.width * 0.02,
+          cv.main.width * 0.02,
         );
       }
 
@@ -547,18 +566,18 @@ function render() {
           ctx.fillStyle = "#B0B0B0" + (h.length < 2 ? "0" : "") + h;
           ctx.textBaseline = "top";
           ctx.textAlign = "center";
-          ctx.font = canvas.width * 0.05 + "px " + data.font;
+          ctx.font = cv.main.width * 0.05 + "px " + data.font;
           ctx.fillText(
             lang.sign,
-            canvas.width * 0.5,
-            canvas.height * 0.1,
+            cv.main.width * 0.5,
+            cv.main.height * 0.1,
           );
           ctx.fillStyle = "#FFFFFF" + (h.length < 2 ? "0" : "") + h;
-          ctx.font = canvas.width * 0.08 + "px " + data.font;
+          ctx.font = cv.main.width * 0.08 + "px " + data.font;
           ctx.fillText(
             global.signText,
-            canvas.width * 0.5,
-            canvas.height * 0.2,
+            cv.main.width * 0.5,
+            cv.main.height * 0.2,
           );
         }
       }
@@ -571,20 +590,20 @@ function render() {
         h = Math.round(player.animate * 256 / 10).toString(16);
       }
       ctx.fillCanvas("#FF0000" + (h.length < 2 ? "0" : "") + h);
-      ctx.font = canvas.width * 0.12 + "px " + data.font;
+      ctx.font = cv.main.width * 0.12 + "px " + data.font;
       ctx.fillStyle = "#FFF";
       if (data.graphics > 0) {
         ctx.save();
         ctx.translate(
-          canvas.width / 2,
-          canvas.height / 2,
+          cv.main.width / 2,
+          cv.main.height / 2,
         );
         ctx.rotate((1 - player.animate) * Math.PI / 2);
         ctx.translate(
-          - canvas.width / 2,
-          - canvas.height / 2,
+          - cv.main.width / 2,
+          - cv.main.height / 2,
         );
-        ctx.font = (canvas.width * 0.001) * (player.animate * 100) + "px " + data.font;
+        ctx.font = (cv.main.width * 0.001) * (player.animate * 100) + "px " + data.font;
         h = Math.round(player.animate * 256 / 2).toString(16);
         ctx.fillStyle = "#FFFFFF" + (h.length < 2 ? "0" : "") + h;
       }
@@ -592,23 +611,23 @@ function render() {
       ctx.textAlign = "center";
       ctx.fillText(
         global.deathMessage,
-        canvas.width * 0.5,
-        canvas.height * 0.3,
+        cv.main.width * 0.5,
+        cv.main.height * 0.3,
       );
       ctx.restore();
     } else if (gameState == "debug") {
-      ctx.font = canvas.width * 0.04 + "px " + data.font;
+      ctx.font = cv.main.width * 0.04 + "px " + data.font;
       ctx.textBaseline = "top";
       ctx.textAlign = "left";
       ctx.fillStyle = "#EEEE";
       ctx.fillText(
         lang.debug,
-        canvas.width * 0.02,
-        canvas.width * 0.02,
+        cv.main.width * 0.02,
+        cv.main.width * 0.02,
       );
     }
 
-    ctx.font = canvas.width * 0.04 + "px " + data.font;
+    ctx.font = cv.main.width * 0.04 + "px " + data.font;
     ctx.textBaseline = "top";
     ctx.textAlign = "left";
     ctx.fillStyle = "#EEE5";
@@ -616,8 +635,8 @@ function render() {
     time = ((Date.now() - global.timeStart) / 1000).toFixed(2).toString();
     ctx.fillText(
       lang.time_game.format(time),
-      canvas.width * 0.87 - canvas.width * 0.01 * time.length,
-      canvas.height * 0.02,
+      cv.main.width * 0.87 - cv.main.width * 0.01 * time.length,
+      cv.main.height * 0.02,
     );
   } else if (gameState == "start") {
     /* Title screen */
@@ -625,13 +644,13 @@ function render() {
 
     if (data.graphics > 1) {
       /* Draw background */
-      for (i = 0; i < Math.ceil(canvas.width / canvas.height) + 1; i++) {
+      for (i = 0; i < Math.ceil(cv.main.width / cv.main.height) + 1; i++) {
         ctx.drawImage(
           images.none_0,
-          ((i - 1) * canvas.height) + ((Date.now() / 10)) % canvas.height,
+          ((i - 1) * cv.main.height) + ((Date.now() / 10)) % cv.main.height,
           0,
-          canvas.height + 1,
-          canvas.height,
+          cv.main.height + 1,
+          cv.main.height,
         );
       }
 
@@ -640,13 +659,13 @@ function render() {
 
       if (data.graphics > 2) {
         /* Draw shadow */
-        var grd = ctx2.createRadialGradient(
-          canvas.width * m,
-          canvas.height * 0.6,
+        var grd = ctxs.shadow.createRadialGradient(
+          cv.main.width * m,
+          cv.main.height * 0.6,
           0,
-          canvas.width * m,
-          canvas.height * 0.6,
-          canvas.height * 0.6,
+          cv.main.width * m,
+          cv.main.height * 0.6,
+          cv.main.height * 0.6,
         );
         grd.addColorStop(0, "#000");
         grd.addColorStop(1, "#0000");
@@ -656,23 +675,23 @@ function render() {
 
       ctx.save();
       ctx.translate(
-        canvas.width * m,
-        canvas.height / 2,
+        cv.main.width * m,
+        cv.main.height / 2,
       );
       ctx.scale(
         2 * Math.floor(Math.sin((Date.now() / 800) + Math.PI / 2)) + 1,
         1,
       );
       ctx.translate(
-        - (canvas.width * m),
-        - (canvas.height / 2),
+        - (cv.main.width * m),
+        - (cv.main.height / 2),
       );
       ctx.drawImage(
         images["player_idle_" + (data.graphics < 3 ? 0 : (frame.current % playerImages.idle))],
-        canvas.width * m - canvas.height / 2,
+        cv.main.width * m - cv.main.height / 2,
         0,
-        canvas.height,
-        canvas.height,
+        cv.main.height,
+        cv.main.height,
       );
       ctx.restore();
     } else {
@@ -681,12 +700,12 @@ function render() {
       if (data.graphics > 0) {
         ctx.strokeStyle = "#140C06";
         ctx.lineWidth = 50;
-        for (i = 0; i < Math.ceil(canvas.width / canvas.height) + 1; i++) {
+        for (i = 0; i < Math.ceil(cv.main.width / cv.main.height) + 1; i++) {
           ctx.strokeRect(
-            ((i - 1) * canvas.height) + ((Date.now() / 10)) % canvas.height,
+            ((i - 1) * cv.main.height) + ((Date.now() / 10)) % cv.main.height,
             0,
-            canvas.height + 1,
-            canvas.height,
+            cv.main.height + 1,
+            cv.main.height,
           );
         }
       }
@@ -695,7 +714,7 @@ function render() {
     /* Draw text */
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
-    ctx.font = canvas.width * 0.1 + "px " + data.font;
+    ctx.font = cv.main.width * 0.1 + "px " + data.font;
     ctx.shadowColor = "#000";
     ctx.shadowBlur = 3;
     ctx.lineWidth = 8;
@@ -704,39 +723,39 @@ function render() {
     if (data.graphics > 2) {
       ctx.strokeText(
         lang.title,
-        canvas.width * 0.5,
-        canvas.height * 0.45,
+        cv.main.width * 0.5,
+        cv.main.height * 0.45,
       );
     }
     ctx.fillText(
       lang.title,
-      canvas.width * 0.5,
-      canvas.height * 0.45,
+      cv.main.width * 0.5,
+      cv.main.height * 0.45,
     );
-    ctx.font = canvas.width * 0.04 + "px " + data.font;
+    ctx.font = cv.main.width * 0.04 + "px " + data.font;
     ctx.lineWidth = 5;
     if (data.graphics > 2) {
       ctx.strokeText(
         lang.continue,
-        canvas.width * 0.5,
-        canvas.height * 0.7,
+        cv.main.width * 0.5,
+        cv.main.height * 0.7,
       );
     }
     ctx.fillText(
       lang.continue,
-      canvas.width * 0.5,
-      canvas.height * 0.7,
+      cv.main.width * 0.5,
+      cv.main.height * 0.7,
     );
 
     if (data.graphics > 2) {
       /* Draw vignette */
-      var grd = ctx2.createRadialGradient(
-        canvas.width * 0.5,
-        canvas.height * 0.5,
+      var grd = ctxs.shadow.createRadialGradient(
+        cv.main.width * 0.5,
+        cv.main.height * 0.5,
         0,
-        canvas.width * 0.5,
-        canvas.height * 0.5,
-        canvas.width,
+        cv.main.width * 0.5,
+        cv.main.height * 0.5,
+        cv.main.width,
       );
       grd.addColorStop(0, "#0000");
       grd.addColorStop(1, "#0006");
@@ -744,7 +763,7 @@ function render() {
       ctx.fillCanvas(grd);
     }
 
-    ctx.font = canvas.width * 0.04 + "px " + data.font;
+    ctx.font = cv.main.width * 0.04 + "px " + data.font;
     ctx.textBaseline = "bottom";
     ctx.textAlign = "right";
     ctx.fillStyle = "#CCCA";
@@ -752,14 +771,14 @@ function render() {
     if (data.graphics > 2) {
       ctx.strokeText(
         lang.name,
-        canvas.width * 0.98,
-        canvas.height * 0.98,
+        cv.main.width * 0.98,
+        cv.main.height * 0.98,
       );
     }
     ctx.fillText(
       lang.name,
-      canvas.width * 0.98,
-      canvas.height * 0.98,
+      cv.main.width * 0.98,
+      cv.main.height * 0.98,
     );
     ctx.shadowColor = "#0000";
     ctx.shadowBlur = 0;
@@ -769,13 +788,13 @@ function render() {
 
     if (data.graphics > 1) {
       /* Draw background */
-      for (i = 0; i < Math.ceil(canvas.width / canvas.height) + 1; i++) {
+      for (i = 0; i < Math.ceil(cv.main.width / cv.main.height) + 1; i++) {
         ctx.drawImage(
           images.brick_0,
-          (i * canvas.height) + (-(Date.now() / 10)) % canvas.height,
+          (i * cv.main.height) + (-(Date.now() / 10)) % cv.main.height,
           0,
-          canvas.height + 1,
-          canvas.height,
+          cv.main.height + 1,
+          cv.main.height,
         );
       }
       ctx.fillCanvas("#1116");
@@ -783,13 +802,13 @@ function render() {
       /* Draw player */
       if (data.graphics > 2) {
         /* Draw shadow */
-        var grd = ctx2.createRadialGradient(
-          canvas.width * 0.26,
-          canvas.height * 0.21,
+        var grd = ctxs.shadow.createRadialGradient(
+          cv.main.width * 0.26,
+          cv.main.height * 0.21,
           0,
-          canvas.width * 0.26,
-          canvas.height * 0.21,
-          canvas.height * 0.2,
+          cv.main.width * 0.26,
+          cv.main.height * 0.21,
+          cv.main.height * 0.2,
         );
         grd.addColorStop(0, "#FFF2");
         grd.addColorStop(1, "#0000");
@@ -799,23 +818,23 @@ function render() {
 
       ctx.drawImage(
         images["player_idle_" + (data.graphics < 3 ? 0 : (frame.current % playerImages.idle))],
-        canvas.width * 0.2,
-        canvas.height * 0.1,
-        canvas.height * 0.2,
-        canvas.height * 0.2,
+        cv.main.width * 0.2,
+        cv.main.height * 0.1,
+        cv.main.height * 0.2,
+        cv.main.height * 0.2,
       );
 
       /* Draw bats */
       for (i = 0; i < 3; i++) {
         if (data.graphics > 2) {
           /* Draw shadow */
-          var grd = ctx2.createRadialGradient(
-            canvas.width * 0.51 + (i * canvas.width * 0.12),
-            canvas.height * 0.19,
+          var grd = ctxs.shadow.createRadialGradient(
+            cv.main.width * 0.51 + (i * cv.main.width * 0.12),
+            cv.main.height * 0.19,
             0,
-            canvas.width * 0.51 + (i * canvas.width * 0.12),
-            canvas.height * 0.19,
-            canvas.height * 0.15,
+            cv.main.width * 0.51 + (i * cv.main.width * 0.12),
+            cv.main.height * 0.19,
+            cv.main.height * 0.15,
           );
           grd.addColorStop(0, "#0004");
           grd.addColorStop(1, "#0000");
@@ -825,10 +844,10 @@ function render() {
 
         ctx.drawImage(
           images["bat_" + (data.graphics < 3 ? 0 : (frame.current % data.enemies.bat.images))],
-          canvas.width * 0.48 + (i * canvas.width * 0.12),
-          canvas.height * 0.15,
-          canvas.height * 0.1,
-          canvas.height * 0.1,
+          cv.main.width * 0.48 + (i * cv.main.width * 0.12),
+          cv.main.height * 0.15,
+          cv.main.height * 0.1,
+          cv.main.height * 0.1,
         );
       }
 
@@ -838,17 +857,17 @@ function render() {
         ctx.globalAlpha = ((global.drawSkelly + time) - Date.now()) / time;
         ctx.drawImage(
           images["skelly_" + (data.graphics < 3 ? 0 : (frame.current % data.enemies.skelly.images))],
-          canvas.width * 0.2,
-          canvas.height * 0.48,
-          canvas.height * 0.2,
-          canvas.height * 0.5,
+          cv.main.width * 0.2,
+          cv.main.height * 0.48,
+          cv.main.height * 0.2,
+          cv.main.height * 0.5,
         );
         ctx.drawImage(
           images["skelly_" + (data.graphics < 3 ? 0 : (frame.current % data.enemies.skelly.images))],
-          canvas.width * 0.8 - canvas.height * 0.2,
-          canvas.height * 0.48,
-          canvas.height * 0.2,
-          canvas.height * 0.5,
+          cv.main.width * 0.8 - cv.main.height * 0.2,
+          cv.main.height * 0.48,
+          cv.main.height * 0.2,
+          cv.main.height * 0.5,
         );
         ctx.globalAlpha = "1";
       }
@@ -858,12 +877,12 @@ function render() {
       if (data.graphics > 0) {
         ctx.strokeStyle = "#140C06";
         ctx.lineWidth = 50;
-        for (i = 0; i < Math.ceil(canvas.width / canvas.height) + 1; i++) {
+        for (i = 0; i < Math.ceil(cv.main.width / cv.main.height) + 1; i++) {
           ctx.strokeRect(
-            (i * canvas.height) + (-(Date.now() / 10)) % canvas.height,
+            (i * cv.main.height) + (-(Date.now() / 10)) % cv.main.height,
             0,
-            canvas.height + 1,
-            canvas.height,
+            cv.main.height + 1,
+            cv.main.height,
           );
         }
       }
@@ -872,7 +891,7 @@ function render() {
     /* Draw text */
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
-    ctx.font = canvas.width * 0.1 + "px " + data.font;
+    ctx.font = cv.main.width * 0.1 + "px " + data.font;
     ctx.shadowColor = "#000";
     ctx.shadowBlur = 3;
     ctx.lineWidth = 8;
@@ -881,55 +900,55 @@ function render() {
     if (data.graphics > 2) {
       ctx.strokeText(
         lang.thank,
-        canvas.width * 0.5,
-        canvas.height * 0.45,
+        cv.main.width * 0.5,
+        cv.main.height * 0.45,
       );
     }
     ctx.fillText(
       lang.thank,
-      canvas.width * 0.5,
-      canvas.height * 0.45,
+      cv.main.width * 0.5,
+      cv.main.height * 0.45,
     );
-    ctx.font = canvas.width * 0.04 + "px " + data.font;
+    ctx.font = cv.main.width * 0.04 + "px " + data.font;
     ctx.lineWidth = 5;
     if (data.graphics > 2) {
       ctx.strokeText(
         lang.time_end.format({
           time: global.timerEnd
         }),
-        canvas.width * 0.5,
-        canvas.height * 0.65,
+        cv.main.width * 0.5,
+        cv.main.height * 0.65,
       );
     }
     ctx.fillText(
       lang.time_end.format({
         time: global.timerEnd
       }),
-      canvas.width * 0.5,
-      canvas.height * 0.65,
+      cv.main.width * 0.5,
+      cv.main.height * 0.65,
     );
     if (data.graphics > 2) {
       ctx.strokeText(
         lang.continue,
-        canvas.width * 0.5,
-        canvas.height * 0.8,
+        cv.main.width * 0.5,
+        cv.main.height * 0.8,
       );
     }
     ctx.fillText(
       lang.continue,
-      canvas.width * 0.5,
-      canvas.height * 0.8,
+      cv.main.width * 0.5,
+      cv.main.height * 0.8,
     );
 
     /* Draw vignette */
     if (data.graphics > 2) {
-      var grd = ctx2.createRadialGradient(
-        canvas.width * 0.5,
-        canvas.height * 0.5,
+      var grd = ctxs.shadow.createRadialGradient(
+        cv.main.width * 0.5,
+        cv.main.height * 0.5,
         0,
-        canvas.width * 0.5,
-        canvas.height * 0.5,
-        canvas.width,
+        cv.main.width * 0.5,
+        cv.main.height * 0.5,
+        cv.main.width,
       );
       grd.addColorStop(0, "#0000");
       grd.addColorStop(1, "#0006");
@@ -937,7 +956,7 @@ function render() {
       ctx.fillCanvas(grd);
     }
 
-    ctx.font = canvas.width * 0.04 + "px " + data.font;
+    ctx.font = cv.main.width * 0.04 + "px " + data.font;
     ctx.textBaseline = "bottom";
     ctx.textAlign = "right";
     ctx.fillStyle = "#CCCA";
@@ -945,27 +964,27 @@ function render() {
     if (data.graphics > 2) {
       ctx.strokeText(
         lang.name,
-        canvas.width * 0.98,
-        canvas.height * 0.98,
+        cv.main.width * 0.98,
+        cv.main.height * 0.98,
       );
     }
     ctx.fillText(
       lang.name,
-      canvas.width * 0.98,
-      canvas.height * 0.98,
+      cv.main.width * 0.98,
+      cv.main.height * 0.98,
     );
     ctx.shadowColor = "#0000";
     ctx.shadowBlur = 0;
 
     /* Draw torches */
     if (data.graphics > 1) {
-      x = canvas.width * 0.07;
-      y = canvas.height * 0.42;
-      w = canvas.height * 0.2;
-      h = canvas.height * 0.2;
+      x = cv.main.width * 0.07;
+      y = cv.main.height * 0.42;
+      w = cv.main.height * 0.2;
+      h = cv.main.height * 0.2;
       for (i = 0; i < 2; i++) {
         if (i) {
-          x = canvas.width - x - w;
+          x = cv.main.width - x - w;
         }
 
         ctx.save();
@@ -996,7 +1015,7 @@ function render() {
 
         if (data.graphics > 2) {
           /* Draw light */
-          var grd = ctx2.createRadialGradient(
+          var grd = ctxs.shadow.createRadialGradient(
             x + w * 0.5,
             y + h * 0.4,
             0,
@@ -1031,14 +1050,14 @@ function render() {
     ctx.fillStyle = "#E0E0E0" + h;
     ctx.textBaseline = "top";
     ctx.textAlign = "center";
-    ctx.font = canvas.width * 0.08 + "px Arial";
+    ctx.font = cv.main.width * 0.08 + "px Arial";
     ctx.fillText(
       lang.loading,
-      canvas.width * 0.5,
-      canvas.height * 0.1,
+      cv.main.width * 0.5,
+      cv.main.height * 0.1,
     );
   }
 
   // ctx.fillCanvas("white");
-  // ctx.drawImage(canvas2, 0, 0, canvas.width, canvas.height);
+  // ctx.drawImage(cv.shadow, 0, 0, cv.main.width, cv.main.height);
 }

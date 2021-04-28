@@ -11,8 +11,8 @@ var data = {
     y: 0.6, // Y position of player on canvas
     // Fancy graphics
     graphics: 3, // Graphics level needed for fancy camera positioning. Set to 4 to never use it
-    minx: 0.4, // Minimum amount of canvas for camera X not to change
-    maxx: 0.6, // Maximum amount of canvas for camera X not to change
+    minx: 0.35, // Minimum amount of canvas for camera X not to change
+    maxx: 0.65, // Maximum amount of canvas for camera X not to change
     miny: 0.4, // Minimum amount of canvas for camera Y not to change
     maxy: 0.6, // Maximum amount of canvas for camera Y not to change
   },

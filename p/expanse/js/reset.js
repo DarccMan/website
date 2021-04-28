@@ -74,4 +74,11 @@ function reset() {
     global.deaths = 0;
     global.restartCount = 0;
   }
+
+  /* Test */
+  /* for (x = 0; x < grid.length; x++) {
+    for (y = 0; y < grid.length; y++) {
+      console.log(x, y);
+    }
+  } */
 }

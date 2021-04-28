@@ -1,36 +1,43 @@
-/* Create canvas */
-var canvas = doc.create("canvas");
-canvas.id = "canvas";
-canvas.style.width = 512 * data.ratio + "px";
-canvas.style.height = 512 + "px";
-canvas.width = parseInt(canvas.style.width) * data.resolution;
-canvas.height = parseInt(canvas.style.height) * data.resolution;
-canvas.setAttribute("oncontextmenu", "return(false);");
-doc.id("canvas_contain").appendChild(canvas);
-var ctx = canvas.getContext("2d");
+/* Create cv.maines */
+var cv = {};
+var ctxs = {};
+cv.main = doc.id("cv-main");
+size = 512;
+_w = Math.round(size * data.ratio);
+_h = size;
+_ws = _w + "px";
+_hs = _h + "px";
+cv.main.initialize();
+cv.main.style.width = _ws + "px";
+cv.main.style.height = _hs + "px";
+cv.main.w = _w * data.resolution;
+cv.main.h = _h * data.resolution;
+cv.main.parentNode.style.width = _ws + "px";
+cv.main.parentNode.style.height = _hs + "px";
+cv.main.setAttribute("oncontextmenu", "return(false);");
+ctxs.main = cv.main.getContext("2d");
+var ctx = ctxs.main;
 ctx.imageSmoothingEnabled = false;
 if (data.pixelate) {
-  canvas.style.imageRendering = "pixelated";
+  cv.main.style.imageRendering = "pixelated";
 }
 
-/* Create secondary canvas (for shadow subtraction) */
-canvas2 = doc.create("canvas")
-canvas2.width = canvas.width;
-canvas2.height = canvas.height;
-ctx2 = canvas2.getContext("2d");
-ctx2.imageSmoothingEnabled = false;
+cv.shadow = doc.id("cv-shadow");
+ctxs.shadow = cv.shadow.getContext("2d");
+ctxs.shadow.imageSmoothingEnabled = false;
+cv.shadow.initialize();
 
 /* Create global variables */
 var debugMode = false;
-// debugMode = true;
+debugMode = true;
 startState = "start";
 if (F.url.online) {
   debugMode = false;
 }
 var lvl = 0;
 if (debugMode) {
-  data.graphics = 2;
-  // lvl = 4;
+  // data.graphics = 2;
+  lvl = 1;
   startState = "play";
   // levels = [levels[0]];
   // levels = [levels[0], levels[1]];
@@ -56,9 +63,9 @@ var images = {};
 var gameState = "load";
 var global = {};
 var enemies = [];
-var tw = (Math.min(canvas.width, canvas.height) / data.tiles);
-var tw2 = (Math.min(parseInt(canvas.style.width), canvas.height) / data.tiles);
-var tx = data.tiles / Math.min(canvas.width, canvas.height) * Math.max(canvas.width, canvas.height);
+var tw = (Math.min(cv.main.width, cv.main.height) / data.tiles);
+var tw2 = (Math.min(parseInt(cv.main.style.width), cv.main.height) / data.tiles);
+var tx = data.tiles / Math.min(cv.main.width, cv.main.height) * Math.max(cv.main.width, cv.main.height);
 
 /* Outline settings for blocks */
 cs = [
