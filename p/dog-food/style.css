@@ -4,7 +4,7 @@
 code {
   font-family: 'Courier New', Courier, monospace;
 }
-input {
+input, .button {
   color: black !important;
 }
 table {
@@ -99,4 +99,13 @@ img {
   width: 400px;
   height: 400px;
   filter: brightness(60%);
+}
+.green {
+  background-color: green;
+}
+.yellow {
+  background-color: green;
+}
+.red {
+  background-color: red;
 }

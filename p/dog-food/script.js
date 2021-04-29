@@ -250,7 +250,17 @@ function clickItem(el) {
     link: item.name.lower(),
     subtitle: item.subtitle || "",
     desc: item.desc || "No information",
-    critic: answer[0].lower() == "n" ? "" : (item.critic ? "Critic's verdict: " + item.critic : "No critic information"),
+    critic: answer[0].lower() == "n" ? "Do not feed." : (item.critic ? "Critic's verdict: " + item.critic : "No critic information"),
   });
   doc.id("desc").innerHTML = el;
+}
+
+function random() {
+  item = F.randomChoice(F.randomChoice(food).items);
+  doc.id("search").value = item.name;
+  search();
+  el = doc.id("output")?.childNodes[1]?.childNodes[0]?.childNodes[0]?.childNodes[1];
+  if (el) {
+    clickItem(el);
+  }
 }
