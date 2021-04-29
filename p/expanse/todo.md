@@ -30,6 +30,7 @@
  - - ALL CSS!
 
  - Change player death animation to calculate on render
+ - Add ignore disabled levels property for debug mode
 
 # Optimisations
  - Floor and ceil all renders

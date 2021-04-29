@@ -284,7 +284,7 @@ var levels = [
   },
   {
     name: "<Debug Level!>",
-    // disabled: true,
+    disabled: true,
     dim: [25, 10],
     set: `
       y=6;
