@@ -14,9 +14,11 @@ function reset() {
   }
 
   /* Skip level if marked as disabled */
-  for (i = 0; i < levels.length; i++) {
-    if (!levels[lvl] || levels[lvl].disabled) {
-      lvl++;
+  if (!global.ignoreDisabled) {
+    for (i = 0; i < levels.length; i++) {
+      if (!levels[lvl] || levels[lvl].disabled) {
+        lvl++;
+      }
     }
   }
   /* Reset game if completed all levels */
@@ -74,11 +76,4 @@ function reset() {
     global.deaths = 0;
     global.restartCount = 0;
   }
-
-  /* Test */
-  /* for (x = 0; x < grid.length; x++) {
-    for (y = 0; y < grid.length; y++) {
-      console.log(x, y);
-    }
-  } */
 }

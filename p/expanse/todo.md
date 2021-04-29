@@ -12,25 +12,29 @@
  - Change player death rotation to stay the same for flip
  - Add 1 pixel of height to player crouch texture
  - Add animate offset for rats only?
+ - Fix camera misalignment on load
 
 # Bugs
  - Crouching while moving stops movement until uncrouch
  - Completing level 0 restarts to 0
  - Debug movement not aligned to player
  - Super jump occurs when jumping in scaffolding (One piece even)
- - Overlay still renders on non-play states
  - Completion key not valid
  - - Add fill for each number
  - Death causes level completion
+ - Game completion happens twice
 
 # Technical
  - Image smoothing?
 
  - Overhaul
  - - ALL CSS!
+ - - Image files
 
  - Change player death animation to calculate on render
  - Add ignore disabled levels property for debug mode
+ 
+ - Parse nbt values
 
 # Optimisations
  - Floor and ceil all renders
@@ -39,6 +43,7 @@
  - Fix scroll
  - Change background (Red?)
 
+---
 
 ## Completed
  - Jump mechanics ALL broken
@@ -50,6 +55,7 @@
  - Remove canvas from html, generate in game.js
  - Move sections to seperate canvases
  - Lower shadow render resolution
+ - Overlay still renders on non-play states
 
 
 

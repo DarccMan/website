@@ -11,7 +11,7 @@ var levels = [
       x=6;
       y=3;
       #brick*2;
-      @rat;
+      @rat{test:123,abc};
       x=7;
       y=2;
       #brick*3;
@@ -285,13 +285,13 @@ var levels = [
   {
     name: "<Debug Level!>",
     disabled: true,
-    dim: [25, 10],
+    dim: [40, 30],
     set: `
-      y=6;
-      #block*100&3,cracked:1;
+      y=20;
+      #block*400&3,cracked:1;
       x=0;
-      y=5;
-      #lamp;
+      y=19;
+      #fire;
       x+2;
       y-1;
       #block;
@@ -314,7 +314,7 @@ var levels = [
     `,
     player: {
       x: 15,
-      y: 5,
+      y: 18.5,
     },
   },
 ];

@@ -2,14 +2,16 @@
 function update(mod) {
   var keysDown = F.getKeyCodes(controls);
   if (keysDown.game_restart) {
-    if (global.keyOnce_restart) {
-      if (F.url.query.speedrun) {
-        lvl = 0;
+    if (!["start", "end", "load"].includes(gameState)) {
+      if (global.keyOnce_restart) {
+        if (F.url.query.speedrun) {
+          lvl = 0;
+        }
+        reset();
+        // location.reload();
+        global.restartCount++;
+        global.keyOnce_restart = false;
       }
-      reset();
-      // location.reload();
-      global.restartCount++;
-      global.keyOnce_restart = false;
     }
   } else {
     global.keyOnce_restart = true;
@@ -119,63 +121,69 @@ function update(mod) {
     }
 
     /* Player jump */
-    if (!player.crouch && keysDown.player_up) {
-      /* Extra jump */
-      //! Fix. Not working
-      X: for (x = minx; x < maxx; x++) {
-        for (y = miny; y < maxy; y++) {
-          if (
-            data.blocks[grid[x][y].block]?.walkInto
-          ) {
-            if (F.collide(p, {
-              x: (x + 0.001) * tw,
-              y: (y + 0.001) * tw,
-              w: tw + 1,
-              h: tw + 1,
-            })) {
-              cb = grid[x][y];
-              break X;
+    if (keysDown.player_up) {
+      if (!player.crouch) {
+        if (global.keyOnce_start) {
+          /* Extra jump */
+          //! Fix. Not working
+          X: for (x = minx; x < maxx; x++) {
+            for (y = miny; y < maxy; y++) {
+              if (
+                data.blocks[grid[x][y].block]?.walkInto
+              ) {
+                if (F.collide(p, {
+                  x: (x + 0.001) * tw,
+                  y: (y + 0.001) * tw,
+                  w: tw + 1,
+                  h: tw + 1,
+                })) {
+                  cb = grid[x][y];
+                  break X;
+                }
+              }
             }
           }
-        }
-      }
-      if (!cb) {
-        if (
-          player.jumpTime > Date.now() - data.v.jm
-          && player.jumpTime < Date.now() - data.v.jc
-        ) {
-          player.vy -= data.v.ja * mod;
-        }
-      }
+          if (!cb) {
+            if (
+              player.jumpTime > Date.now() - data.v.jm
+              && player.jumpTime < Date.now() - data.v.jc
+            ) {
+              player.vy -= data.v.ja * mod;
+            }
+          }
 
-      //! Fix. Add collision for walkInto
-      cb = null;
-      p = {...playerHit};
-      p.y += player.vy + p.h - 1;
-      p.h = 1;
-      X: for (x = minx; x < maxx; x++) {
-        for (y = miny; y < maxy; y++) {
-          if (
-            data.blocks[grid[x][y].block]?.collide
-            // && !data.blocks[grid[x][y].block]?.walkInto
-          ) {
-            if (F.collide(p, {
-              x: (x + 0.001) * tw,
-              y: (y + 0.001) * tw,
-              w: tw + 1,
-              h: tw + 1,
-            })) {
-              cb = grid[x][y];
-              break X;
+          //! Fix. Add collision for walkInto
+          cb = null;
+          p = {...playerHit};
+          p.y += player.vy + p.h - 1;
+          p.h = 1;
+          X: for (x = minx; x < maxx; x++) {
+            for (y = miny; y < maxy; y++) {
+              if (
+                data.blocks[grid[x][y].block]?.collide
+                // && !data.blocks[grid[x][y].block]?.walkInto
+              ) {
+                if (F.collide(p, {
+                  x: (x + 0.001) * tw,
+                  y: (y + 0.001) * tw,
+                  w: tw + 1,
+                  h: tw + 1,
+                })) {
+                  cb = grid[x][y];
+                  break X;
+                }
+              }
             }
+          }
+          if (cb) {
+            val = true;
+            player.jumpTime = Date.now();
+            player.vy -= data.v.jb * (10 / data.tiles);
           }
         }
       }
-      if (cb) {
-        val = true;
-        player.jumpTime = Date.now();
-        player.vy -= data.v.jb * (10 / data.tiles);
-      }
+    } else {
+      global.keyOnce_start = true;
     }
 
     /* Player X movement */
@@ -596,6 +604,7 @@ function update(mod) {
   } else if (gameState == "start") {
     if (keysDown.game_start) {
       if (global.keyOnce_start) {
+        global.keyOnce_start = false;
         startPlay();
       }
     } else {

@@ -10,7 +10,9 @@ function render() {
     cv.overlay.h,
   );
 
+  cv.shadow.style.display = "none";
   if (!["load", "start", "end"].includes(gameState)) {
+    cv.shadow.style.display = "block";
     /* Align camera to player position */
     if (data.graphics >= data.cam.graphics) {
       minx = cv.main.w * data.cam.minx;

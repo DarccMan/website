@@ -59,7 +59,7 @@ data.blocks = { // Block data
     light: 1.3,
     pick: true,
   },
-  lamp: {
+  fire: {
     color: "#FF8",
     images: 3,
     light: 2,

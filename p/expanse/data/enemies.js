@@ -22,6 +22,7 @@ data.enemies = { // Enemy settings
     ],
     death: [ // Dies from these
       "spike",
+      "fire",
     ],
     attr: { // Attributes
       avoidLight: false,
@@ -79,6 +80,7 @@ data.enemies = { // Enemy settings
       "test",
       "scaffold",
       "glass",
+      "fire",
     ],
     death: [ // Dies from these
       "spike",

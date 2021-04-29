@@ -3,7 +3,7 @@ var data = {
   resolution: 1,
   // resolution: 0.3, // Don't touch this!
   pixelate: true,
-  tiles: 10, // Amount of tiles on canvas
+  tiles: 9, // Amount of tiles on canvas
   parallax: 0.5, // How fast the background moves
   cam: { // Position of player to screen
     // Non-fancy graphics
@@ -32,10 +32,10 @@ var data = {
   shadow: { // Shadow settings
     p_r0: 0.5, // Small radius around player
     p_r1: 3, // Large radius around player
-    torch_multiply: 2, // How much holding torch multiplies light by
     r0: 0.5, // Small radius around light blocks
     r1: 3, // Large radius around light blocks
-    opacity: 170, // Opacity of full shadow (0-255)
+    torch_multiply: 2, // How much holding torch multiplies light by
+    opacity: 190, // Opacity of full shadow (0-255)
     resolution_low: 0.03,
     resolution_high: 0.06,
   },

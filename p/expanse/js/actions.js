@@ -56,7 +56,12 @@ yoMama = {
 var loadedLevels = [];
 function loadLevels() {
   for (l = 0; l < levels.length; l++) {
-    if (levels[l] && !levels[l].disabled) {
+    if (
+      levels[l] && (
+        global.ignoreDisabled
+        || !levels[l].disabled
+      )
+    ) {
       ld = readLevelData(levels[l].set);
       loadedLevels.push({
         ...ld,
@@ -205,7 +210,6 @@ function readLevelData(str) {
         nbt = {};
         if (type.length > 1) {
           raw = type[1].s(0, -2).split(",");
-          type = type[0];
           for (j = 0; j < raw.length; j++) {
             if (raw[j].split(":").length > 1) {
               nbt[raw[j].split(":")[0]] = raw[j].split(":")[1];
@@ -214,6 +218,7 @@ function readLevelData(str) {
             }
           }
         }
+        type = type[0];
         if (data.enemies[type]) {
           __enemies.push({
             type,

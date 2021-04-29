@@ -30,20 +30,19 @@ if (data.pixelate) {
 }
 
 /* Create global variables */
-var debugMode = false;
-// debugMode = true;
+var global = {};
+global.startDebug = false;
+// global.startDebug = true;
 startState = "start";
 if (F.url.online) {
-  debugMode = false;
+  global.startDebug = false;
 }
 var lvl = 0;
-if (debugMode) {
-  data.graphics = 3;
-  lvl = 5;
+if (global.startDebug) {
+  data.graphics = 2;
+  lvl = 0;
   startState = "play";
-  // levels = [levels[0]];
-  // levels = [levels[0], levels[1]];
-  // levels[1] = null;
+  global.ignoreDisabled = true;
 }
 if (F.url.query.speedrun) {
   startState = "play";
@@ -63,7 +62,6 @@ var cam = {
 };
 var images = {};
 var gameState = "load";
-var global = {};
 var enemies = [];
 var tw = (Math.min(cv.main.width, cv.main.height) / data.tiles);
 var tw2 = (Math.min(parseInt(cv.main.style.width), cv.main.height) / data.tiles);
@@ -95,8 +93,6 @@ frame.current = 0;
 frame.start = () => {
   clearInterval(frame.interval);
   frame.interval = setInterval(frame.increase, data.frame_speed);
-  // if (data.graphics > 2) {
-  // }
 }
 frame.increase = () => {
   if (["play", "start", "end"].includes(gameState)) {
@@ -112,12 +108,12 @@ function addImage(name, path) {
 }
 for (i = 0; i < data.blocks.keys().length; i++) {
   for (j = 0; j < data.blocks.values()[i].images; j++) {
-    addImage("{0}_{1}".format(data.blocks.keys()[i], j), "block/" + data.blocks.keys()[i] + "_" + j);
+    addImage("{0}_{1}".format(data.blocks.keys()[i], j), "block/" + data.blocks.keys()[i] + "/" + j);
   }
 }
 for (i = 0; i < data.enemies.keys().length; i++) {
   for (j = 0; j < data.enemies.values()[i].images; j++) {
-    addImage("{0}_{1}".format(data.enemies.keys()[i], j), "enemy/" + data.enemies.keys()[i] + "_" + j);
+    addImage("{0}_{1}".format(data.enemies.keys()[i], j), "enemy/" + data.enemies.keys()[i] + "/" + j);
   }
 }
 playerImages = {
