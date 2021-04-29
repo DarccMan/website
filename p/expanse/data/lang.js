@@ -9,4 +9,15 @@ var lang = {
   level: "Level {number} '{name}'",
   sign: "The sign reads:",
   debug: "<DEBUG MODE>",
+  death: [
+    "Uh - Oh!",
+    "Yikers!",
+    "Whoops!",
+    ":(",
+    "Rats!",
+    "AAARRRGGHH!",
+    "Oh MAN!",
+    "oof",
+  ],
+  graphics: "Graphics: {0}",
 };

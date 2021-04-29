@@ -1,13 +1,24 @@
 function render() {
+  cv.overlay.w = _w;
+  cv.overlay.h = _h;
+  cv.overlay.style.width = _ws;
+  cv.overlay.style.height = _hs;
+  ctxs.overlay.clearRect(
+    0,
+    0,
+    cv.overlay.w,
+    cv.overlay.h,
+  );
+
   if (!["load", "start", "end"].includes(gameState)) {
     /* Align camera to player position */
     if (data.graphics >= data.cam.graphics) {
-      minx = cv.main.width * data.cam.minx;
-      maxx = cv.main.width * data.cam.minx;
-      miny = cv.main.height * data.cam.miny;
-      maxy = cv.main.height * data.cam.maxy;
-      posx = player.x - cam.x
-      posy = player.y - cam.y
+      minx = cv.main.w * data.cam.minx;
+      maxx = cv.main.w * data.cam.maxx;
+      miny = cv.main.h * data.cam.miny;
+      maxy = cv.main.h * data.cam.maxy;
+      posx = player.x + player.w / 2 - cam.x
+      posy = player.y + player.h / 2 - cam.y
       if (posx < minx) {
         cam.x -= minx - posx;
       }
@@ -90,10 +101,10 @@ function render() {
           }
           ctx.drawImage(
             images[grid[x][y].block + "_" + (data.graphics < 3 ? 0 : (frame.current % data.blocks[grid[x][y].block]?.images))] || images.unknown_0,
-            x * tw,
-            y * tw,
-            tw,
-            tw ,
+            Math.floor(x * tw),
+            Math.floor(y * tw),
+            Math.ceil(tw),
+            Math.ceil(tw),
           );
           ctx.restore();
 
@@ -274,6 +285,9 @@ function render() {
           - x,
           - y,
         );
+        if (data.graphics > 2) {
+          // ctx.globalAlpha = 1 - player.animate + 0.5;
+        }
       }
       if (gameState == "win") {
         /* Draw player moving for level transition */
@@ -290,6 +304,7 @@ function render() {
           cv.main.height,
         );
         ctx.restore();
+        ctx.globalAlpha = 1;
       } else {
         /* Flip player for direction */
         if (player.flip < 0) {
@@ -389,7 +404,13 @@ function render() {
 
     /* Draw enemies */
     for (i = 0; i < enemies.length; i++) {
-      if (enemies[i].dead) {
+      time0 = 300;
+      time1 = 100;
+      if (data.graphics < 1) {
+        time0 = 100;
+        time1 = 0;
+      }
+      if (enemies[i].dead + time0 + time1 < Date.now()) {
         continue;
       }
       ctx.save();
@@ -405,56 +426,69 @@ function render() {
           - (enemies[i].y + (enemies[i].h / 2)),
         );
       }
+      y = enemies[i].y + (data.enemies[enemies[i].type].rh ? (
+        0
+      ) : (
+        enemies[i].h - (enemies[i].w)
+      ));
+      h = data.enemies[enemies[i].type].rh ? (
+        data.enemies[enemies[i].type].rh * tw
+      ) : (
+        enemies[i].w
+      );
+      /* Rotate enemy for death */
+      if (data.graphics > 0) {
+        ctx.translate(
+          (enemies[i].x + (enemies[i].w / 2)),
+          (y + h / 2),
+        );
+        ctx.rotate(
+          Math.min(90, (Date.now() - enemies[i].dead) / time0 * 90) * Math.PI / 180,
+        );
+        ctx.translate(
+          - (enemies[i].x + (enemies[i].w / 2)),
+          - (y + h / 2),
+        );
+      }
+      if (data.graphics > 2) {
+        ctx.globalAlpha = 1 - (Date.now() - enemies[i].dead) / (time0 + time1);
+      }
       if (data.graphics > 1) {
         ctx.drawImage(
           images[enemies[i].type + "_" + (data.graphics < 3 ? 0 : (frame.current % data.enemies[enemies[i].type].images))],
           enemies[i].x,
-          (enemies[i].y) + (data.enemies[enemies[i].type].rh ? (
-            0
-          ) : (
-            enemies[i].h - (enemies[i].w)
-          )),
+          y,
           enemies[i].w,
-          data.enemies[enemies[i].type].rh ? (
-            data.enemies[enemies[i].type].rh * tw
-          ) : (
-            enemies[i].w
-          ),
+          h,
         );
       } else {
         /* Low graphics enemies */
         ctx.fillStyle = data.enemies[enemies[i].type].color;
         ctx.fillRect(
           enemies[i].x,
-          (enemies[i].y) + (data.enemies[enemies[i].type].rh ? (
-            0
-          ) : (
-            enemies[i].h - (enemies[i].w)
-          )),
+          y,
           enemies[i].w,
-          data.enemies[enemies[i].type].rh ? (
-            data.enemies[enemies[i].type].rh * tw
-          ) : (
-            enemies[i].w
-          ),
+          h,
         );
       }
+      ctx.globalAlpha = 1;
       ctx.restore();
     }
 
     ctx.restore();
-    if (data.graphics > 2 || data.graphics == 1) {
+    if (
+      !["start", "end"].includes(gameState)
+      && data.graphics > 3 || data.graphics == 1
+    ) {
       /* Shadow Subtraction */
       cv.shadow.style.display = "block";
-      res = data.graphics > 2 ? data.shadow.resolution_high : data.shadow.resolution_low;
       /* Resize cv.main to resolution */
-      // cv.shadow.h = cv.main.h * res;
-      // cv.shadow.w = cv.main.w * res;
+      res = data.graphics > 2 ? data.shadow.resolution_high : data.shadow.resolution_low;
+      // res = 0.1;
+      cv.shadow.w = _w * res;
+      cv.shadow.h = _h * res;
       cv.shadow.style.width = _ws;
       cv.shadow.style.height = _hs;
-      res = 0.2;
-      cv.shadow.width = _w * res;
-      cv.shadow.height = _h * res;
       ctxs.shadow.fillCanvas("#0008");
 
       /* Create inverted opacity shadow around player */
@@ -478,12 +512,12 @@ function render() {
         for (y = 0; y < grid[x].length; y++) {
           if (data.blocks[grid[x][y]?.block]?.light) {
             grd = ctxs.shadow.createRadialGradient(
-              - cam.x * res + (x + 0.5) * tw * res1,
-              - cam.y * res + (y + 0.5) * tw * res1,
-              tw * data.shadow.r0 * res * data.blocks[grid[x][y]?.block].light,
-              - cam.x * res + (x + 0.5) * tw * res1,
-              - cam.y * res + (y + 0.5) * tw * res1,
-              tw * data.shadow.r1 * res * data.blocks[grid[x][y]?.block].light,
+              - cam.x * res + (x + 0.5) * tw * res,
+              - cam.y * res + (y + 0.5) * tw * res,
+              tw * data.shadow.r0 * res1 * data.blocks[grid[x][y]?.block].light,
+              - cam.x * res + (x + 0.5) * tw * res,
+              - cam.y * res + (y + 0.5) * tw * res,
+              tw * data.shadow.r1 * res1 * data.blocks[grid[x][y]?.block].light,
             );
             grd.addColorStop(0, "#FFF");
             grd.addColorStop(1, "#0000");
@@ -507,8 +541,6 @@ function render() {
           pix[i + 3] = data.shadow.opacity;
         }
       }
-
-      /* Draw to cv.main */
       ctxs.shadow.putImageData(imgd, 0, 0);
     } else {
       cv.shadow.style.display = "none";
@@ -519,7 +551,7 @@ function render() {
       time0 = 1500;
       time1 = 1000;
       if (global.lastRestart + time0 > Date.now()) {
-        ctx.font = cv.main.width * 0.05 + "px " + data.font;
+        ctxs.overlay.font = cv.overlay.width * 0.05 + "px " + data.font;
         h = "FF";
         if (data.graphics > 0) {
           h = Math.round((Math.min(time1, time0 - (Date.now() - global.lastRestart)) * (256 / time1)) * 0.7).toString(16);
@@ -527,16 +559,16 @@ function render() {
             h = "FF";
           }
         }
-        ctx.fillStyle = "#FFFFFF" + (h.length < 2 ? "0" : "") + h;
-        ctx.textBaseline = "top";
-        ctx.textAlign = "left";
-        ctx.fillText(
+        ctxs.overlay.fillStyle = "#FFFFFF" + (h.length < 2 ? "0" : "") + h;
+        ctxs.overlay.textBaseline = "top";
+        ctxs.overlay.textAlign = "left";
+        ctxs.overlay.fillText(
           lang.level.format({
             number: lvl,
             name: levels[lvl].name || "Unknown",
           }),
-          cv.main.width * 0.02,
-          cv.main.width * 0.02,
+          cv.overlay.width * 0.02,
+          cv.overlay.width * 0.02,
         );
       }
 
@@ -552,21 +584,21 @@ function render() {
               h = "FF";
             }
           }
-          ctx.fillStyle = "#B0B0B0" + (h.length < 2 ? "0" : "") + h;
-          ctx.textBaseline = "top";
-          ctx.textAlign = "center";
-          ctx.font = cv.main.width * 0.05 + "px " + data.font;
-          ctx.fillText(
+          ctxs.overlay.fillStyle = "#B0B0B0" + (h.length < 2 ? "0" : "") + h;
+          ctxs.overlay.textBaseline = "top";
+          ctxs.overlay.textAlign = "center";
+          ctxs.overlay.font = cv.overlay.width * 0.05 + "px " + data.font;
+          ctxs.overlay.fillText(
             lang.sign,
-            cv.main.width * 0.5,
-            cv.main.height * 0.1,
+            cv.overlay.width * 0.5,
+            cv.overlay.height * 0.1,
           );
-          ctx.fillStyle = "#FFFFFF" + (h.length < 2 ? "0" : "") + h;
-          ctx.font = cv.main.width * 0.08 + "px " + data.font;
-          ctx.fillText(
+          ctxs.overlay.fillStyle = "#FFFFFF" + (h.length < 2 ? "0" : "") + h;
+          ctxs.overlay.font = cv.overlay.width * 0.08 + "px " + data.font;
+          ctxs.overlay.fillText(
             global.signText,
-            cv.main.width * 0.5,
-            cv.main.height * 0.2,
+            cv.overlay.width * 0.5,
+            cv.overlay.height * 0.2,
           );
         }
       }
@@ -578,54 +610,55 @@ function render() {
       if (data.graphics > 0) {
         h = Math.round(player.animate * 256 / 10).toString(16);
       }
-      ctx.fillCanvas("#FF0000" + (h.length < 2 ? "0" : "") + h);
-      ctx.font = cv.main.width * 0.12 + "px " + data.font;
-      ctx.fillStyle = "#FFF";
+      ctxs.overlay.fillCanvas("#FF0000" + (h.length < 2 ? "0" : "") + h);
+      ctxs.overlay.font = cv.overlay.width * 0.12 + "px " + data.font;
+      ctxs.overlay.fillStyle = "#FFF";
       if (data.graphics > 0) {
-        ctx.save();
-        ctx.translate(
-          cv.main.width / 2,
-          cv.main.height / 2,
+        ctxs.overlay.save();
+        ctxs.overlay.translate(
+          cv.overlay.width / 2,
+          cv.overlay.height / 2,
         );
-        ctx.rotate((1 - player.animate) * Math.PI / 2);
-        ctx.translate(
-          - cv.main.width / 2,
-          - cv.main.height / 2,
+        ctxs.overlay.rotate((1 - player.animate) * Math.PI / 2);
+        ctxs.overlay.translate(
+          - cv.overlay.width / 2,
+          - cv.overlay.height / 2,
         );
-        ctx.font = (cv.main.width * 0.001) * (player.animate * 100) + "px " + data.font;
+        ctxs.overlay.font = (cv.overlay.width * 0.001) * (player.animate * 100) + "px " + data.font;
         h = Math.round(player.animate * 256 / 2).toString(16);
-        ctx.fillStyle = "#FFFFFF" + (h.length < 2 ? "0" : "") + h;
+        ctxs.overlay.fillStyle = "#FFFFFF" + (h.length < 2 ? "0" : "") + h;
       }
-      ctx.textBaseline = "middle";
-      ctx.textAlign = "center";
-      ctx.fillText(
+      ctxs.overlay.textBaseline = "middle";
+      ctxs.overlay.textAlign = "center";
+      ctxs.overlay.fillText(
         global.deathMessage,
-        cv.main.width * 0.5,
-        cv.main.height * 0.3,
+        cv.overlay.width * 0.5,
+        cv.overlay.height * 0.3,
       );
-      ctx.restore();
+      ctxs.overlay.restore();
     } else if (gameState == "debug") {
-      ctx.font = cv.main.width * 0.04 + "px " + data.font;
-      ctx.textBaseline = "top";
-      ctx.textAlign = "left";
-      ctx.fillStyle = "#EEEE";
-      ctx.fillText(
+      ctxs.overlay.font = cv.overlay.width * 0.04 + "px " + data.font;
+      ctxs.overlay.textBaseline = "top";
+      ctxs.overlay.textAlign = "left";
+      ctxs.overlay.fillStyle = "#EEEE";
+      ctxs.overlay.fillText(
         lang.debug,
-        cv.main.width * 0.02,
-        cv.main.width * 0.02,
+        cv.overlay.width * 0.02,
+        cv.overlay.width * 0.02,
       );
     }
 
-    ctx.font = cv.main.width * 0.04 + "px " + data.font;
-    ctx.textBaseline = "top";
-    ctx.textAlign = "left";
-    ctx.fillStyle = "#EEE5";
-    ctx.lineWidth = 4;
+    /* Timer */
+    ctxs.overlay.font = cv.overlay.width * 0.04 + "px " + data.font;
+    ctxs.overlay.textBaseline = "top";
+    ctxs.overlay.textAlign = "left";
+    ctxs.overlay.fillStyle = "#EEE5";
+    ctxs.overlay.lineWidth = 4;
     time = ((Date.now() - global.timeStart) / 1000).toFixed(2).toString();
-    ctx.fillText(
+    ctxs.overlay.fillText(
       lang.time_game.format(time),
-      cv.main.width * 0.87 - cv.main.width * 0.01 * time.length,
-      cv.main.height * 0.02,
+      cv.overlay.width * 0.87 - cv.overlay.width * 0.01 * time.length,
+      cv.overlay.height * 0.02,
     );
   } else if (gameState == "start") {
     /* Title screen */
@@ -736,7 +769,7 @@ function render() {
       cv.main.height * 0.7,
     );
 
-    if (data.graphics > 2) {
+    if (data.graphics > 3) {
       /* Draw vignette */
       var grd = ctxs.shadow.createRadialGradient(
         cv.main.width * 0.5,
@@ -930,7 +963,7 @@ function render() {
     );
 
     /* Draw vignette */
-    if (data.graphics > 2) {
+    if (data.graphics > 3) {
       var grd = ctxs.shadow.createRadialGradient(
         cv.main.width * 0.5,
         cv.main.height * 0.5,
@@ -1047,6 +1080,20 @@ function render() {
     );
   }
 
-  // ctx.fillCanvas("white");
-  // ctx.drawImage(cv.shadow, 0, 0, cv.main.width, cv.main.height);
+  time0 = 1000;
+  if (global.lastGraphics + time0 > Date.now()) {
+    ctxs.overlay.font = cv.overlay.width * 0.03 + "px " + data.font;
+    ctxs.overlay.textBaseline = "bottom";
+    ctxs.overlay.textAlign = "left";
+    h = "FF";
+    if (data.graphics > 0) {
+      h = (((global.lastGraphics + time0 - Date.now()) / time0) * 256).round().toString(16).fill(2);
+    }
+    ctxs.overlay.fillStyle = "#888888" + h;
+    ctxs.overlay.fillText(
+      lang.graphics.format(data.graphics),
+      cv.overlay.h * 0.02,
+      cv.overlay.h * 0.99,
+    );
+  }
 }

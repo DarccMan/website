@@ -144,7 +144,7 @@ function update(mod) {
           player.jumpTime > Date.now() - data.v.jm
           && player.jumpTime < Date.now() - data.v.jc
         ) {
-          player.vy -= data.v.ja;
+          player.vy -= data.v.ja * mod;
         }
       }
 
@@ -612,14 +612,22 @@ function update(mod) {
     }
   }
 
-  if (keysDown.graphics_toggle) {
-    if (global.keyOnce_graphics) {
-      // doc.id("graphics").checked = !doc.id("graphics").checked;
-      changeGraphics();
-      global.keyOnce_graphics = false;
+  if (keysDown.graphics_increase) {
+    if (global.keyOnce_graphicsI + 300 < Date.now()) {
+      graphicsUp();
+      global.keyOnce_graphicsI = Date.now();
     }
   } else {
-    global.keyOnce_graphics = true;
+    global.keyOnce_graphicsI = null;
+  }
+
+  if (keysDown.graphics_decrease) {
+    if (global.keyOnce_graphicsD + 300 < Date.now()) {
+      graphicsDown();
+      global.keyOnce_graphicsD = Date.now();
+    }
+  } else {
+    global.keyOnce_graphicsD = null;
   }
 
   if (gameState != "load") {

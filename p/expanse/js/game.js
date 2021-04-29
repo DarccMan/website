@@ -1,13 +1,21 @@
 /* Create cv.maines */
 var cv = {};
 var ctxs = {};
-cv.main = doc.id("cv-main");
+
+cvs = ["main", "shadow", "overlay"];
+for (i = 0; i < cvs.length; i++) {
+  cv[cvs[i]] = doc.create("canvas");
+  cv[cvs[i]].id = "cv-" + cvs[i];
+  doc.id("wrap").appendChild(cv[cvs[i]]);
+  ctxs[cvs[i]] = cv[cvs[i]].getContext("2d");
+  cv[cvs[i]].initialize();
+}
+
 size = 512;
 _w = Math.round(size * data.ratio);
 _h = size;
 _ws = _w + "px";
 _hs = _h + "px";
-cv.main.initialize();
 cv.main.style.width = _ws + "px";
 cv.main.style.height = _hs + "px";
 cv.main.w = _w * data.resolution;
@@ -15,17 +23,11 @@ cv.main.h = _h * data.resolution;
 cv.main.parentNode.style.width = _ws;
 cv.main.parentNode.style.height = _hs;
 cv.main.setAttribute("oncontextmenu", "return(false);");
-ctxs.main = cv.main.getContext("2d");
 var ctx = ctxs.main;
 ctx.imageSmoothingEnabled = false;
 if (data.pixelate) {
   cv.main.style.imageRendering = "pixelated";
 }
-
-cv.shadow = doc.id("cv-shadow");
-ctxs.shadow = cv.shadow.getContext("2d");
-ctxs.shadow.imageSmoothingEnabled = false;
-cv.shadow.initialize();
 
 /* Create global variables */
 var debugMode = false;
@@ -36,7 +38,7 @@ if (F.url.online) {
 }
 var lvl = 0;
 if (debugMode) {
-  // data.graphics = 2;
+  data.graphics = 3;
   lvl = 5;
   startState = "play";
   // levels = [levels[0]];

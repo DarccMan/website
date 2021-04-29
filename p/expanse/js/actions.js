@@ -3,7 +3,7 @@ async function death() {
   gameState = "death";
   global.deaths++;
   global.lastDeath = Date.now();
-  global.deathMessage = F.randomChoice(data.death_lines);
+  global.deathMessage = F.randomChoice(lang.death);
   player.status = "death";
   player.animate = 0;
   for (j = 0; j < 100; j += 4) {
@@ -33,8 +33,13 @@ async function goal() {
 }
 
 /* Change graphics when checkbox toggled */
-function changeGraphics() {
-  data.graphics = (data.graphics + 1) % 4;
+function graphicsUp() {
+  data.graphics = (data.graphics + 1) % 5;
+  global.lastGraphics = Date.now();
+}
+function graphicsDown() {
+  data.graphics = (data.graphics + 10 - 1) % 5;
+  global.lastGraphics = Date.now();
 }
 
 window.addEventListener("keydown", function (e) {

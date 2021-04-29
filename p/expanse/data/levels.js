@@ -198,7 +198,7 @@ var levels = [
       @bat;
       x=23;
       y=5;
-      x-3;
+      x-4;
       y-2;
       #glass;
       y+2;
@@ -254,8 +254,6 @@ var levels = [
       #brick*3;
       y-1;
       x-1;
-      #goal;
-      x-1;
       @rat;
       y=7;
       x-5;
@@ -270,7 +268,13 @@ var levels = [
       @rat;
       y-1;
       @rat;
+      x-1;
       y-1;
+      @rat;
+      x=14;
+      y=7;
+      #goal;
+      x+5;
       @rat;
     `,
     player: {
@@ -279,7 +283,7 @@ var levels = [
     },
   },
   {
-    name: "Change level name!",
+    name: "<Debug Level!>",
     // disabled: true,
     dim: [25, 10],
     set: `
@@ -309,7 +313,7 @@ var levels = [
       #scaffold;
     `,
     player: {
-      x: 4,
+      x: 15,
       y: 5,
     },
   },

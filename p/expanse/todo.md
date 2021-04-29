@@ -1,6 +1,7 @@
 # Features
  - Change controls
  - Add shadow block (Negative light source)
+ - Crouch goes down in scaffold
 
 # Levels
  - Add Levels
@@ -8,34 +9,47 @@
 # Small stuff
  - Hide player hold in transition
  - Change background colour
+ - Change player death rotation to stay the same for flip
+ - Add 1 pixel of height to player crouch texture
+ - Add animate offset for rats only?
 
 # Bugs
  - Crouching while moving stops movement until uncrouch
- - Jump mechanics ALL broken
- - Completing level 0 restarts
+ - Completing level 0 restarts to 0
  - Debug movement not aligned to player
- - Fix shadow misalignment
- - Shadows not aligned to blocks or player
- - Shadow stops rendering if block off screen, even if shadow is not
+ - Super jump occurs when jumping in scaffolding (One piece even)
+ - Overlay still renders on non-play states
+ - Completion key not valid
+ - - Add fill for each number
+ - Death causes level completion
 
 # Technical
- - Image smoothing
+ - Image smoothing?
 
  - Overhaul
  - - ALL CSS!
- - - Canvas creation
- - - - Size
+
+ - Change player death animation to calculate on render
 
 # Optimisations
- - Lower shadow render resolution
- - Floor renders
- - Move sections to seperate canvases
+ - Floor and ceil all renders
 
 # CSS / HTML
  - Fix scroll
- - Rewrite text
  - Change background (Red?)
- - Add footer
+
+
+## Completed
+ - Jump mechanics ALL broken
+ - Lags stops full jump potential
+ - Shadows not aligned to blocks or player
+ - Shadow stops rendering if block off screen, even if shadow is not
+ - - Canvas creation
+ - - - Size
+ - Remove canvas from html, generate in game.js
+ - Move sections to seperate canvases
+ - Lower shadow render resolution
+
 
 
 
@@ -43,6 +57,7 @@
 
 # Do when finished
  - Remove levels
+ - Rewrite text
 
 
 
