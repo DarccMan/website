@@ -1,6 +1,8 @@
 # EpicWebsite <img src="./source/image/favicon.png" width="30">
 
-<p style="margin-bottom:-20px;margin-top:-15px;font-size:10px;">Name is a work in progress</p>
+<p style="margin-bottom:-20px;margin-top:-15px;font-size:10px;">
+Name is a work in progress
+</p>
 
 ## Welcome to the site 
 

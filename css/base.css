@@ -88,7 +88,6 @@ body {
   height: 30px;
   margin-bottom: -5px;
   margin-right: 5px;
-  image-rendering: pixelated;
 }
 #links .content .link.noImage.link:first-of-type {
   margin-top: 0px;
