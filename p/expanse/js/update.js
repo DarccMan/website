@@ -68,7 +68,9 @@ function update(mod) {
           }
         }
         if (!cb) {
-          player.crouch = false;
+          if (!global.playerInBlock) {
+            player.crouch = false;
+          }
         }
       }
     }
@@ -350,7 +352,6 @@ function update(mod) {
     if (cb && (!global.debug_move || global.debug_move + 50 < Date.now())) {
       /* Move player to nearest empty block */
       /* Jee wizz how does this work. help */
-      player.crouch = true;
       distance = Math.max(grid.length, grid[0].length);
       dirs = [
         [0, 1], // Down
@@ -364,13 +365,6 @@ function update(mod) {
           bx = cx + dirs[r][0] * d;
           by = cy + dirs[r][1] * d;
           if (!grid[bx]?.[by] || grid[bx]?.[by]?.block == "none") {
-            ctx.fillStyle = "yellow";
-            ctx.fillRect(
-              - cam.x + (bx + 0.5) * tw - 5,
-              - cam.y + (by + 0.5) * tw - 5,
-              10,
-              10,
-            );
             mins[r] = ({
               d,
               dx: dirs[r][0],
@@ -395,18 +389,11 @@ function update(mod) {
           }
 
           if (min.m !== null) {
-            ctx.fillStyle = "lime";
-            ctx.fillRect(
-              - cam.x + (cx + min.dx * min.d + 0.5) * tw - 5,
-              - cam.y + (cy + min.dy * min.d + 0.5) * tw - 5,
-              10,
-              10,
-            );
             player.x += min.dx * Math.max(min.d, 0) * tw * 0.05;
             player.y += min.dy * Math.max(min.d, 0) * tw * 0.05;
-            // player.crouch = false;
             if (min.dy > 0) {
-              console.log(player.crouch);
+              player.crouch = true;
+              player.status = "crouch";
             }
           }
           break D;

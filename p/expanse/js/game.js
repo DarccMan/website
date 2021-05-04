@@ -32,7 +32,7 @@ if (data.pixelate) {
 /* Create global variables */
 var global = {};
 global.startDebug = false;
-global.startDebug = true;
+// global.startDebug = true;
 startState = "start";
 if (F.url.online) {
   global.startDebug = false;
