@@ -124,7 +124,7 @@ sc.init = function () {
       unknown = "";
     }
     name = "Shortcut {0}".format(i + 1);
-    if (d.sc[i] && d.sc[i].name) {
+    if (d.sc[i]?.name && d.sc[i]?.name !== "") {
       name = d.sc[i].name;
     }
 
@@ -163,9 +163,9 @@ sc.edit = function (el) {
   ) {
     old_href = ls.get().sc[num].href;
   }
-  href = prompt("Link: ", old_href);
+  href = prompt("Link: \nDelete text to remove shortcut", old_href);
   if (href) {
-    old_name = "Shortcut"
+    old_name = "Shortcut {0}".format(num + 1);
     if (
       !unknown
       && ls.get().sc[num]
@@ -174,7 +174,10 @@ sc.edit = function (el) {
       old_name = ls.get().sc[num].name;
     }
     name = prompt("Name: ", old_name);
-    if (name) {
+    if (name === "null") {
+      name = "";
+    }
+    if (name || name === "") {
       ls.set(d => {
         d.sc[num] = {
           href,
