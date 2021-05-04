@@ -11,7 +11,7 @@ function update(mod) {
         doc.id("x").value = scene.cam.x;
         doc.id("y").value = scene.cam.y;
         doc.id("z").value = scene.cam.z;
-      } catch {}
+      } catch { }
 
       if (scene.cam.type == "sticky") {
         if (scene.cam.x) {
@@ -24,7 +24,7 @@ function update(mod) {
 
       player.flip = false;
       mult = 0;
-      switch (F.bool_bin(keysDown.includes("player_right"), keysDown.includes("player_left"))) {
+      switch (F.bool_bin(keysDown.player_right, keysDown.player_left)) {
         case ("10"): {
           if (player.flipped) {
             player.flip = true;
@@ -41,7 +41,7 @@ function update(mod) {
         }; break;
         default: {
           player.pose = "idle";
-          player.vel_x -= (player.speed_move_decel * mod) * (0 - F.toOne(player.vel_x));
+          player.vel_x -= (player.speed_move_decel * mod) * (0 - Math.sign(player.vel_x));
           if (F.diff(0, player.vel_x) <= 1) {
             player.vel_x = 0;
           }
@@ -49,14 +49,14 @@ function update(mod) {
       }
       player.vel_x += (player.speed_move_acel * mod) * mult;
 
-      if (keysDown.includes("player_up")) {
+      if (keysDown.player_up) {
         if (player.jumpVal && val.pass) {
           player.jumpVal = false;
           player.vel_y -= player.speed_jump;
         }
       } else {
         val.pass = true;
-        if (keysDown.includes("player_down")) {
+        if (keysDown.player_down) {
           if (player.vel_y + (player.speed_drop_acel * mod) < player.speed_drop_max) {
             player.vel_y += player.speed_drop_acel;
           } else {
@@ -67,7 +67,7 @@ function update(mod) {
       if (player.vel_y <= -1) {
         player.pose = "jump";
       }
-      
+
       if (player.vel_y + (player.speed_fall_acel * mod) < player.speed_fall_max) {
         player.vel_y += player.speed_fall_acel * mod;
       } else {
@@ -144,7 +144,7 @@ function update(mod) {
         }
       }
 
-      if (keysDown.includes("restart")) {
+      if (keysDown.restart) {
         gameState = "restart";
         if (lvl <= 0) {
           timer.stop();
@@ -153,7 +153,7 @@ function update(mod) {
         return;
       }
 
-      if (keysDown.includes("pause")) {
+      if (keysDown.pause) {
         if (val.pause) {
           gameState = "pause";
           timer.stop();
@@ -229,7 +229,7 @@ function update(mod) {
       }
     }; break;
     case ("title"): {
-      if (keysDown.includes("title_pass")) {
+      if (keysDown.title_pass) {
         if (val.pass) {
           gameState = "level";
           val.pass = false;
@@ -239,7 +239,7 @@ function update(mod) {
       }
     }; break;
     case ("level"): {
-      if (keysDown.includes("title_pass")) {
+      if (keysDown.title_pass) {
         if (val.pass) {
           gameState = "play";
           val.pass = false;
@@ -253,7 +253,7 @@ function update(mod) {
       }
     }; break;
     case ("pause"): {
-      if (keysDown.includes("pause")) {
+      if (keysDown.pause) {
         if (val.pause) {
           gameState = "play";
           timer.play();
@@ -264,7 +264,7 @@ function update(mod) {
       }
     }; break;
     case ("complete"): {
-      if (keysDown.includes("title_pass")) {
+      if (keysDown.title_pass) {
         if (val.pass) {
           reset();
           val.pass = false;
@@ -278,7 +278,7 @@ function update(mod) {
     }; break;
   }
 
-  if (keysDown.includes("debug_main")) {
+  if (keysDown.debug_main) {
     if (F.buttonDown(0)) {
       if (score.cheats) {
         score.cheats++;
