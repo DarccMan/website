@@ -4,9 +4,8 @@
   src: url(../../source/font/dirty-roma.woff2);
 }
 body {
-  background-color: rgba(50, 50, 50);
-  background: rgb(45,48,70);
-  background: radial-gradient(circle, rgba(45,48,70,1) 15%, rgba(11,11,24,1) 100%);
+  background: rgba(19,7,12,1);
+  background: radial-gradient(circle, rgba(46,16,24,1) 0%, rgba(19,7,12,1) 100%);
 }
 * {
   letter-spacing: 2px;
@@ -16,12 +15,9 @@ body {
   color: #EEE;
   user-select: none;
 }
-#contain {
-  
-}
 #wrap {
   position: relative;
-  border: 4px solid #112;
+  border: 4px solid rgba(46,16,24,1);
   border-radius: 10px;
   background-color: rgba(60, 60, 60);
   margin-right: 10px;

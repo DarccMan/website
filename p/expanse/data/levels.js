@@ -283,6 +283,94 @@ var levels = [
     },
   },
   {
+    name: "Uhm... no name?",
+    disabled: true,
+    dim: [25, 15],
+    set: `
+      y=8;
+      #block*375&3,cracked:1;
+      x=3;
+      y=8;
+      #trap*2;
+      x-2;
+      y+1;
+      #trap*2;
+      x+1;
+      #trap*2;
+      x-4;
+      y+1;
+      #trap*4;
+      x-1;
+      y+1;
+      #trap;
+      x-1;
+      y+1;
+      #trap;
+      x-7;
+      y+1;
+      #trap*7;
+      x-7;
+      y-1;
+      #trap;
+      x-1;
+      y-1;
+      #scaffold;
+      x-1;
+      y-1;
+      #trap;
+      x-1;
+      y-1;
+      #scaffold;
+      x-1;
+      y-1;
+      #trap;
+      x-2;
+      y-1;
+      #block;
+      #scaffold;
+      #block;
+      x-3;
+      y-1;
+      #block;
+      #scaffold;
+      #block;
+      x-3;
+      y-1;
+      #block;
+      #scaffold;
+      #block;
+      x-3;
+      y-2;
+      #pillar;
+      x-1;
+      y-1;
+      #fire;
+      x-1;
+      y+2;
+      #block;
+      #scaffold;
+      #block;
+      #brick*8;
+      x-1;
+      y+1;
+      #force;
+      x-1;
+      y+1;
+      #force;
+      x-1;
+      y+1;
+      #force;
+      x+2;
+      #goal;
+      x-6;
+      #sign{text:Try_another_way};
+    `,
+    player: {
+      x: 5.9,
+      y: 6.8,
+    },
+  },
+  {
     name: "<Debug Level!>",
     disabled: true,
     dim: [40, 30],
@@ -311,10 +399,29 @@ var levels = [
       x-1;
       y-1;
       #scaffold;
+      x=15;
+      y=17;
+      #block;
+      x+1;
+      #block;
+      x-1;
+      y+1;
+      #block;
+      x+1;
+      y-1;
+      #block*3;
+      x-2;
+      y-1;
+      #block;
+      x-1;
+      y+2;
+      #block;
     `,
     player: {
-      x: 15,
+      // x: 15,
+      x: 20,
       y: 18.5,
+      // y: 17,
     },
   },
 ];

@@ -1,13 +1,9 @@
-<!-- # Fixed -->
-<!-- ## Confirmed fix -->
-
-<!-- # Doing at the moment -->
-<!-- -  -->
-
 # To do
-<!-- ## Features -->
 ## Bug fixes
-- Fix word search generator
+ - Fix deprecated FunctionsJS
+
+# GitHub
+ - Add testing branch
 
 # Reference
 - [Commit Log](https://github.com/epicwebsite/epicwebsite.github.io/commits/master)

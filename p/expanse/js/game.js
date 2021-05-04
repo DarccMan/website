@@ -32,15 +32,15 @@ if (data.pixelate) {
 /* Create global variables */
 var global = {};
 global.startDebug = false;
-// global.startDebug = true;
+global.startDebug = true;
 startState = "start";
 if (F.url.online) {
   global.startDebug = false;
 }
 var lvl = 0;
 if (global.startDebug) {
-  data.graphics = 2;
-  lvl = 0;
+  data.graphics = 3;
+  lvl = 6;
   startState = "play";
   global.ignoreDisabled = true;
 }

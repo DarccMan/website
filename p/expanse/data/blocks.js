@@ -86,4 +86,15 @@ data.blocks = { // Block data
     images: 1,
     collide: true,
   },
+  force: {
+    color: "#0000001C",
+    images: 1,
+    collide: true,
+  },
+  dirt: {
+    color: "#0B0704",
+    images: 1,
+    outline: true,
+    collide: true,
+  },
 };

@@ -311,6 +311,8 @@ function update(mod) {
     cb = null;
     p = {...playerHit};
     p.y -= 1;
+    cx = null;
+    cy = null;
     X: for (x = minx; x < maxx; x++) {
       for (y = miny; y < maxy; y++) {
         if (grid[x][y].block != "none") {
@@ -330,6 +332,8 @@ function update(mod) {
               data.blocks[grid[x][y].block]?.collide
               && !data.blocks[grid[x][y].block]?.walkInto
             ) {
+              cx = x;
+              cy = y;
               cb = grid[x][y];
               break X;
             } else if (data.blocks[grid[x][y].block]?.goal) {
@@ -343,8 +347,74 @@ function update(mod) {
         }
       }
     }
-    if (cb) {
-      player.y -= tw * 0.03;
+    if (cb && (!global.debug_move || global.debug_move + 50 < Date.now())) {
+      /* Move player to nearest empty block */
+      /* Jee wizz how does this work. help */
+      player.crouch = true;
+      distance = Math.max(grid.length, grid[0].length);
+      dirs = [
+        [0, 1], // Down
+        [1, 0], // Left
+        [-1, 0], // Right
+        [0, -1], // Up
+      ];
+      D: for (d = 1; d < distance; d++) {
+        mins = [];
+        for (r = 0; r < dirs.length; r++) {
+          bx = cx + dirs[r][0] * d;
+          by = cy + dirs[r][1] * d;
+          if (!grid[bx]?.[by] || grid[bx]?.[by]?.block == "none") {
+            ctx.fillStyle = "yellow";
+            ctx.fillRect(
+              - cam.x + (bx + 0.5) * tw - 5,
+              - cam.y + (by + 0.5) * tw - 5,
+              10,
+              10,
+            );
+            mins[r] = ({
+              d,
+              dx: dirs[r][0],
+              dy: dirs[r][1],
+            });
+          }
+        }
+        if (mins.length > 0) {
+          min = {
+            m: null,
+            d: Infinity,
+          };
+          for (m = 0; m < mins.length; m++) {
+            if (mins[m]) {
+              if (Math.abs(mins[m].d) < Math.abs(min.d)) {
+                min = {
+                  m,
+                  ...mins[m],
+                };
+              }
+            }
+          }
+
+          if (min.m !== null) {
+            ctx.fillStyle = "lime";
+            ctx.fillRect(
+              - cam.x + (cx + min.dx * min.d + 0.5) * tw - 5,
+              - cam.y + (cy + min.dy * min.d + 0.5) * tw - 5,
+              10,
+              10,
+            );
+            player.x += min.dx * Math.max(min.d, 0) * tw * 0.05;
+            player.y += min.dy * Math.max(min.d, 0) * tw * 0.05;
+            // player.crouch = false;
+            if (min.dy > 0) {
+              console.log(player.crouch);
+            }
+          }
+          break D;
+        }
+      }
+      ctx.globalAlpha = 1;
+
+      // player.y -= tw * 0.03;
       global.playerInBlock = true;
     } else {
       global.playerInBlock = false;
@@ -666,11 +736,12 @@ function update(mod) {
       /* Move player */
       if (F.mouse.onCanvas) {
         if (F.buttonDown(0)) {
-          player.x += - ((- cam.x + player.x) - F.mouse.x) * mod * 5;
-          player.y += - ((- cam.y + player.y) - F.mouse.y) * mod * 5;
+          player.x += - ((- cam.x + player.x + player.w / 2) - F.mouse.x) * mod * 5;
+          player.y += - ((- cam.y + player.y + player.h / 2) - F.mouse.y) * mod * 5;
           player.vx = 0;
           player.vy = 0;
           global.stats.cheat = true;
+          global.debug_move = Date.now();
         }
       }
 

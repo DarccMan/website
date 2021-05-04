@@ -104,7 +104,7 @@ var controls = { // Kinda self explanatory
       86,
     ],
     debug: [
-      80,
+      90,
     ],
     debug_mode: [
       76,

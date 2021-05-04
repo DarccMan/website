@@ -332,31 +332,35 @@ function render() {
 
       /* Draw player holding block */
       if (player.hold) {
+        ay = 0;
+        if (gameState == "win") {
+          ay = player.animate * (cv.main.w - player.y);
+        }
         ctx.save();
         if (player.flip < 0) {
           ctx.translate(
             player.x + (player.w / 2),
-            player.y + (player.h / 2),
+            player.y + (player.h / 2) + ay,
           );
           ctx.scale(-1, 1);
           ctx.translate(
             - (player.x + (player.w / 2)),
-            - (player.y + (player.h / 2)),
+            - (player.y + (player.h / 2) + ay),
           );
         }
         ctx.translate(
           player.x + player.w / 2,
-          player.y + player.h / 2,
+          player.y + player.h / 2 + ay,
         );
         ctx.rotate(30 * Math.PI / 180);
         ctx.translate(
           - (player.x + player.w / 2),
-          - (player.y + player.h / 2),
+          - (player.y + player.h / 2 + ay),
         );
         ctx.drawImage(
           images[player.hold + "_" + (data.graphics < 3 ? 0 : (frame.current % data.blocks[player.hold].images))],
           player.x + 20,
-          player.y,
+          player.y + ay,
           player.w * data.hold_size,
           player.h * data.hold_size,
         );

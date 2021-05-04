@@ -18,6 +18,13 @@ var lang = {
     "AAARRRGGHH!",
     "Oh MAN!",
     "oof",
+    "Holy #%*&!",
+    "Not good.",
+    "WHAT?!",
+    "You mad?",
+    "Dang it",
+    "Oh crud!",
+    "Bugger",
   ],
   graphics: "Graphics: {0}",
 };
