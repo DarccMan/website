@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Audio - EpicWebsite</title>
+    <style>
+      body {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        overflow: hidden;
+        z-index: -100;
+        background-color: rgba(10, 10, 10);
+      }
+      audio {
+        position: absolute;
+        bottom: 0px;
+        width: 100%;
+        background-color: rgba(10, 10, 10);
+      }
+      img {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        background-color: rgba(10, 10, 10);
+      }
+      section {
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <img src="image.png" alt="Audio">
+    </section>
+    <audio controls autoplay>
+      <source src="./audio.wav" type="audio/wav">
+      Your browser does not support the audio element.
+    </audio>
+  </body>
+</html>

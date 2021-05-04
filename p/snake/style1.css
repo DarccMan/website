@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'Cubic';
+  src: url('font/cubic.ttf');
+}
+body {
+  background-color: rgba(50, 50, 50);
+}
+canvas {
+  border: 5px solid rgba(20, 20, 20);
+}

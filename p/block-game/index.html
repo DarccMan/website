@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Minecraft 2D - EpicWebsite</title>
+    <link rel="stylesheet"  type="text/css" href="style1.css">
+    <link rel="stylesheet"  type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="https://fnctjs.github.io/index.js"></script>
+    <link rel="shortcut icon" type="image/png" href="image/favicon.png">
+  </head>
+  <body onload="init()">
+    <div id="canvas_contain"></div>
+    <section>
+      <div>
+        <button onclick="world_export()"><i class="fa fas fa-download"></i> Export World</button>
+        <button onclick="world_import()"><i class="fa fas fa-upload"></i> Import World</button>
+      </div>
+      <div>
+        <select id="world_type">
+          <option value="random">Random</option>
+          <option value="grass">Grassy</option>
+          <option value="stripe">Stripes</option>
+          <option value="checker_b">Checker Board (brown)</option>
+          <option value="checker_w">Checker Board (white and black)</option>
+          <option value="white">Clean Slate</option>
+          <option value="gray">Greyscale</option>
+          <option value="black">Nighttime</option>
+        </select>
+        <button onclick="world_reset()"><i class="fa far fa-plus-square"></i> New World</button>
+      </div>
+      <div>
+        <select id="world_select">
+        </select>
+        <button onclick="world_load()"><i class="fa far fa-folder-open"></i> Load World</button>
+        <button onclick="world_save()"><i class="fa fa-save"></i> Save World</button>
+        <button onclick="world_saveAs()"><i class="fa fa-save"></i> Save World <b>As</b></button>
+        <button onclick="world_delete()"><i class="fa far fa-trash"></i> Delete World</button>
+        <h1 class="warn">Be warned! World loading and saving is still in the experimental stage</h1>
+      </div>
+      <div>
+        <button onclick="settings_toggle()" id="settings_btn"><i class="fa fa-cog"></i> <span id="settings_btn_text">Show Settings</span></button>
+        <div id="settings" onload="settings_toggle(); settings_change()">
+          <input type="checkbox" class="input" onchange="settings_change()" id="settings_mobSpawn"><p>Mob Spawning</p>
+          <input type="checkbox" class="input" onchange="settings_change()" id="settings_placeBlockUnder"><p>Place Blocks under player</p>
+        </div>
+      </div>
+    </section>
+    <script type="text/javascript" src="data.js"></script>
+    <script type="text/javascript" src="demo.js"></script>
+    <script type="text/javascript" src="game.js"></script>
+  </body>
+</html>

@@ -1,0 +1,194 @@
+@font-face {
+  font-family: "Basic";
+  src: url("font/basic.ttf");
+}
+/* Do not edit */
+body {
+  background-color: rgba(50, 50, 50);
+  font-family: Basic;
+  color: rgba(220, 220, 220);
+}
+body::-webkit-scrollbar {
+  background-color: rgba(40, 40, 40);
+} 
+body::-webkit-scrollbar-thumb {
+  background-color: rgba(80, 80, 80);
+}
+header {
+  background-color: rgba(30, 30, 30);
+  position: fixed;
+  text-align: center;
+  top: 0vh;
+  left: 0vh;
+  width: 100vw;
+  height: 20vh;
+  box-shadow: -1vh -2vh 5vh 2vh rgba(0,0,0,0.4);
+}
+/* Do not edit */
+h1 {
+  font-size: 7vh;
+  text-shadow: rgba(0, 0, 0) 0vh 0vh 3vh;
+}
+h2 {
+  text-shadow: rgba(0, 0, 0) 0vh 0vh 3vh;
+}
+h3 {
+  text-shadow: rgba(0, 0, 0) 0vh 0vh 3vh;
+}
+p {
+  font-size: 4vh;
+  text-shadow: rgba(0, 0, 0) 0vh 0vh 3vh;
+}
+/* Do not edit */
+.content div {
+  width: 170vh;
+  height: 40vh;
+  background-color: rgba(30, 30, 30);
+  margin: 0 auto;
+  margin-top: 5vh;
+  padding-top: 1vh;
+  border-radius: 2vh;
+  text-align: center;
+}
+.content div:first-of-type {
+  margin-top: 25vh;
+}
+.content div:last-of-type {
+  margin-bottom: 20vh;
+}
+.content h1 {
+  margin-top: 2vh;
+}
+/* Do not edit */
+.columns {
+  margin-left: 2vh;
+}
+.columns button {
+  float: left;
+  margin-right: 8vh;
+  margin-left: 8vh;
+  margin-top: 3vh;
+}
+/* Do not edit */
+.columns section {
+  float: left;
+  margin-right: 8vh;
+  margin-left: 8vh;
+  margin-top: 3vh;
+}
+.columns * {
+  width: 40vh;
+  height: 10vh;
+  float: left;
+  padding: 0vh;
+  font-size: 3.5vh;
+}
+/* Do not edit */
+.columns button {
+  cursor: pointer;
+  background-color: rgba(200, 200, 200);
+  border: 0.7vh solid rgba(20, 20, 20);
+  border-radius: 2vh;
+  box-shadow: 0vh 0vh 5vh 0vh rgba(0,0,0,0.6);
+}
+.columns button:hover {
+  background-color: rgba(180, 180, 180);
+}
+.columns button:focus {
+  background-color: rgba(160, 160, 160);
+  outline: none;
+}
+.columns h2 {
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+/* Do not edit */
+.columns h2 i {
+  margin-left: 9vw;
+  margin-top: -3.5vh;
+}
+.columns h3 {
+  margin-top: -7vh;
+  font-size: 3vh;
+}
+/* Do not edit */
+#download {
+  visibility: hidden;
+}
+#trust section {
+  width: 40%;
+  margin: 0 auto;
+  text-align: left;
+}
+/* Do not edit */
+#faq {
+  height: 85vh;
+}
+#faq section {
+  width: 40%;
+  margin: 0 auto;
+  text-align: left;
+}
+#faq h2 {
+  font-size: 5.5vh;
+}
+#faq h3 {
+  font-size: 4.5vh;
+}
+/* Do not edit */
+#reviews {
+  height: 32vw;
+}
+#reviews section {
+  width: 40%;
+  margin: 0 auto;
+  text-align: left;
+}
+#reviews h3 {
+  font-size: 2.4vh;
+  margin-top: 6vh;
+  margin-bottom: -2vh;
+}
+#reviews h3 span {
+  color: rgba(100, 100, 100);
+}
+#reviews h3 .checked {
+  color: rgba(255, 255, 255);
+}
+#reviews h3 span:first-of-type {
+  margin-left: 1vw;
+}
+#reviews p {
+  font-family: Arial, Helvetica, sans-serif;
+}
+#use {
+  height: 400px;
+}
+/* Do not edit */
+.footer {
+  cursor: pointer;
+  position: fixed;
+  bottom: 1vh;
+  left: 0.5vw;
+  padding: 0vh;
+  margin: 0vh;
+  width: 12vw;
+  height: 4vh;
+  background-color: rgba(20, 20, 20, 0.5);
+  border-style: none;
+  border-radius: 2vh;
+  font-size: 2.1vh;
+  color: white
+}
+/* Do not edit */
+.footer:hover {
+  text-decoration: underline;
+  background-color: rgba(30, 30, 30, 0.5);
+}
+.footer:focus {
+  outline: none;
+}
+.font {
+  font-family: Comic Sans MS;
+}
+/* Do not edit */

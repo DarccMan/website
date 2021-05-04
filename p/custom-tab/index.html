@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title id="title">New Tab</title>
+    <link rel="stylesheet" href="../../css/default.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <!-- <script type="text/javascript" src="C:/Users/darcy/OneDrive/Documents/.other/code/js/fnctjs/index.js"></script> -->
+    <!-- <script type="text/javascript" src="https://fnctjs.github.io/index.js"></script> -->
+    <script type="text/javascript" src="../../js/functions.js"></script>
+    <script type="text/javascript" src="js/data.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+    <link rel="shortcut icon" type="image/png" href="image/favicon.png">
+  </head>
+
+  <body onload="init()">
+    <div id="error" style="display:none;">
+      An error has occured:
+      <span id="error_code"></span>
+      <br>
+      <br>
+      Press F12 for more information
+      <br>
+      <br>
+      <a href="https://github.com/epicwebsite/epicwebsite.github.io/issues/new?assignees=&labels=&template=template.md&title=">Report Bug</a>
+      <br>
+      <br>
+      <button onclick="handle.continue()">Continue Anyway (Not recommended)</button>
+    </div>
+
+    <div id="content" style="visibility:hidden;">
+
+      <header class="ew center" onclick="header.change()" onkeydown="header.change(event)" tabindex="0">
+        <h1 id="header">New Tab</h1>
+      </header>
+
+      <section id="sc_contain"></section>
+      <section class="ew center search">
+        <input id="search" placeholder="Search Google" onkeydown="search(event)" autofocus>
+      </section>
+
+    </div>
+
+    <footer onclick="location.href='https://github.com/darccyy'" class="ew footer">Made by <span title="That's Me!">Darcy</span></footer>
+
+  </body>
+</html>

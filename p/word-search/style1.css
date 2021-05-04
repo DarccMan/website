@@ -1,0 +1,27 @@
+body {
+  background-color: rgba(50, 50, 50);
+}
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+textarea {
+  width: 200px;
+  height: 100px;
+  font-size: 20px;
+  resize: none;
+  background-color: rgba(200, 200, 200);
+}
+table {
+  background-color: rgba(0, 0, 0, 0);
+}
+td {
+  width: 21px;
+  height: 21px;
+  background-color: rgba(220, 220, 220);
+  font-size: 18px;
+  text-align: center;
+  padding: 2px;
+}
+table:active {
+  filter: brightness(90%);
+}

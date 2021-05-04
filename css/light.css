@@ -1,0 +1,7 @@
+html[lightmode=true] {
+  background-color: #505085;
+  background-image: none;
+}
+html[lightmode=true] * {
+  font-family: "Comic Sans";
+}

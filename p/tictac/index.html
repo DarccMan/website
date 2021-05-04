@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tick Tack Tow - EpicWebsite</title>
+    <link rel="stylesheet"  type="text/css" href="style1.css">
+    <link rel="stylesheet"  type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <link rel="shortcut icon" type="image/png" href="image/favicon.png">
+  </head>
+  <body>
+    <div id="canvas_contain"></div>
+    <section>
+      <p class="label">Bot gets first move</p>
+      <input type="checkbox" id="bot_first" onchange="btn_update()">
+    </section>
+    <section>
+      <p class="label">Show symbol</p>
+      <input type="checkbox" id="show_canvas2">
+    </section>
+    <section>
+      <p class="label">Board height</p>
+      <input type="range" id="board_height" min="2" max="14" value="3">
+    </section>
+    <section>
+      <p class="label">Board width</p>
+      <input type="range" id="board_width" min="2" max="14" value="3">
+    </section>
+    <section>
+      <p class="label">Row length to win</p>
+      <input type="range" id="board_row" min="2" max="14" value="3">
+    </section>
+    <section>
+      <p class="label">Bot type</p>
+      <select id="bot_type">
+        <option value="predict">Super Smart (hard)</option>
+        <option value="smart">Kinda Smart</option>
+        <option value="random">Random</option>
+        <option value="none">No bot</option>
+        <option value="2player">2 Player</option>
+      </select>
+    </section>
+    <section>
+      <button onclick="reset()">Reset Board</button>
+      <button onclick="points_reset(); reset()">Reset Game</button>
+      <button onclick="location.reload()">RESET ALL</button>
+    </section>
+    <section>
+      <h1 class="points_contain">
+        <span id="points_1">-</span>|
+        <span id="points_0">-</span>|
+        <span id="points_2">-</span>
+      </h1>
+    </section>
+    <br>
+    <section>
+      <button onclick="timer.toggle()" id="timer_toggle">Start Timer</button>
+      <button onclick="timer.reset()">Reset Timer</button>
+      <br>
+      <br>
+      <p onload="timer.init()" id="timer_display">-</p>
+    </section>
+    <script type="text/javascript" src="https://fnctjs.github.io/index.js"></script>
+    <script type="text/javascript" src="data.js"></script>
+    <script type="text/javascript" src="game.js"></script>
+  </body>
+</html>

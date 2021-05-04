@@ -1,0 +1,22 @@
+body {
+  background-color: rgba(50, 50, 50);
+}
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
+}
+#canvas_contain {
+  float: left;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+canvas {
+  background-color: rgba(60, 60, 60);
+  border: 5px solid rgba(5, 5, 5);
+  margin-right: 10px;
+  cursor: pointer;
+}
+select, input, button {
+  color: black;
+}

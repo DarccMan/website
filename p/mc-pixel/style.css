@@ -1,0 +1,37 @@
+body {
+  background-color: rgba(50, 50, 50);
+}
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#img {
+  width: 500px;
+  height: 500px;
+  image-rendering: pixelated;
+  float: left;
+}
+
+#hex {
+  position: absolute;
+  outline: none;
+  -webkit-appearance: none;
+  /* display: none; */
+  visibility: hidden;
+  left: 150px;
+  top: 80px;
+}
+
+#label {
+  width: 500px;
+  height: 500px;
+  float: left;
+}
+
+#loading {
+  color: white;
+  font-size: 40px;
+}
+#loading .small {
+  font-size: 20px;
+}

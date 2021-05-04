@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Aeruun Time Converter - EpicWebsite</title>
+    <link rel="stylesheet"  type="text/css" href="../../../css/default.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/03abc70cb1.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <!-- <script type="text/javascript" src="C:/Users/darcy/OneDrive/Documents/.other/code/js/fnctjs/index.js"></script> -->
+    <script type="text/javascript" src="https://fnctjs.github.io/index.js"></script>
+    <!-- <script type="text/javascript" src="data.js"></script> -->
+    <script type="text/javascript" src="script.js" defer></script>
+    <link rel="shortcut icon" type="image/png" href="../image/favicon.png">
+  </head>
+  <body>
+    <input type="number" min="-1" max="24" value="14" class="input" title="Hour" placeholder="Hour" id="hour" oninput="change()">
+    <input type="number" min="-1" max="60" value="20" class="input" title="Minute" placeholder="Minute" id="minute" oninput="change()">
+    <input type="number" min="-1" max="60" value="60" class="input" title="Second" placeholder="Second" id="second" oninput="change()">
+    <input type="checkbox" id="live" onchange="live_change()" title="Live" checked>
+    <br>
+    <input type="text" id="output_h" title="Hex Output" placeholder="Hex Output">
+    <label>Hexadecimal Time</label>
+    <br>
+    <input type="text" id="output_h2" title="Hex Output" placeholder="Hex Output">
+    <label>Hexadecimal Time Formatted</label>
+    <br>
+    <input type="text" id="output_d" title="Dec Output" placeholder="Dec Output">
+    <label>Decimal Time</label>
+    <br>
+    <input type="text" value="h : m  :  s .  ms" disabled>
+  </body>
+</html>

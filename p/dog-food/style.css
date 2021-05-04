@@ -1,0 +1,111 @@
+* {
+  color: white !important;
+}
+code {
+  font-family: 'Courier New', Courier, monospace;
+}
+input, .button {
+  color: black !important;
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  float: left;
+  margin: 10px;
+  margin-left: 0px;
+}
+table td, th {
+  border: 2px solid #282828;
+  text-align: left;
+  height: 10px;
+}
+body {
+  background-color: #323232;
+}
+tbody {
+  background-color: #323232;
+  cursor: default;
+}
+tbody:nth-child(odd) {
+  background-color: #282828;
+}
+tbody:nth-child(1) th {
+  padding: 10px 10px;
+}
+.tableButton {
+  cursor: default;
+  margin: 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding: 10px 20px;
+  background-color: #0000;
+  border: none;
+  font-size: 18px;
+}
+.tableButton.ect {
+  font-size: 15px;
+  color: rgba(180, 180, 180);
+}
+.tableButton.empty {
+  background-color: #0003;
+}
+.tableButton:not(.empty) {
+  cursor: pointer;
+}
+.tableButton:not(.empty):hover {
+  background-color: #1e1e1e;
+}
+.tableButton:focus {
+  outline: none;
+}
+#output {
+  float: none;
+}
+#search_contain {
+  margin-right: 10px;
+}
+#link {
+  display: none;
+  margin: 20px 0;
+}
+.subtitle {
+  font-size: 12px;
+  color: #dcdcdc;
+}
+#desc {
+  padding-bottom: 10px;
+}
+#desc h1 {
+  font-size: 25px;
+}
+#desc h2 {
+  font-size: 18px;
+}
+#desc p {
+  font-size: 15px;
+}
+#search {
+  width: 240px;
+  height: 20px;
+  padding: 5px;
+  font-size: 18px;
+}
+#noResults, #descLine {
+  display: none;
+}
+img {
+  width: 400px;
+  height: 400px;
+  filter: brightness(60%);
+}
+.green {
+  background-color: green;
+}
+.yellow {
+  background-color: green;
+}
+.red {
+  background-color: red;
+}

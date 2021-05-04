@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pattern Generator - EpicWebsite</title>
+    <link rel="stylesheet"  type="text/css" href="style1.css">
+    <link rel="stylesheet"  type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <!-- <link rel="shortcut icon" type="image/png" href="image/favicon.png" id="favicon"> -->
+  </head>
+  <body>
+    <div id="canvas_contain"></div>
+    <section>
+      <label>Line Width</label>
+      <br>
+      <input type="range" id="lineWidth" min="0" max="20" step="0.5">
+      <br>
+      <label>Amount X</label>
+      <br>
+      <input type="range" id="x" min="1" max="64" step="1">
+      <br>
+      <label>Amount Y</label>
+      <br>
+      <input type="range" id="y" min="1" max="64" step="1">
+      <br>
+      <label>Colour Odd Stroke</label>
+      <br>
+      <input type="color" id="odd_stroke">
+      <br>
+      <label>Colour Odd Fill</label>
+      <br>
+      <input type="color" id="odd_fill">
+      <br>
+      <label>Colour Even Stroke</label>
+      <br>
+      <input type="color" id="even_stroke">
+      <br>
+      <label>Colour Even Fill</label>
+      <br>
+      <input type="color" id="even_fill">
+    </section>
+    <script type="text/javascript" src="https://fnctjs.github.io/index.js"></script>
+    <script type="text/javascript" src="data.js"></script>
+    <script type="text/javascript" src="game.js"></script>
+  </body>
+</html>

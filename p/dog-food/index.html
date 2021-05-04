@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Food dogs can eat - EpicWebsite</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../css/default.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <!-- <script type="text/javascript" src="C:/Users/darcy/OneDrive/Documents/.other/code/js/fnctjs/index.js"></script> -->
+    <script type="text/javascript" src="https://fnctjs.github.io/index.js"></script>
+    <script type="text/javascript" src="food.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+    <link rel="shortcut icon" type="image/png" href="image/favicon.png">
+  </head>
+  <body onload="init()">
+    <h1>Food dogs can eat</h1>
+    <p>Disclaimer: This information is sourced from google and might be wrong!!! If you unsure then contact a vet. This is only for the average dog with no allergies. Submit any issues <a href="https://github.com/epicwebsite/epicwebsite.github.io/issues/new?assignees=&labels=pages+dog-food&template=dog-food.md&title=Dog+Food+Page+Issue" target="_blank">HERE</a></p>
+    <section>
+      <div class="search_contain">
+        <input type="text" id="search" oninput="search(event, true)" onkeydown="redirect(event)" placeholder="Search" autofocus>
+        <button onclick="random()" class="button">Random</button>
+        <a href="" target="_blank" id="link">Search Google for '<span id="link_text"></span>'</a>
+      </div>
+      <table id="output"></table>
+      <h1 id="noResults">No results</h1>
+    </section>
+    <article id="desc"></article>
+    <hr class="line">
+    <table id="table"></table>
+    <img id="image">
+  </body>
+</html>

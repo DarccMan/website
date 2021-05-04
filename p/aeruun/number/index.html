@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Aeruun Numeral Converter - EpicWebsite</title>
+    <link rel="stylesheet"  type="text/css" href="../../../css/default.css">
+    <link rel="stylesheet"  type="text/css" href="../style.css">
+    <link rel="stylesheet"  type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <link rel="shortcut icon" type="image/png" href="../image/favicon.png" id="favicon">
+  </head>
+  <body>
+    <div id="canvas_contain"></div>
+    <section>
+      <input id="input"  placeholder="Input Number" type="text" autocomplete="off" value="10015" oninput="change(this)" autofocus title="Input">
+      <button onclick="minusNum(); change()" title="Subtract">-</button>
+      <button onclick="addNum(); change()" title="Add">+</button>
+      <input id="convert" onchange="change()" type="checkbox" title="Convert Decimal to Hexadecimal">
+      <input id="decimal" placeholder="Hexadecimal" type="text" autocomplete="off" title="Hexadecimal Number" disabled>
+      <br>
+      <br>
+      <a id="notation" title="View in Aeruun" target="_blank"></a>
+      <br>
+      <!-- <span id="temp"></span>
+      <br> -->
+      <br>
+      <code id="binary"></code>
+    </section>
+    <!-- <script type="text/javascript" src="C:/Users/darcy/OneDrive/Documents/.other/code/js/fnctjs/index.js"></script> -->
+    <script type="text/javascript" src="https://fnctjs.github.io/index.js"></script>
+    <!-- <script type="text/javascript" src="data.js"></script> -->
+    <script type="text/javascript" src="game.js"></script>
+  </body>
+</html>

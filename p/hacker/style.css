@@ -1,0 +1,30 @@
+body {
+  overflow: hidden;
+  margin: 0;
+  background-color: rgba(0, 0, 0);
+}
+* {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 20px;
+  color: lime;
+  cursor: none;
+}
+#content_contain {
+  padding: 10px;
+  width: 100vw;
+  word-wrap: break-word;
+}
+#footer {
+  z-index: 999;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 20px;
+  padding: 10px;
+}
+#footer span {
+  background-color: lime;
+  color: rgba(0, 0, 0);
+  margin-right: 5px;
+}

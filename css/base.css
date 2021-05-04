@@ -1,0 +1,101 @@
+@import "default.css";
+@import "light.css";
+@import "setting.css";
+@font-face {
+  font-family: "Comic Sans";
+  src: url("../source/font/comic-sans.woff2");
+}
+html {
+  display: block;
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  padding: 0;
+  border: 10px solid #10101040;
+  box-sizing: border-box;
+}
+body {
+  padding: 10px;
+  margin-bottom: 100px;
+}
+.top header {
+  font-size: 40px;
+  font-weight: 600;
+}
+.top h1 {
+  font-size: 25px;
+  font-weight: 500;
+}
+.lightmode_contain {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 160px;
+}
+.lightmode_contain .label {
+  margin-top: 8px;
+  position: absolute;
+  font-size: 18px;
+}
+.lightmode_contain .switch {
+  position: absolute;
+  right: 0px;
+}
+.top-right {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+#links h2 {
+  font-size: 30px;
+  padding-left: 50px;
+}
+#links .content {
+  column-count: 3;
+  column-fill: auto;
+  margin-top: -10px;
+  padding: 5px;
+  font-size: 18px;
+}
+@media (max-width: 1050px) {
+  #links .content {
+    column-count: 2;
+  }
+}
+@media (max-width: 750px) {
+  #links .content {
+    column-count: 1;
+  }
+}
+#links .content .link {
+  break-inside: avoid;
+  margin: 5px 0;
+}
+#links .content .link:first-of-type {
+  margin-top: -1px;
+}
+#links .content .link section {
+  padding: 5px;
+}
+#links .content .link section a {
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #0004;
+}
+#links .content .link .icon_img {
+  float: left;
+  width: 30px;
+  height: 30px;
+  margin-bottom: -5px;
+  margin-right: 5px;
+  image-rendering: pixelated;
+}
+#links .content .link.noImage.link:first-of-type {
+  margin-top: 0px;
+}
+.download {
+  font-size: 30px;
+}
+hr {
+  margin-top: 20px;
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title onload="lang_fill('header_default', this)"></title>
+    <script type="text/javascript" src="lang.js"></script>
+    <script type="text/javascript" src="data.js"></script>
+    <link rel="stylesheet" type="text/css" href="style1.css">
+    <link rel="stylesheet" type="text/css" href="custom.css">
+    <link rel="stylesheet" type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="https://fnctjs.github.io/index.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+    <link rel="shortcut icon" type="image/png" href="image/favicon.png">
+  </head>
+
+  <body onload="init()">
+    <div id="bg"></div>
+    <header>
+      <a onload="lang_fill('online_status', this)">
+      </a>
+      <h1 id="header" onload="lang_fill('header_default', this)" onclick="header_change()"></h1>
+      <a href="settings.html" onload="lang_fill('settings_btn', this)">
+      </a>
+    </header>
+    <div id="content">
+      <div id="sc"></div>
+      <div class="search_contain">
+        <i id="search_icon_search" class="fa fa-search" onload="lang_fill('search_icon_search', this)"
+          onclick="search()"></i>
+        <input type="text" id="search" onkeydown="search_key(event)" onload="lang_fill('search_input', this)"
+          tabindex="1">
+        <i id="search_icon_close" class="fa fa-close" onload="lang_fill('search_icon_close', this)"
+          onclick="search_clear()"></i>
+      </div>
+      <div id="notes_contain">
+      </div>
+      <div id="date_contain">
+        <section id="date_time">--:--</section>
+      </div>
+    </div>
+    <div class="lineFill">
+      <p>.</p>
+      <p>.</p>
+      <p>.</p>
+      <p>.</p>
+      <p>.</p>
+      <p>.</p>
+      <p>.</p>
+      <p>.</p>
+      <p>.</p>
+      <p>.</p>
+    </div>
+    <footer>
+      <a href="about.html"><span onload="lang_fill('footer', this)"></span><span
+          onload="lang_fill('footer_name', this)"></span></a>
+    </footer>
+  </body>
+
+</html>

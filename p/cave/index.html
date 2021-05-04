@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cave Generation - EpicWebsite</title>
+    <link rel="stylesheet"  type="text/css" href="style1.css">
+    <link rel="stylesheet"  type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" type="image/png" href="image/favicon.png" id="favicon">
+  </head>
+  <body>
+    <div id="canvas_contain"></div>
+    <input type="checkbox" id="seed_random" checked onchange="seed_change()" onload="seed_change()">
+    <input type="text" id="seed" placeholder="Seed">
+    <button onclick="gen()" onload="gen()">Generate</button>
+    <!-- <button onclick="smooth()">Smooth</button> -->
+    <input type="checkbox" id="smooth" checked>
+    <input type="checkbox" id="smooth_walls" checked>
+    <input type="range" id="fill_perc" min="0" max="100" value="60" step="10">
+    <button onclick="download()">Export</button>
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="https://fnctjs.github.io/index.js"></script>
+    <script type="text/javascript" src="data.js"></script>
+    <script type="text/javascript" src="game.js"></script>
+  </body>
+</html>

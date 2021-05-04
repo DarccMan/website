@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Punnett Square Generator - EpicWebsite</title>
+    <link rel="stylesheet" href="style1.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="https://fnctjs.github.io/index.js"></script>
+    <script type="text/javascript" src="names.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+    <link rel="shortcut icon" type="image/png" href="image/favicon.png">
+  </head>
+  <body onload="init()">
+    <h1>Punnett Square Generator</h1>
+    <section id="inputs">
+      <input type="text" id="male" class="input" placeholder="bb" maxlength="2">
+      <label>Male Genotype</label>
+      <br>
+      <input type="text" id="female" class="input" placeholder="bB" maxlength="2">
+      <label>Female Genotype</label>
+      <br><br>
+      <button onclick="randomGen()">Randomize</button>
+      <button onclick="submit()">Submit</button>
+      <button onclick="makeChild()">Make a child</button>
+      <br>
+      <button onclick="makeChildren()">Make children</button>
+      <button onclick="deleteChildren()">Delete Children</button>
+      <section>
+        <input type="range" id="children_amount" value="3" min="1" max="100">
+        <br>
+        <label>Amount of children</label>
+      </section>
+      <br>
+      <h3>Predicted chance of traits</h3>
+      <p>
+        Recessive
+        <progress id="chance_p" value="0" min="0" max="100"></progress>
+        <span id="chance_p_perc"></span>
+        Dominant
+      </p>
+      <h3>Real chance of traits</h3>
+      <p>
+        Recessive
+        <progress id="chance_r" value="0" min="0" max="100"></progress>
+        <span id="chance_r_perc"></span>
+        Dominant
+      </p>
+    </section>
+    <table id="punnet">
+    </table>
+    <br>
+    <table id="children">
+      <tr>
+        <th>Child</th>
+        <th>Genotypes</th>
+        <th>Trait</th>
+        <th>Name</th>
+      </tr>
+    </table>
+    <footer>
+      <a href="https://github.com/darccyy">Designed and coded by <span title="Yeah boy">Darcy</span></a>
+    </footer>
+  </body>
+</html>

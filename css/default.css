@@ -1,0 +1,120 @@
+.ew.footer {
+  position: fixed;
+  right: 15px;
+  bottom: 15px;
+  padding: 5px 10px;
+  font-size: 15px;
+  border-radius: 100px;
+  backdrop-filter: blur(5px);
+  background-color: #111A;
+  box-shadow: 0 0 10px 5px #0002;
+  cursor: pointer;
+}
+.ew.footer:hover {
+  text-decoration: underline;
+}
+.ew.center {
+  text-align: center;
+}
+.ew.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+.ew.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.ew.switch input:checked + .slider {
+  background-color: #2196F3;
+}
+.ew.switch input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+.ew.switch input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+.ew.switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+.ew.switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: #FBFBFB;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+.ew.switch .slider.round {
+  border-radius: 34px;
+}
+.ew.switch .slider.round:before {
+  border-radius: 50%;
+}
+.ew.noselect {
+  user-select: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.ew.button {
+  background-color: #f0f0f0;
+  border: 2px solid gray;
+  min-width: 80px;
+  min-height: 30px;
+  font-size: 15px;
+}
+.ew.button:hover {
+  background-color: #dcdcdc;
+}
+.ew.button:active {
+  background-color: #c8c8c8;
+}
+.ew.button:focus {
+  outline: none;
+}
+.ew.hidden {
+  visibility: hidden;
+}
+code {
+  font-family: 'Courier New', Courier, monospace;
+}
+button,
+select,
+option,
+input {
+  color: #050505;
+}
+button {
+  cursor: pointer;
+}
+body:not(.no-default),
+html:not(.no-default) {
+  background-color: #202038;
+}
+* {
+  color: #fafafa;
+  font-family: Arial, Helvetica, sans-serif;
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}

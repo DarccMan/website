@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title id="title">What day is it? - EpicWebsite</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="shortcut icon" href="./image/favicon.png">
+    <script type="text/javascript" src="https://fnctjs.github.io/index.js"></script>
+    <script type="text/javascript" src="./days.js"></script>
+    <script type="text/javascript" src="./script.js"></script>
+  </head>
+  <body onload="init()">
+    <h1 id="day">What day is it?</h1>
+    <br>
+    <select id="type" onchange="setLocal(); changeText()">
+      <option value="classic">Classic</option>
+      <option value="monke">Monke</option>
+    </select>
+  </body>
+</html>

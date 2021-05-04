@@ -1,0 +1,495 @@
+body {
+  background-color: rgba(50, 50, 50);
+}
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
+}
+*::-webkit-scrollbar {
+  background-color: rgba(70, 70, 70);
+}
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 100, 100);
+}
+#bg {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(25, 25, 50);
+  z-index: -5000;
+}
+a {
+  cursor: pointer;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+input,
+button {
+  color: rgba(5, 5, 5);
+}
+.default {
+  cursor: default;
+  background-color: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(5px);
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  width: 100px;
+  height: 100px;
+}
+#content {
+  opacity: 0;
+}
+header {
+  width: 100vw;
+  height: 120px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  background-color: rgba(5, 5, 5, 0.8);
+  box-shadow: 0px 5px 20px 10px rgba(5, 5, 5, 0.4);
+  z-index: 99999;
+  backdrop-filter: blur(12px);
+}
+header h1 {
+  height: 95px;
+  margin: 0px;
+  padding-top: 25px;
+  text-align: center;
+  font-size: 60px;
+  font-weight: 200;
+}
+header a {
+  width: 100px;
+  height: 35px;
+  position: fixed;
+  top: 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: rgba(70, 70, 70);
+  font-size: 20px;
+  padding-top: 13px;
+  text-align: center;
+  box-shadow: 0px 0px 10px 3px rgba(5, 5, 5, 0.3) inset;
+}
+header a:active {
+  background-color: rgba(60, 60, 60);
+}
+header a:nth-of-type(1) {
+  left: 20px;
+  background-color: rgba(220, 150, 5);
+  color: rgba(5, 5, 5);
+}
+header a:nth-of-type(1):active {
+  background-color: rgba(200, 130, 5);
+}
+header a:nth-of-type(1)::selection {
+  display: none;
+}
+header a:nth-of-type(2) {
+  right: 40px;
+}
+.sc_contain {
+  margin: 50px;
+}
+#sc {
+  width: 100%;
+  margin-top: 130px;
+  margin-bottom: 20px;
+}
+#sc div {
+  width: 100%;
+}
+#sc div section a {
+  background-color: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(5px);
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  width: 100px;
+  float: left;
+  margin: 6px;
+  cursor: pointer;
+  background-color: rgba(10, 5, 5, 0.7);
+  display: block;
+  height: 40px;
+  text-align: center;
+  padding-top: 15px;
+}
+#sc div section a:hover {
+  background-color: rgba(4, 4, 4, 0.7);
+}
+#sc div section a img {
+  position: absolute;
+  left: 5px;
+  bottom: 30%;
+  width: 30px;
+}
+#sc div section a span {
+  margin-left: 25px;
+  font-size: 20px;
+  color: rgba(240, 240, 240);
+}
+#sc div section button {
+  cursor: pointer;
+  position: relative;
+  margin-left: -37px;
+  margin-top: 47px;
+  float: left;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  font-size: 20px;
+}
+#sc div section button i {
+  color: rgba(220, 220, 220);
+}
+#sc div section button i:hover {
+  color: rgba(240, 240, 240);
+}
+.search_contain {
+  text-align: center;
+  margin-top: 200px;
+}
+.search_contain input {
+  width: 20%;
+  height: 40px;
+  padding-left: 38px;
+  padding-right: 38px;
+  background-color: rgba(240, 240, 240);
+  border: none;
+  border-radius: 1000px;
+  font-size: 20px;
+  color: rgba(5, 5, 5);
+  transition: 0.3s ease-in-out;
+  box-shadow: 0px 0px 10px 3px rgba(5, 5, 5, 0.3);
+}
+.search_contain input:focus {
+  outline: none;
+  width: 40%;
+}
+.search_contain input:hover {
+  width: 40%;
+}
+.search_contain i {
+  cursor: pointer;
+  font-size: 25px;
+  color: rgba(120, 120, 120);
+  position: absolute;
+  margin-top: 8px;
+}
+.search_contain i:nth-of-type(1) {
+  margin-left: 9px;
+}
+.search_contain i:nth-of-type(2) {
+  margin-left: -31px;
+  opacity: 0;
+}
+.search_contain i:hover + #search,
+.search_contain i:focus + #search {
+  width: 40%;
+}
+#notes_contain textarea {
+  width: 250px;
+  height: 250px;
+  padding: 5px;
+  margin: 20px;
+  resize: none;
+  background-color: rgba(250, 240, 100);
+  border: 5px solid rgba(210, 200, 60);
+  color: rgba(20, 18, 2);
+  font-size: 20px;
+}
+#notes_contain textarea::-webkit-scrollbar {
+  display: none;
+}
+#notes_contain button {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  background-color: rgba(30, 30, 30, 0.5);
+  border: none;
+  border-radius: 0px 0px 0px 15px;
+  position: absolute;
+  margin-left: -50px;
+  margin-top: -50px;
+}
+#notes_contain button i {
+  color: rgba(220, 220, 220);
+  font-size: 15px;
+}
+#notes_contain button:focus {
+  outline: none;
+}
+#notes_contain button:hover {
+  background-color: rgba(20, 20, 20, 0.5);
+}
+#notes_contain button:active {
+  background-color: rgba(10, 10, 10, 0.5);
+}
+footer {
+  cursor: pointer;
+  height: 3%;
+  background-color: rgba(13, 10, 10, 0.5);
+  backdrop-filter: blur(5px);
+  border-radius: 20px;
+  position: fixed;
+  bottom: 1%;
+  right: 1%;
+  text-align: center;
+  border-width: 0px;
+  padding: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+footer a {
+  color: #646464;
+  margin-top: 0px;
+  font-size: 1.1vw;
+  font-family: Arial, Helvetica, sans-serif;
+  text-decoration: none;
+}
+footer a:hover {
+  text-decoration: underline;
+}
+footer:focus {
+  outline: none;
+}
+.lineFill {
+  z-index: -50000;
+  visibility: hidden;
+}
+.blocks {
+  margin-top: 30px;
+}
+.blocks div {
+  background-color: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(5px);
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  width: 100px;
+  height: 100px;
+  cursor: default;
+  height: unset;
+  margin: 0 auto;
+  line-height: 20px;
+  width: 60%;
+  padding: 20px;
+  padding-left: 40px;
+  margin-top: 20px;
+}
+.blocks div:nth-child(1) {
+  text-align: center;
+}
+.blocks div *:nth-child(1) {
+  margin-top: 10px;
+}
+.blocks div h1 {
+  font-size: 40px;
+}
+.blocks div h2 {
+  font-size: 30px;
+}
+.blocks div p {
+  line-height: 30px;
+}
+.blocks div .footerNote {
+  position: absolute;
+  bottom: -5px;
+  right: 10px;
+}
+.blocks hr {
+  cursor: default;
+  background-color: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(5px);
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  width: 100px;
+  height: 100px;
+  width: 60%;
+  height: 10px;
+  border-radius: 1000px;
+  padding: 30px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-top: 10px;
+  margin-bottom: -10px;
+}
+.back {
+  cursor: default;
+  background-color: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(5px);
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  height: 60px;
+  width: 130px;
+  backdrop-filter: blur(8px);
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  border-style: solid;
+  border-radius: 8px;
+  border-color: rgba(30, 28, 28);
+  border-radius: 15px;
+  padding: 0px;
+}
+.back p {
+  color: #e6e6ff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 30px;
+  margin-top: 12px;
+}
+.back p:hover {
+  text-decoration: underline;
+}
+.back:hover {
+  background-color: rgba(19, 17, 17, 0.7);
+}
+.back:focus {
+  outline: none;
+}
+.back:active {
+  background-color: rgba(25, 22, 22, 0.7);
+}
+.settings_content {
+  width: 60%;
+  margin-top: 20px;
+  margin-left: 10px;
+}
+.settings_content .group {
+  cursor: default;
+  background-color: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(5px);
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  width: 100px;
+  height: 100px;
+  width: 100%;
+  height: unset;
+  padding-left: 20px;
+  padding-top: 5px;
+  margin-top: 20px;
+}
+.settings_content .group p {
+  font-size: 25px;
+  padding-top: 3px;
+}
+.settings_content .group p i {
+  cursor: pointer;
+  font-size: 20px;
+  margin-left: 10px;
+  color: rgba(120, 120, 120);
+}
+.settings_content .group select {
+  cursor: pointer;
+  color: rgba(5, 5, 5);
+  background-color: rgba(200, 200, 200);
+  border: 3px solid rgba(100, 100, 100);
+  border-radius: 10px 10px 0px 0px;
+  font-size: 25px;
+  padding: 5px;
+}
+.settings_content .group select option {
+  color: rgba(5, 5, 5);
+}
+.settings_helpPanel {
+  cursor: default;
+  background-color: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(5px);
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  width: 100px;
+  height: 100px;
+  position: fixed;
+  width: 31%;
+  top: 20px;
+  right: 20px;
+  height: 89vh;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+}
+.settings_helpPanel p {
+  font-size: 25px;
+  padding-top: 3px;
+}
+.settings_helpPanel i {
+  cursor: pointer;
+  font-size: 20px;
+  color: rgba(180, 180, 180);
+}
+.switch {
+  position: relative;
+  width: 60px;
+  height: 34px;
+  float: left;
+  margin-right: 10px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.switch input :focus + .slider {
+  box-shadow: 0 0 1px rgba(33, 150, 243);
+}
+.switch input:checked + .slider {
+  background-color: rgba(33, 150, 243);
+}
+.switch input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+.switch input:checked:disabled + .slider {
+  background-color: rgba(140, 195, 205);
+}
+.switch input:checked:disabled:active + .slider {
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
+  background-color: rgba(110, 165, 175);
+}
+.switch input:disabled + .slider {
+  background-color: rgba(134, 134, 134);
+}
+.switch input:disabled:active + .slider {
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
+  background-color: rgba(84, 84, 84);
+}
+.switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(204, 204, 204);
+  border-radius: 20px;
+}
+.switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  border-radius: 20px;
+  background-color: white;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}

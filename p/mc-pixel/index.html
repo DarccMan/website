@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Minecraft Pixels</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="image/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/03abc70cb1.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+  </head>
+  <body onload="init()">
+    <section id="loading">
+      Loading<span id="ellipse"></span>
+      <br>
+      <span class="small">Please wait</span>
+    </section>
+    <section id="content" style="visibility:hidden;">
+      <label id="label" for="hex"></label>
+      <input id="hex" type="color" oninput="calculate()">
+      <img id="img">
+    </section>
+
+    <script type="text/javascript" src="https://fnctjs.github.io/index.js"></script>
+    <script type="text/javascript" src="averages.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+  </body>
+</html>

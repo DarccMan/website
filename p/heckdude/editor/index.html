@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Heckdude Level Editor - EpicWebsite</title>
+    <link rel="stylesheet"  type="text/css" href="../style.css">
+    <link rel="stylesheet"  type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+  </head>
+  <body onload="load()">
+    <div id="canvas_contain"></div>
+    <section>
+      <button onclick="location.href='../index.html'">Back to Game</button>
+      <div>
+        <input type="range" id="y" min=-500 max=500 value=0 style="float:left">
+        <input type="range" id="x" min=-500 max=500 value=0>
+        <input type="range" id="z" min=10 max=200 value=100>
+        <br>
+        <button onclick="togglePlay()" id="playBtn">Play</button>
+        <button onclick="undo()">Undo</button>
+        <button onclick="lvlExport()">Export</button>
+        <button onclick="lvlImport()">Import</button>
+      </div>
+      <div>
+        <select id="tool" onload="changeTool()" onchange="changeTool()">
+          <option value="block_draw">Draw Block</option>
+          <option value="block_select">Select Block</option>
+          <option value="player_move">Move Player</option>
+        </select>
+      </div>
+      <div class="tooldiv block_draw">
+        <label>Block Type</label>
+        <select id="block_type">
+          <option value="solid">Solid</option>
+          <option value="goal">Goal</option>
+          <option value="death">Death</option>
+          <option value="display">Display</option>
+          <option value="barrier">Barrier</option>
+        </select>
+        <br>
+        <label>Use default colour</label>
+        <input type="checkbox" id="block_defaultColor" checked onchange="this.nextSibling.nextSibling.style.display=!this.checked?'block':'none'">
+        <div style="display:none;">
+          <br>
+          <label>Fill</label>
+          <input type="color" id="block_fill" value="#FF0000">
+          <br>
+          <label>Use stroke</label>
+          <input type="checkbox" id="block_doStroke" onchange="this.nextSibling.nextSibling.style.display=this.checked?'block':'none'">
+          <div>
+            <label>Stroke</label>
+            <input type="color" id="block_stroke" value="#0000FF">
+            <br>
+            <label>Stroke width</label>
+            <input type="range" id="block_line" min=1 max=10 value=2>
+          </div>
+        </div>
+      </div>
+      <div class="tooldiv player_move">
+        <input type="number" onchange="playerChangeX()" id="player_x" placeholder="X position">
+        <input type="number" onchange="playerChangeY()" id="player_y" placeholder="Y position">
+      </div>
+    </section>
+    <script type="text/javascript" src="https://fnctjs.github.io/index.js">
+      /* let el = document.createElement("script");
+      el.type = "text/javascript";
+      el.src = "C:/Users/darcy/OneDrive/Documents/__THINGS/code/js/functions/index.js";
+      console.log(el);
+      this.parent.insertAfter(el, this); */
+    </script>
+    <script type="text/javascript" src="../data/assets.js"></script>
+    <script type="text/javascript" src="../data/data.js"></script>
+    <script type="text/javascript" src="../data/controls.js"></script>
+    <script type="text/javascript" src="../js/class.js"></script>
+    <script type="text/javascript" src="../js/editor/reset.js"></script>
+    <script type="text/javascript" src="../js/editor/render.js"></script>
+    <script type="text/javascript" src="../js/editor/editor.js"></script>
+    <script type="text/javascript" src="../js/game/update.js"></script>
+    <script type="text/javascript" src="../js/game/game.js"></script>
+  </body>
+</html>

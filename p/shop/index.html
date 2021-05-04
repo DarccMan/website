@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Shop Plotter - EpicWebsite</title>
+    <link rel="stylesheet"  type="text/css" href="style.css">
+    <link rel="stylesheet"  type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+  </head>
+  <body>
+    <div id="canvas_contain"></div>
+    <section>
+      <input type="range" id="x" min="-400" max="400" value="0" step="1">
+      <input type="range" id="y" min="-400" max="400" value="0" step="1">
+      <input type="range" id="z" min="20" max="200" value="100" step="1">
+      <button onclick="resetCam()">Reset Cam</button>
+      <br>
+      <div>
+        <input onkeydown="
+          if (event.keyCode == 13) {
+            addItem();
+          }
+        " oninput="changeAvailable()" type="text" id="item" placeholder="Milk..." autocomplete="off">
+        <button onclick="addItemFromInput()">Add Item</button>
+        <button onclick="plotPath()" id="plot_button">Plot Path</button>
+        <ul class="scroll" id="available_items" onload="changeAvailable(); itemInit()">
+        </ul>
+        <h3>Items</h3>
+        <ul class="scroll" id="items">
+        </ul>
+      </div>
+    </section>
+    <script type="text/javascript" src="https://fnctjs.github.io/index.js"></script>
+    <script type="text/javascript" src="./data.js"></script>
+    <script type="text/javascript" src="./reset.js"></script>
+    <script type="text/javascript" src="./render.js"></script>
+    <script type="text/javascript" src="./update.js"></script>
+    <script type="text/javascript" src="./game.js"></script>
+  </body>
+</html>

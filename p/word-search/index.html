@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Word Search Generator - EpicWebsite</title>
+    <link rel="stylesheet" href="style1.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="https://fnctjs.github.io/index.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+    <!-- <link rel="shortcut icon" type="image/png" href="image/favicon.png"> -->
+  </head>
+  <body onload="init()">
+    <textarea id="words" placeholder="Words (seperate with space)" title="Words to put in the word search">word search table yes</textarea>
+    <!-- <textarea id="fillLetters" placeholder="Fill letters"></textarea> -->
+    <textarea id="fillLetters" placeholder="Fill letters" title="Letters to fill in the blanks with">abcdefghijklmnopqrstuvwxyz</textarea>
+    <input type="checkbox" id="upper" checked title="Auto uppercase letters">
+    <input type="range"  id="width" min="2" max="60" value="15" title="Table width">
+    <input type="range" id="height" min="2" max="60" value="15" title="Table height">
+    <input type="checkbox" id="dir_l" title="Words going left" checked>
+    <input type="checkbox" id="dir_u" title="Words going up" checked>
+    <input type="checkbox" id="dir_r" title="Words going right">
+    <input type="checkbox" id="dir_d" title="Words going down">
+    <button onclick="gen()" title="Click to Generate">Generate</button>
+    <button onmousedown="answer_show()" onmouseup="answer_hide()" onload="answer_hide()" title="Show answer">Show answer</button>
+    <table id="output" onclick="copy()" title="Click to copy!"></table>
+    <table id="output2"></table>
+  </body>
+</html>
