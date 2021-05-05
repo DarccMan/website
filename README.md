@@ -16,7 +16,7 @@ Visit it! ←  ←  ←
 
 <img src="./source/image/screenshot.png" width="100%" style="border-radius:20px;">
 
-Powered by [FunctionsJS](https://github.com/darccman/fnct)
+Powered by [FunctionsJS](https://github.com/darccyy/fnct)
 
 ## Contributing:
 
