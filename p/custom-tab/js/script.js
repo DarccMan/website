@@ -5,6 +5,7 @@ function init() {
   ls.check();
   sc.init();
   header.init();
+  notes.init();
   // uncomment_for_error;'
   handle.continue();
 }
@@ -297,5 +298,74 @@ function search(e) {
         location.href = url;
       }
     }
+  }
+}
+
+
+/* Notes */
+notes = {};
+
+notes.reset = function () {
+  ls.set(d => {
+    d.notes = {};
+  });
+}
+
+notes.init = function () {
+  doc.id("notes_contain").innerHTML = "";
+  for (i = 0; i < data.notes_amount; i++) {
+    if (!ls.get().notes) {
+      notes.reset();
+    }
+    text = ls.get().notes[i];
+    if (!text) {
+      text = "";
+    }
+    el = [
+      '<div class="wrap">',
+      '<textarea class="note" id="notes_{num}" spellcheck="false" placeholder="Click to add notes..." onkeydown="notes.save(this)" onchange="notes.save(this)" num="{num}">',
+      '{text}',
+      '</textarea>',
+      '<button onclick="notes.resetSingle(this.parentNode.childNodes[0])">',
+      '<i class="fa fa-trash"></i>',
+      '</button>',
+      '</div>',
+    ].join("").format({
+      num: i,
+      text,
+    });
+
+    doc.id("notes_contain").innerHTML += el;
+  }
+}
+
+notes.save = function (el) {
+  if (parseInt(el) == el) {
+    el = doc.id("notes_" + el);
+  }
+  if (el) {
+    num = parseInt(el.getAttribute("num"));
+    if (!ls.get().notes) {
+      notes.reset();
+    }
+    ls.set(d => {
+      d.notes[num] = el.value;
+    });
+  }
+}
+
+notes.resetSingle = function (el) {
+  if (parseInt(el) == el) {
+    el = doc.id("notes_" + el);
+  }
+  if (el) {
+    num = parseInt(el.getAttribute("num"));
+    if (!ls.get().notes) {
+      notes.reset();
+    }
+    ls.set(d => {
+      d.notes[num] = null;
+    });
+    notes.init();
   }
 }

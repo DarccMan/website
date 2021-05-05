@@ -152,3 +152,49 @@ header h1 {
   width: 40%;
   outline: none;
 }
+/* Notes */
+#notes_contain {
+  margin-top: 10px;
+}
+#notes_contain .wrap {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  margin: 10px;
+  float: left;
+  padding: 0;
+  border: 5px solid #994;
+  background: #cccc44;
+  background: linear-gradient(180deg, #cccc44 0%, #bebe37 100%);
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.75);
+}
+#notes_contain .wrap .note {
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  background-color: #0000;
+  border: none;
+  margin: 0;
+  padding: 5px;
+  resize: none;
+  font-size: 25px;
+  line-height: 35px;
+  color: black;
+}
+#notes_contain .wrap .note::-webkit-scrollbar {
+  display: none;
+}
+#notes_contain .wrap button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  border: none;
+  text-align: center;
+  background-color: #0000;
+}
+#notes_contain .wrap button i {
+  color: #0008;
+  font-size: 25px;
+  text-shadow: 0 0 8px #FFF8;
+}
