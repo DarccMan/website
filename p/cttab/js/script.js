@@ -1,11 +1,15 @@
 /* Top */
+page = F.url.filename;
 function init() {
   handle.startTimeout();
   handle.hide();
   ls.check();
-  sc.init();
-  header.init();
-  notes.init();
+  if (page == "index") {
+    sc.init();
+    header.init();
+    notes.init();
+  }
+  console.log("Hello :)");
   // uncomment_for_error;'
   handle.continue();
 }
@@ -214,19 +218,21 @@ sc.getAll = function () {
   return (arr);
 }
 
-addEventListener("mousedown", (e) => {
-  if (e.button == 0) {
-    global.scFocusVal = false;
-    sc.getAll().forEach((el) => {
-      sc.blur(el);
-    });
-  }
-});
-addEventListener("keydown", (e) => {
-  if (e.key == "Tab") {
-    global.scFocusVal = true;
-  }
-});
+if (page == "index") {
+  addEventListener("mousedown", (e) => {
+    if (e.button == 0) {
+      global.scFocusVal = false;
+      sc.getAll().forEach((el) => {
+        sc.blur(el);
+      });
+    }
+  });
+  addEventListener("keydown", (e) => {
+    if (e.key == "Tab") {
+      global.scFocusVal = true;
+    }
+  });
+}
 
 sc.focus = function (el) {
   if (global.scFocusVal) {

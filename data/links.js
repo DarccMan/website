@@ -5,8 +5,8 @@ var links = {
     image: "p/{0}/image/favicon.png",
     items: [
       {
-        id: "cctab",
-        name: "CCTab - New Tab page",
+        id: "cttab",
+        name: "CTTab - New Tab page",
       },
       {
         id: "bruh",

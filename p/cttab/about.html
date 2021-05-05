@@ -2,7 +2,7 @@
 <html>
 
   <head>
-    <title id="title">New Tab</title>
+    <title id="title">About - CTTab</title>
     <link rel="stylesheet" href="../../css/default.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -31,24 +31,51 @@
     </div>
 
     <div id="content" style="visibility:hidden;">
+      <h1>CTTab - About</h1>
+      <a href="../">Back</a>
 
-      <header class="ew center" onclick="header.change()" onkeydown="header.change(event)" tabindex="0">
-        <h1 id="header">New Tab</h1>
-      </header>
+      <section class="info">
+        <h2>How to set up</h2>
+        <details>
+          <summary>Chrome</summary>
+          <h3>Open on new tab</h3>
+          <ul>
+            <li>
+              Download '<a href="https://chrome.google.com/webstore/detail/new-tab-redirect/icpgjfneehieebagbmdbhnlpiopdcmna">New Tab Redirect</a>' from Chrome Web Store
+            </li>
+            <li>
+              Click on the icon and press 'Options'
+            </li>
+            <li>
+              Type the url ('https://epicwebsite.github.io/p/cttab') in the text box
+            </li>
+            <br>
+          </ul>
+          <h3>Use offline</h3>
+          <ul>
+            <li>
+              Press the ⋮ menu button
+            </li>
+              Click on 'More Tools' and then 'Save page as'
+            <li>
+              Then choose a location to save it
+            </li>
+            <li>
+              See above to open on new tab, but use your own location instead
+            </li>
+          </ul>
+        </details>
+        <details>
+          <summary>Other browsers</summary>
 
-      <section id="sc_contain"></section>
-      <section class="search">
-        <div class="wrap lines">
-          <input id="search" placeholder="Search Google" onkeydown="search.go(event)" autocomplete="off" onfocus="search.focus()" onblur="search.blur()">
-        </div>
+          <h3>Idk, just use chrome</h3>
+        </details>
       </section>
-
-      <section id="notes_contain" class="fas fa-trash-alt"></section>
 
     </div>
 
     <footer onclick="location.href='https://github.com/darccyy'" class="ew footer">
-      <span title="That's This!">CCTab</span>
+      <span title="That's This!">CTTab</span>
        by 
       <span title="That's Me!">Darcy</span>
     </footer>
