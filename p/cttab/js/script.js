@@ -1,5 +1,9 @@
-/* Top */
+/* Get page (index or about) */
 page = F.url.filename;
+if (F.url.online && !F.url.port) {
+  page = F.url.filepath.split("/").s(2, -1).join("/") || "index";
+}
+/* Initialize all */
 function init() {
   handle.startTimeout();
   handle.hide();
