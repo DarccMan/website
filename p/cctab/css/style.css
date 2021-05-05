@@ -137,32 +137,76 @@ header h1 {
   font-size: 20px;
 }
 /* Search */
-.search input {
-  height: 40px;
+.search hr {
+  width: 40px;
+  float: left;
+}
+.search .wrap {
+  margin: auto;
+  text-align: center;
+}
+.search .wrap,
+.search .wrap input {
   min-width: 200px;
   width: 20%;
-  padding: 0 15px;
+  height: 40px;
   font-size: 20px;
   border: none;
   border-radius: 100px;
   transition: 0.3s ease-in-out;
   transition-property: width, min-width;
+  margin: none;
 }
-.search input:focus,
-.search input:hover {
+.search .wrap input {
+  width: calc(100% - 30px);
+  padding: none;
+  padding: 0 15px;
+}
+.search .wrap[focus],
+.search .wrap:hover,
+.search .wrap[focus] input,
+.search .wrap:hover input {
   min-width: 500px;
   width: 40%;
   outline: none;
 }
+.lines {
+  font-family: sans-serif;
+  margin: 100px auto;
+  color: #228B22;
+  text-align: center;
+  font-size: 30px;
+  max-width: 600px;
+  position: relative;
+}
+.lines::before,
+.lines::after {
+  position: absolute;
+  content: "";
+  display: block;
+  width: calc(650px - 50%);
+  height: 6px;
+  background: #FFFFFF0B;
+  top: calc(50% - 6px / 2);
+  border-radius: 6px;
+}
+.lines::before {
+  left: calc(-665px + 50%);
+}
+.lines::after {
+  right: calc(-665px + 50%);
+}
 /* Notes */
 #notes_contain {
-  margin-top: 10px;
+  margin-top: 7px;
+  margin-left: -5px;
+  margin-right: -5px;
 }
 #notes_contain .wrap {
   position: relative;
   width: 250px;
   height: 250px;
-  margin: 10px;
+  margin: 7px;
   float: left;
   padding: 0;
   border: 5px solid #994;

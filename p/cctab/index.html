@@ -37,15 +37,21 @@
       </header>
 
       <section id="sc_contain"></section>
-      <section class="ew center search">
-        <input id="search" placeholder="Search Google" onkeydown="search(event)" autofocus>
+      <section class="search">
+        <div class="wrap lines">
+          <input id="search" placeholder="Search Google" onkeydown="search.go(event)" autocomplete="off" onfocus="search.focus()" onblur="search.blur()">
+        </div>
       </section>
 
       <section id="notes_contain" class="fas fa-trash-alt"></section>
 
     </div>
 
-    <footer onclick="location.href='https://github.com/darccyy'" class="ew footer">Made by <span title="That's Me!">Darcy</span></footer>
+    <footer onclick="location.href='https://github.com/darccyy'" class="ew footer">
+      <span title="That's This!">CCTab</span>
+       by 
+      <span title="That's Me!">Darcy</span>
+    </footer>
 
   </body>
 </html>

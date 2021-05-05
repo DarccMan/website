@@ -167,35 +167,92 @@ header {
 
 /* Search */
 .search {
-  input {
-    height: 40px;
-    min-width: 200px;
-    width: 20%;
-    padding: 0 15px;
-    font-size: 20px;
-    border: none;
-    border-radius: 100px;
-    transition: 0.3s ease-in-out;
-    transition-property: width, min-width;
+  hr {
+    width: 40px;
+    float: left;
+  }
 
-    &:focus,
-    &:hover {
-      min-width: 500px;
-      width: 40%;
-      outline: none;
+  .wrap {
+    margin: auto;
+    text-align: center;
+
+    &,
+    input {
+      min-width: 200px;
+      width: 20%;
+      height: 40px;
+      font-size: 20px;
+      border: none;
+      border-radius: 100px;
+      transition: 0.3s ease-in-out;
+      transition-property: width, min-width;
+      margin: none;
     }
+
+    input {
+      width: calc(100% - 30px);
+      padding: none;
+      padding: 0 15px;
+    }
+
+    &[focus],
+    &:hover {
+
+      &,
+      input {
+        min-width: 500px;
+        width: 40%;
+        outline: none;
+      }
+    }
+  }
+}
+
+.lines {
+  font-family: sans-serif;
+  margin: 100px auto;
+  color: #228B22;
+  text-align: center;
+  font-size: 30px;
+  max-width: 600px;
+  position: relative;
+
+  @width0: 650px;
+  @width1: 665px;
+  @height: 6px;
+
+  &::before,
+  &::after {
+    position: absolute;
+    content: "";
+    display: block;
+    width: calc(@width0 - 50%);
+    height: @height;
+    background: #FFFFFF0B;
+    top: calc(50% - @height / 2);
+    border-radius: @height;
+  }
+
+  &::before {
+    left: calc(-@width1 + 50%);
+  }
+
+  &::after {
+    right: calc(-@width1 + 50%);
   }
 }
 
 /* Notes */
 #notes_contain {
-  margin-top: 10px;
+  margin-top: 7px;
+  margin-left: -5px;
+  margin-right: -5px;
 
   .wrap {
     position: relative;
     width: 250px;
     height: 250px;
-    margin: 10px;
+    margin: 7px;
     float: left;
     padding: 0;
     border: 5px solid #994;

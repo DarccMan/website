@@ -280,7 +280,9 @@ header.change = function (e) {
 
 
 /* Search */
-function search(e) {
+search = {};
+
+search.go = function (e) {
   text = doc.id("search").value;
 
   if (text && text.replaceAll(" ", "")) {
@@ -299,6 +301,14 @@ function search(e) {
       }
     }
   }
+}
+
+search.focus = function () {
+  doc.id("search").parentNode.setAttribute("focus", "");
+}
+
+search.blur = function () {
+  doc.id("search").parentNode.removeAttribute("focus");
 }
 
 
