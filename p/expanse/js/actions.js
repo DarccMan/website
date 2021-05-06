@@ -274,18 +274,19 @@ function startPlay() {
 
 function decodeStats(str) {
   stats = {
-    time: parseInt(str.s(20, 26)) / 100,
-    dateCode: parseInt(str.s(2, 15)),
-    date: new Date(parseInt(str.s(2, 15))),
-    deaths: parseInt(str[28]),
-    restarts: parseInt(str[29]),
-    cheats: str[1] == 1,
-    debug: str[16] == 1,
-    egg: str[17] == 1,
-    speedrun: str[18] == 1,
-    key: str[19] == 1,
-    graphics: parseInt(str[15]),
-    levels: parseInt(str.s(26, 28)),
+    time: parseInt(str.s(21, 27)) / 100,
+    dateCode: parseInt(str.s(3, 16)),
+    date: new Date(parseInt(str.s(3, 16))),
+    deaths: parseInt(str[29]),
+    restarts: parseInt(str[30]),
+    cheats: str[2] == 1,
+    debug: str[17] == 1,
+    egg: str[18] == 1,
+    pntr_dist: str.s(0, 2), // Polynomial time radix
+    speedrun: str[19] == 1,
+    key: str[20] == 1,
+    graphics: parseInt(str[16]),
+    levels: parseInt(str.s(27, 29)),
     valid: str.s(-1) == 1,
   };
 

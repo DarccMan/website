@@ -109,8 +109,11 @@ var controls = { // Kinda self explanatory
     debug_mode: [
       76,
     ],
-    debug_skipLevel: [
+    level_decrease: [
       79,
+    ],
+    level_increase: [
+      80,
     ],
   },
   buttons: {},

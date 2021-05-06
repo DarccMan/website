@@ -28,7 +28,7 @@ function reset() {
 
     finalTime = (parseFloat(global.timerEnd) * 100).toString().fill(6)
     stats = [
-      1,
+      global.stats.date.toString().s(-1) + global.stats.date.toString().s(-3),
       global.stats.cheats ? 1 : 0,
       global.stats.date,
       data.graphics,
@@ -36,13 +36,14 @@ function reset() {
       global.stats.egg ? 1 : 0,
       F.url.query.speedrun ? 1 : 0,
       global.stats.key ? 1 : 0,
-      finalTime.length > 6 ? "9".repeat(6) : finalTime,
-      levels.length.toString().fill(2),
+      finalTime.length > 6 ? "9".repeat(6) : (isNaN(finalTime) ? "9".repeat(6) : finalTime),
+      loadedLevels.length.toString().fill(2),
       global.deaths,
-      global.restartCount,
+      global.restartCount || 0,
+      ((global.pntr - global.delta_pntr) + global.stats.dist__ * (finalTime % 10)) / ((Date.now() - 1000) / 10) // Polynomial time radix
     ];
-    stat = stats.join("");
-    stat += stat.length == 29 ? 1 : 0;
+    stat = stats.splice(0, stats.length - 1).join("");
+    stat += stat.length == 31 ? 1 : 0;
     global.lastStats = stat;
 
     console.log("You finished the game!\nHello :)\nYour personal completion key is:\n{0}".format(stat));
@@ -62,16 +63,16 @@ function reset() {
   }
   frame.start();
   global.lastRestart = Date.now();
-  global.stats = {
-    debug: false,
-    cheats: false,
-    egg: false,
-    key: false,
-    time: null,
-    date: Date.now(),
-  };
 
   if (lvl == 0) {
+    global.stats = {
+      debug: false,
+      cheats: false,
+      egg: false,
+      key: false,
+      time: null,
+      date: Date.now(),
+    };
     global.timeStart = Date.now();
     global.deaths = 0;
     global.restartCount = 0;

@@ -727,20 +727,46 @@ function update(mod) {
           player.y += - ((- cam.y + player.y + player.h / 2) - F.mouse.y) * mod * 5;
           player.vx = 0;
           player.vy = 0;
-          global.stats.cheat = true;
+          global.stats.cheats = true;
           global.debug_move = Date.now();
         }
       }
 
       /* Skip level */
-      if (keysDown.debug_skipLevel) {
-        if (global.keyOnce_skipLevel) {
-          goal();
-          global.stats.cheat = true;
-          global.keyOnce_skipLevel = false;
-        }
-      } else {
-        global.keyOnce_skipLevel = true;
+      val = true;
+      switch (F.bool_bin(keysDown.level_decrease, keysDown.level_increase)) {
+        case "10": {
+          val = false;
+          if (global.keyOnce_level) {
+            global.stats.cheats = true;
+            global.keyOnce_level = false;
+            if (lvl == 0) {
+              lvl = loadedLevels.length - 1;
+            } else {
+              lvl = (lvl - 1 + loadedLevels.length) % loadedLevels.length;
+            }
+            reset();
+          }
+        }; break;
+        case "01": {
+          val = false;
+          if (global.keyOnce_level) {
+            global.stats.cheats = true;
+            global.keyOnce_level = false;
+            if (lvl + 1 >= loadedLevels.length) {
+              lvl++;
+            } else {
+              lvl = (lvl + 1 + loadedLevels.length) % loadedLevels.length;
+            }
+            if (gameState == "end") {
+              lvl = 0;
+            }
+            reset();
+          }
+        }; break;
+      }
+      if (val) {
+        global.keyOnce_level = true;
       }
     }
     /* Toggle debug mode */
@@ -786,7 +812,7 @@ onkeydown = function (e) {
             player.vy = 0;
             player.flip = -1;
           }
-          global.stats.cheat = true;
+          global.stats.cheats = true;
           global.stats.key = true;
         }; break;
         case "c": {

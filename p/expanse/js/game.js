@@ -32,7 +32,7 @@ if (data.pixelate) {
 /* Create global variables */
 var global = {};
 global.startDebug = false;
-// global.startDebug = true;
+global.startDebug = true;
 startState = "start";
 if (F.url.online) {
   global.startDebug = false;
@@ -40,9 +40,9 @@ if (F.url.online) {
 var lvl = 0;
 if (global.startDebug) {
   data.graphics = 3;
-  lvl = 6;
+  // lvl = 4;
   startState = "play";
-  global.ignoreDisabled = true;
+  // global.ignoreDisabled = true;
 }
 if (F.url.query.speedrun) {
   startState = "play";
