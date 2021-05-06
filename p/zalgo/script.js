@@ -36,3 +36,11 @@ function convert() {
   }
   doc.id("output").value = output;
 }
+
+function copy() {
+  F.copy(doc.id("output").value);
+}
+
+function tube() {
+  doc.id("input").value = doc.id("output").value;
+}
