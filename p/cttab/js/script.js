@@ -70,6 +70,7 @@ ls.reset = function () {
   ls.set(() => ({}));
   sc.reset();
   header.reset();
+  init();
 }
 
 ls.get = function (dontCheck) {
@@ -265,7 +266,12 @@ header.reset = function () {
 }
 
 header.init = function () {
-  text = ls.get().header ? ls.get().header : "New Tab";
+  text =
+    ls.get().header || (
+      F.randomInt(0, 40) ?
+        "New Tab"
+        : "New Tab!!!"
+    );
   doc.id("header").innerText = text;
   doc.id("title").innerText = text;
 }
