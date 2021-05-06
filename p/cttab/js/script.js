@@ -15,7 +15,7 @@ function init() {
   }
   if (!F.url.online) {
     [...doc.class("filelink")].forEach((el) => {
-      el.href = el.href + (el.href.s(-1) == "/" ? "cttab/index" : "") + ".html";
+      el.href = el.href + (el.href.s(-1) == "/" ? "index" : "") + ".html";
     });
   }
   console.log("Hello :)");
