@@ -7,18 +7,49 @@ var links = {
       {
         id: "cttab",
         name: "CTTab - New Tab page",
+        alias: [
+          "cctab",
+          "ccttab",
+          "ctab",
+          "customtab",
+          "custom-tab",
+          "tab",
+          "custom",
+          "newtab",
+          "new-tab",
+        ],
       },
       {
         id: "bruh",
         name: "Bruh Button",
+        alias: [
+          "button",
+          "bruhbutton",
+          "bruh-button",
+        ],
       },
       {
         id: "reaction",
         name: "Test your Reaction Time",
+        alias: [
+          "reaction-time",
+          "reactiontime",
+        ],
       },
       {
         id: "dog-food",
         name: "Foods that Dogs can Eat",
+        alias: [
+          "dog",
+          "food",
+          "dogfood",
+          "dogsfood",
+          "dogs-food",
+          "dogfeed",
+          "dog-feed",
+          "dogsfeed",
+          "dogs-feed",
+        ],
       },
       {
         id: "punnett",
@@ -31,10 +62,20 @@ var links = {
       {
         id: "word-search",
         name: "Word Search Generator",
+        alias: [
+          "wordsearch",
+        ],
       },
       {
         id: "keys",
         name: "Get Ascii Key Code",
+        alias: [
+          "key",
+          "keycode",
+          "keycodes",
+          "key-code",
+          "key-codes",
+        ],
       },
       {
         id: "cave",
@@ -60,10 +101,27 @@ var links = {
         name: "Expanse of Darkness",
         title: "Not finished",
         // image: "./p/expanse/image/favicon-large.png",
+        alias: [
+          "epxanse",
+          "expense",
+          "expans",
+          "axpanse",
+          "expansedark",
+          "expanse-dark",
+          "expansedarkness",
+          "expanse-darkness",
+          "expanseofdark",
+          "expanse-of-dark",
+          "expanseofdarkness",
+          "expanse-of-darkness",
+        ],
       },
       {
         id: "solitaire",
         name: "Solitaire",
+        alias: [
+          "patience",
+        ],
       },
       {
         id: "chess",
@@ -72,28 +130,67 @@ var links = {
       {
         id: "minesweep",
         name: "MineSweep",
+        alias: [
+          "mine-sweep",
+          "minesweeper",
+          "mine-sweeper",
+        ],
       },
       {
         id: "golad",
         name: "Conway's Game of Life",
+        alias: [
+          "gameoflife",
+          "game-of-life",
+          "gameoflifeanddeath",
+          "game-of-life-and-death",
+          "conway",
+          "conways",
+          "cgol",
+          "gol",
+          "lifeanddeath",
+          "life-and-death",
+        ],
       },
       {
         id: "hacker",
         name: "Hacker Type",
+        alias: [
+          "hackertype",
+          "hacker-type",
+          "hackertyper",
+          "hacker-typer",
+          "hacktype",
+          "hack-type",
+          "hacktyper",
+          "hack-typer",
+        ],
       },
       {
         id: "download-ram",
         name: "Download FREE RAM",
         title: "Not a scam hehe",
+        alias: [
+          "downloadram",
+          "ram",
+        ],
       },
       {
         id: "connect4",
         name: "Connect 4",
+        alias: [
+          "connect-4",
+          "connectfour",
+          "connect-four",
+        ],
       },
       {
         id: "snake",
         name: "Snake 1",
         title: "Old one, a bit broken",
+        alias: [
+          "snake1",
+        ],
       },
       {
         id: "snake2",
@@ -103,14 +200,30 @@ var links = {
       {
         id: "tictac",
         name: "Tick Tack Toe",
+        alias: [
+          "tictactoe",
+          "ticktacktoe",
+          "ticktack",
+          "tic-tac-toe",
+          "tick-tack-toe",
+          "tick-tack",
+        ],
       },
       {
         id: "block-game",
         name: "Block Game",
+        alias: [
+          "blockgame",
+        ],
       },
       {
         id: "heckdude",
+        title: "Cringe Warning!!!",
         name: "HeckDude",
+        alias: [
+          "heck-dude",
+          "heck",
+        ],
       },
       {
         id: "2048",
@@ -124,9 +237,17 @@ var links = {
     local: true,
     items: [
       {
-        id: "test",
-        name: "Test video",
+        id: "funny",
+        name: "Funny video",
         icon: "video",
+        alias: [
+          "funnyvid",
+          "funny-vid",
+          "funnyvideo",
+          "funny-video",
+          "vid",
+          "video",
+        ],
       },
       {
         id: "block",
@@ -138,11 +259,24 @@ var links = {
         id: "hack-game",
         name: "Hack any Game",
         icon: "folder",
+        alias: [
+          "hackgame",
+        ],
       },
       {
         id: "hacker-download",
         name: "Hacker Typing (Desktop)",
         icon: "folder",
+        alias: [
+          "hackerdownload",
+          "hackerd",
+          "hackdownload",
+          "hackd",
+          "hacker-download",
+          "hacker-d",
+          "hack-download",
+          "hack-d",
+        ],
       },
     ],
   },
