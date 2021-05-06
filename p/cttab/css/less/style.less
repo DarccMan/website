@@ -223,24 +223,16 @@ header {
 }
 
 .lines {
-  font-family: sans-serif;
-  margin: 100px auto;
-  color: #228B22;
-  text-align: center;
-  font-size: 30px;
-  max-width: 600px;
-  position: relative;
-
-  @width0: 650px;
-  @width1: 665px;
+  @width: calc(50vw - 50px);
+  @gap: 2vw;
   @height: 6px;
+  position: relative;
 
   &::before,
   &::after {
     position: absolute;
     content: "";
-    display: block;
-    width: calc(@width0 - 50%);
+    width: calc(@width - 50% - @gap);
     height: @height;
     background: #FFFFFF0B;
     top: calc(50% - @height / 2);
@@ -248,11 +240,11 @@ header {
   }
 
   &::before {
-    left: calc(-@width1 + 50%);
+    right: calc(100% + @gap);
   }
 
   &::after {
-    right: calc(-@width1 + 50%);
+    left: calc(100% + @gap);
   }
 }
 

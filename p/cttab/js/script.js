@@ -13,8 +13,13 @@ function init() {
     header.init();
     notes.init();
   }
+  if (!F.url.online) {
+    [...doc.class("filelink")].forEach((el) => {
+      el.href = el.href + (el.href.s(-1) == "/" ? "cttab/index" : "") + ".html";
+    });
+  }
   console.log("Hello :)");
-  // uncomment_for_error;'
+  // uncomment_for_error;
   handle.continue();
 }
 global = {};
@@ -28,6 +33,7 @@ var handle = {};
 handle.error = function (msg) {
   console.error(msg);
   doc.id("error_code").innerHTML += "<br>" + msg;
+  doc.id("content").style.display = "none";
   handle.show();
 }
 handle.startTimeout = function () {

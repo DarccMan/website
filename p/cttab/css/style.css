@@ -184,30 +184,23 @@ header h1 {
   outline: none;
 }
 .lines {
-  font-family: sans-serif;
-  margin: 100px auto;
-  color: #228B22;
-  text-align: center;
-  font-size: 30px;
-  max-width: 600px;
   position: relative;
 }
 .lines::before,
 .lines::after {
   position: absolute;
   content: "";
-  display: block;
-  width: calc(650px - 50%);
+  width: calc(calc(50vw - 50px) - 50% - 2vw);
   height: 6px;
   background: #FFFFFF0B;
   top: calc(50% - 6px / 2);
   border-radius: 6px;
 }
 .lines::before {
-  left: calc(-665px + 50%);
+  right: calc(100% + 2vw);
 }
 .lines::after {
-  right: calc(-665px + 50%);
+  left: calc(100% + 2vw);
 }
 /* Notes */
 #notes_contain {
