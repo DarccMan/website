@@ -5,6 +5,10 @@ function init() {
     F.url.online ? "" : "/index.html"
   );
 
+  if (F.url.path == "p") {
+    location.href = "https://epicwebsite.github.io";
+  }
+
   path = F.url.filepath;
   redirected = false;
 
