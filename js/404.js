@@ -6,7 +6,7 @@ function init() {
   );
 
   if (F.url.filepath == "p/") {
-//     location.href = "https://epicwebsite.github.io";
+    location.href = "https://epicwebsite.github.io";
   }
 
   path = F.url.filepath;
