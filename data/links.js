@@ -44,6 +44,10 @@ var links = {
         id: "acronym",
         name: "Acronym Generator",
       },
+      {
+        id: "zalgo",
+        name: "Zalgo Text Generator",
+      },
     ],
   },
   games: {
@@ -51,6 +55,12 @@ var links = {
     local: true,
     image: "p/{0}/image/favicon.png",
     items: [
+      {
+        id: "expanse",
+        name: "Expanse of Darkness",
+        title: "Not finished",
+        // image: "./p/expanse/image/favicon-large.png",
+      },
       {
         id: "solitaire",
         name: "Solitaire",
@@ -106,12 +116,6 @@ var links = {
         id: "2048",
         name: "2048",
         title: "Broken...",
-      },
-      {
-        id: "expanse",
-        name: "Expanse of Darkness",
-        title: "Not finished",
-        // image: "./p/expanse/image/favicon-large.png",
       },
     ],
   },
