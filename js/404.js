@@ -5,7 +5,7 @@ function init() {
     F.url.online ? "" : "/index.html"
   );
 
-  if (F.url.path == "p") {
+  if (F.url.filepath == "p/") {
 //     location.href = "https://epicwebsite.github.io";
   }
 
