@@ -30,6 +30,9 @@ function update(mod) {
     playerHit.h = data.player.ch * tw;
   }
   if (gameState == "play") {
+    if (!global.stats) {
+      global.stats = {};
+    }
     /* Find closest block to player to not loop over every block */
     px = ((player.x + (player.w / 2 - (player.w * (data.player.hitX) / 2))) + (player.w * data.player.hitX)) / tw;
     py = ((player.y + (player.h - player.h * (data.player.hitY))) + (player.h * data.player.hitY)) / tw;
@@ -355,9 +358,9 @@ function update(mod) {
       distance = Math.max(grid.length, grid[0].length);
       dirs = [
         [0, 1], // Down
-        [1, 0], // Left
-        [-1, 0], // Right
         [0, -1], // Up
+        [-1, 0], // Right
+        [1, 0], // Left
       ];
       D: for (d = 1; d < distance; d++) {
         mins = [];

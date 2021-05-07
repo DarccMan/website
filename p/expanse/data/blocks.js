@@ -83,7 +83,7 @@ data.blocks = { // Block data
   },
   glass: {
     color: "#C9FFFF30",
-    images: 1,
+    images: 2,
     collide: true,
   },
   force: {

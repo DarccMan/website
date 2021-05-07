@@ -2,7 +2,7 @@
 var cv = {};
 var ctxs = {};
 
-cvs = ["main", "shadow", "overlay"];
+cvs = ["bg", "main", "shadow", "overlay"];
 for (i = 0; i < cvs.length; i++) {
   cv[cvs[i]] = doc.create("canvas");
   cv[cvs[i]].id = "cv-" + cvs[i];
@@ -31,6 +31,7 @@ if (data.pixelate) {
 
 /* Create global variables */
 var global = {};
+/* Debug stuff */
 global.startDebug = false;
 // global.startDebug = true;
 startState = "start";
@@ -40,9 +41,9 @@ if (F.url.online) {
 var lvl = 0;
 if (global.startDebug) {
   data.graphics = 3;
-  // lvl = 4;
+  lvl = 5;
   startState = "play";
-  // global.ignoreDisabled = true;
+  global.ignoreDisabled = true;
 }
 if (F.url.query.speedrun) {
   startState = "play";
@@ -129,9 +130,9 @@ for (i = 0; i < playerImages.keys().length; i++) {
     addImage("player_{0}_{1}".format(playerImages.keys()[i], j), "player/{0}/{1}".format(playerImages.keys()[i], j));
   }
 }
-addImage("outer", "edge/outer");
-addImage("inner", "edge/inner");
-addImage("side", "edge/side");
+addImage("edge_outer", "edge/outer");
+addImage("edge_inner", "edge/inner");
+addImage("edge_side", "edge/side");
 
 /* Finish loading when font loads */
 let gameFont = new FontFace(data.font, `url(../../source/font/${data.font}.woff2)`);

@@ -39,7 +39,7 @@ var data = {
     resolution_low: 0.03,
     resolution_high: 0.06,
   },
-  floor_gap: 10, // Gap between bottom most block and floor spikes
+  floor_gap: 8, // Gap between bottom most block and floor spikes
   v: { // Player velocity settings
     // Fall (+y)
     fa: 25, // Acceleration speed

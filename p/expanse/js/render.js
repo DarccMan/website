@@ -1,14 +1,20 @@
 function render() {
-  cv.overlay.w = _w;
-  cv.overlay.h = _h;
-  cv.overlay.style.width = _ws;
-  cv.overlay.style.height = _hs;
-  ctxs.overlay.clearRect(
-    0,
-    0,
-    cv.overlay.w,
-    cv.overlay.h,
-  );
+  sizes = ["overlay", "bg"];
+  for (i = 0; i < sizes.length; i++) {
+    cv[sizes[i]].w = _w;
+    cv[sizes[i]].h = _h;
+    cv[sizes[i]].style.width = _ws;
+    cv[sizes[i]].style.height = _hs;
+  }
+  clears = ["overlay", "main"];
+  for (i = 0; i < clears.length; i++) {
+    ctxs[clears[i]].clearRect(
+      0,
+      0,
+      cv[clears[i]].w,
+      cv[clears[i]].h,
+    );
+  }
 
   cv.shadow.style.display = "none";
   if (!["load", "start", "end"].includes(gameState)) {
@@ -38,11 +44,11 @@ function render() {
       cam.y = player.y + (player.h / 2) - (cv.main.height * data.cam.y);
     }
 
-    ctx.fillCanvas(data.blocks.none.color);
+    ctxs.bg.fillCanvas(data.blocks.none.color);
     if (data.graphics > 0) {
       /* Background parallax effect */
-      ctx.save();
-      ctx.translate(
+      ctxs.bg.save();
+      ctxs.bg.translate(
         - cam.x * data.parallax,
         - cam.y * data.parallax,
       );
@@ -54,7 +60,7 @@ function render() {
       for (x = 0; x < tx + 1; x++) {
         for (y = 0; y < data.tiles + 1; y++) {
           if (data.graphics > 1) {
-            ctx.drawImage(
+            ctxs.bg.drawImage(
               images.none_0,
               Math.floor((ax + x) * tw),
               Math.floor((ay + y) * tw),
@@ -62,8 +68,8 @@ function render() {
               Math.ceil(tw),
             );
           } else {
-            ctx.strokeStyle = "black";
-            ctx.strokeRect(
+            ctxs.bg.strokeStyle = "black";
+            ctxs.bg.strokeRect(
               (ax + x) * tw,
               (ay + y) * tw,
               tw,
@@ -72,7 +78,15 @@ function render() {
           }
         }
       }
-      ctx.restore();
+      ctxs.bg.restore();
+
+      /* Add vertical gradient */
+      if (data.graphics > 2) {
+        grd = ctxs.bg.createLinearGradient(0, 0, 0, cv.bg.height);
+        grd.addColorStop(0, "#0000");
+        grd.addColorStop(1, "#000" + (data.graphics > 3 ? 8 : 4));
+        ctxs.bg.fillCanvas(grd);
+      }
     }
 
     /* Remove parallax effect and move for camera */
@@ -135,7 +149,7 @@ function render() {
                       - ((y * tw - 1) + ((tw + 1) / 2)),
                     );
                     ctx.drawImage(
-                      images.side,
+                      images.edge_side,
                       x * tw - 1,
                       y * tw - 1,
                       tw + 1,
@@ -166,7 +180,7 @@ function render() {
                       - ((y * tw - 1) + ((tw + 1) / 2)),
                     );
                     ctx.drawImage(
-                      images.inner,
+                      images.edge_inner,
                       x * tw - 1,
                       y * tw - 1,
                       tw + 1,
@@ -205,7 +219,7 @@ function render() {
                       - ((y * tw - 1) + ((tw + 1) / 2)),
                     );
                     ctx.drawImage(
-                      images.outer,
+                      images.edge_outer,
                       x * tw - 1,
                       y * tw - 1,
                       tw + 1,
@@ -249,6 +263,15 @@ function render() {
             tw,
             tw,
           );
+          if (y === 0 && data.graphics > 2) {
+            ctx.drawImage(
+              images.edge_side,
+              (x + ax) * tw,
+              (data.floor_gap + grid[0].length + 1 + y) * tw,
+              tw,
+              tw,
+            );
+          }
         }
       } else {
         /* Low graphics blocks */
@@ -460,8 +483,13 @@ function render() {
         ctx.globalAlpha = 1 - (Date.now() - enemies[i].dead) / (time0 + time1);
       }
       if (data.graphics > 1) {
+        animate_offset = 0;
+        if (enemies[i].type == "rat") {
+          animate_offset = enemies[i].stamp;
+        }
+        frameNumber = ((Date.now() + animate_offset) / (data.enemies[enemies[i].type].animateSpeed || 500)) % data.enemies[enemies[i].type].images;
         ctx.drawImage(
-          images[enemies[i].type + "_" + (data.graphics < 3 ? 0 : (frame.current % data.enemies[enemies[i].type].images))],
+          images[enemies[i].type + "_" + (data.graphics < 3 ? 0 : Math.floor(frameNumber))],
           enemies[i].x,
           y,
           enemies[i].w,

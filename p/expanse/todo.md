@@ -1,8 +1,13 @@
 # Features
  - Change controls
- - Add shadow block (Negative light source)
  - Crouch goes down in scaffold
  - Add back and forth level for debug
+
+# Blocks
+ - Shadow (Negative light source)
+ - Elevator (Makes everything go upwards)
+ - Ice (Slippery)
+ - Checkpoint
 
 # Levels
  - Add Levels
@@ -12,6 +17,7 @@
  - Change player death rotation to stay the same for flip
  - Add animate offset for rats only?
  - Fix camera misalignment on load
+ - Change level gen string parsing
 
 # Bugs
  - Crouching while moving stops movement until uncrouch
@@ -29,13 +35,13 @@
 
  - Overhaul
  - - ALL CSS!
- - - Image files
+ - - Frame
 
  - Change player death animation to calculate on render
- - Add ignore disabled levels property for debug mode
  
  - Parse nbt values
  - Decollision moves player to nearest exit
+ - Add line numbers to level gen errors
 
 # Optimisations
  - Floor and ceil all renders
@@ -61,6 +67,8 @@
  - Overlay still renders on non-play states
  - Hide player hold in transition
  - Change background (Red?)
+ - Overhaul Image files
+ - Add ignore disabled levels property for debug mode
 
 
 
