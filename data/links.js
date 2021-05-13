@@ -230,6 +230,11 @@ var links = {
         name: "2048",
         title: "Broken...",
       },
+      {
+        id: "controls",
+        name: "Game with Controls",
+        show: 1,
+      },
     ],
   },
   media: {
