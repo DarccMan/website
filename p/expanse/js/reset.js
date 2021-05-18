@@ -28,7 +28,7 @@ function reset() {
 
     finalTime = (parseFloat(global.timerEnd) * 100).toString().fill(6)
     stats = [
-      global.stats.date.toString().s(-1) + global.stats.date.toString().s(-3),
+      global.stats.date ? (global.stats.date.toString().s(-1) + global.stats.date.toString().s(-3)) : "00",
       global.stats.cheats ? 1 : 0,
       global.stats.date,
       data.graphics,
@@ -51,11 +51,20 @@ function reset() {
   }
 
   /* Load all levels */
+  check = null;
+  if (player && global.wasDeath) {
+    check = player.check;
+  }
   if (gameState == "load") {
     loadLevels();
   }
   setLevel(lvl);
   global.playerMoveAmount = 0;
+  if (check) {
+    player.x = check.x;
+    player.y = check.y;
+    player.check = check;
+  }
 
   /* Start level */
   if (gameState != "load" && gameState != "start") {
@@ -76,5 +85,17 @@ function reset() {
     global.timeStart = Date.now();
     global.deaths = 0;
     global.restartCount = 0;
+  }
+
+  /* Create particles */
+  particles = [];
+  for (i = 0; i < data.particles.amount; i++) {
+    particles.push({
+      x: randomDecimal(),
+      y: randomDecimal(),
+      sx: randomDecimal(),
+      sy: randomDecimal(),
+      a: randomDecimal(),
+    });
   }
 }

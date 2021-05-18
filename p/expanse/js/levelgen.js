@@ -186,7 +186,7 @@ function levelComponent(comp, line) {
       }
       type = type[0];
       if (data.enemies[type]) {
-        __enemies.push({
+        enemy = {
           type,
           x: ((x % __grid.length) * tw) + ((1 - data.enemies[type].w) * tw / 2),
           y: ((Math.floor(x / __grid.length) + 1) * tw) - (data.enemies[type].rh ? (
@@ -204,7 +204,12 @@ function levelComponent(comp, line) {
           vy: 0,
           stamp: F.randomInt(0, 1000),
           ...nbt,
-        });
+        };
+        if (type == "rat") {
+          // I cannot change this. It is their choice
+          enemy.name = "Clive";
+        }
+        __enemies.push(enemy);
       } else {
         console.error("Level Generation:\n'{0}' is not a valid enemy".format(type));
       }

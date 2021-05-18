@@ -317,16 +317,23 @@ var levels = [
       y+1;
       x+6;
       #brick;
+      x+2;
+      #sign{text:Set_Checkpoint!};
+      x+1;
+      #check;
+      x-3;
       x+8;
       y-2;
-      #brick;
+      x-1;
+      #brick*2;
+      x+1;
       x-8;
       y+3;
       #block*9;
-      x+7;
+      x+5;
       y-1;
-      #spike;
-      x+1;
+      #spike*3;
+      x+3;
       $2[
         #block,
         y-1,
@@ -348,7 +355,9 @@ var levels = [
     `,
     player: {
       x: 5.9,
+      // x: 17,
       y: 8,
+      // y: 4,
     },
   },
   {
@@ -377,15 +386,24 @@ var levels = [
       #scaffold;
       x+7;
       y=20;
-      #none*4;
-      $4[@rat,x+1];
-      x-6;
-      y-4;
+      #ice*8;
+      // $4[@rat,x+1];
+      x+8;
+      $4[
+        y-1,
+        #check,
+      ];
+      x+1;
+      // #goal;
+      y+3;
+      x+2;
+      // #spike;
     `,
     player: {
-      x: 10,
-      // x: 20,
+      x: 11,
       y: 18.5,
+      x: 24,
+      x: 3,
       // y: 17,
     },
   },

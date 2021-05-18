@@ -40,8 +40,8 @@ if (F.url.online) {
 }
 var lvl = 0;
 if (global.startDebug) {
-  data.graphics = 3;
-  lvl = 5;
+  data.graphics = 4;
+  lvl = 6;
   startState = "play";
   global.ignoreDisabled = true;
 }

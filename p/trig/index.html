@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Trigonometry - EpicWebsite</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/03abc70cb1.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <!-- <script type="text/javascript" src="C:/Users/darcy/OneDrive/Documents/.other/code/js/fnctjs/index.js"></script> -->
+    <script type="text/javascript" src="https://fnctjs.github.io/index.js"></script>
+    <script type="text/javascript" src="data.js"></script>
+    <script type="text/javascript" src="script.js" defer></script>
+    <!-- <link rel="shortcut icon" type="image/png" href="image/favicon.png"> -->
+  </head>
+  <body onload="init()">
+    <form id="units">
+      <article>
+        <input name="unit" value="r" type="radio" onchange="changeUnit()">
+        <label>Radians</label>
+      </article>
+      <article>
+        <input name="unit" value="d" type="radio" onchange="changeUnit()" checked>
+        <label>Degrees</label>
+      </article>
+      <article>
+        <input name="unit" value="g" type="radio" onchange="changeUnit()">
+        <label>Grads</label>
+      </article>
+      <article>
+        <input name="unit" value="c" type="radio" onchange="changeUnit()">
+        <label>Decimal</label>
+      </article>
+    </form>
+      <br>
+    
+    <form id="functions">
+      <article>
+        <input name="function" value="sin" type="radio" onchange="changeFunction()">
+        <label>Sine</label>
+      </article>
+      <article>
+        <input name="function" value="cos" type="radio" onchange="changeFunction()" checked>
+        <label>Cosine</label>
+      </article>
+      <article>
+        <input name="function" value="tan" type="radio" onchange="changeFunction()">
+        <label>Tangent</label>
+      </article>
+    </form>
+
+    <section>
+      <input type="checkbox" id="inverse" onchange="changeInverse()">
+      <label>Inverse</label>
+      <br>
+      <div id="inverse_0">
+        <input type="number" id="angle" value="90" placeholder="Angle" oninput="calc()" onchange="calc()">
+      </div>
+      <div id="inverse_1">
+        <input type="number" id="side_0" value="30" placeholder="Side 1" oninput="calc()" onchange="calc()">
+        <br>
+        <input type="number" id="side_0" value="40" placeholder="Side 2" oninput="calc()" onchange="calc()">
+      </div>
+      <br>
+      <button onclick="calc()">Refresh</button>
+    </section>
+  </body>
+</html>

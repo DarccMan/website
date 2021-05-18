@@ -1,9 +1,5 @@
 Disclaimer!
 
-Shaky rats WERE a bug.
+Shaky rats WERE a bug
 
-Then they were accidentally removed.
-
-Then I added them back in.
-
-They are a feature
+Now they are a feature

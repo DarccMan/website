@@ -2,13 +2,12 @@
 function update(mod) {
   var keysDown = F.getKeyCodes(controls);
   if (keysDown.game_restart) {
-    if (!["start", "end", "load"].includes(gameState)) {
+    if (!["start", "end", "load", "death"].includes(gameState)) {
       if (global.keyOnce_restart) {
         if (F.url.query.speedrun) {
           lvl = 0;
         }
         reset();
-        // location.reload();
         global.restartCount++;
         global.keyOnce_restart = false;
       }
@@ -191,24 +190,79 @@ function update(mod) {
       global.keyOnce_start = true;
     }
 
+    blockUnder = null;
+    p = {...player};
+    for (x = minx; x < maxx; x++) {
+      for (y = miny; y < maxy; y++) {
+        if (F.collide(p, {
+          x: (x + 0.001) * tw,
+          y: (y + 0.001) * tw,
+          w: tw + 1,
+          h: tw + 1,
+        })) {
+          blockUnder = grid[x][y];
+        }
+      }
+    }
+
+    blockIn = null;
+    p = {...player};
+    p.y += p.h * 0.2;
+    p.h *= 0.6;
+    // p.x += p.w * 0.2;
+    // p.w *= 0.6;
+    for (x = minx; x < maxx; x++) {
+      for (y = miny; y < maxy; y++) {
+        if (grid[x]?.[y]?.block != "none") {
+          if (F.collide(p, {
+            x: (x + 0.001) * tw,
+            y: (y + 0.001) * tw,
+            w: tw + 1,
+            h: tw + 1,
+          })) {
+            blockIn = grid[x][y];
+            break;
+          }
+        }
+      }
+    }
+
+    if (blockIn?.block) {
+      if (data.blocks[blockIn.block].up) {
+        player.vy -= data.blocks[blockIn.block].up;
+      }
+    }
+
     /* Player X movement */
     switch (F.bool_bin(keysDown.player_left, keysDown.player_right)) {
       case "10": {
-        player.vx -= data.v.ma * mod * playerSpeed;
+        speed = playerSpeed;
+        if (data.blocks[blockUnder?.block]?.slip) {
+          speed *= data.blocks[blockUnder.block].slip;
+        }
+        player.vx -= data.v.ma * mod * speed;
         player.flip = -1;
         if (!player.crouch) {
           player.status = "run";
         }
       }; break;
       case "01": {
-        player.vx += data.v.ma * mod * playerSpeed;
+        speed = playerSpeed;
+        if (data.blocks[blockUnder?.block]?.slip) {
+          speed *= data.blocks[blockUnder.block].slip;
+        }
+        player.vx += data.v.ma * mod * speed;
         player.flip = 1;
         if (!player.crouch) {
           player.status = "run";
         }
       }; break;
       default: {
-        player.vx = Math.sign(player.vx) * (Math.abs(player.vx) - data.v.md * mod);
+        speed = data.v.md;
+        if (data.blocks[blockUnder?.block]?.slip) {
+          speed *= data.blocks[blockUnder.block].slip;
+        }
+        player.vx = Math.sign(player.vx) * (Math.abs(player.vx) - speed * mod);
         if (Math.abs(player.vx - 0) < data.v.mm) {
           player.vx = 0;
         }
@@ -626,7 +680,12 @@ function update(mod) {
           grid[x]
           && grid[x][y]
         ) {
-          if (data.blocks[grid[x][y].block].use) {
+          if (data.blocks[grid[x][y].block].check) {
+            player.check = {
+              x: player.x,
+              y: player.y,
+            };
+          } else if (data.blocks[grid[x][y].block].use) {
             switch (grid[x][y].block) {
               case "sign": {
                 global.signText = grid[x][y].text || "No text";

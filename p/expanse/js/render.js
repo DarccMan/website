@@ -56,6 +56,7 @@ function render() {
       /* Background follows player */
       ax = Math.floor(cam.x * data.parallax / tw);
       ay = Math.floor(cam.y * data.parallax / tw);
+      // ax = 0;
 
       for (x = 0; x < tx + 1; x++) {
         for (y = 0; y < data.tiles + 1; y++) {
@@ -89,7 +90,7 @@ function render() {
       }
     }
 
-    /* Remove parallax effect and move for camera */
+    /* Move for camera */
     ctx.save();
     ctx.translate(
       - cam.x,
@@ -512,70 +513,137 @@ function render() {
     ctx.restore();
     if (
       !["start", "end"].includes(gameState)
-      && data.graphics > 3 || data.graphics == 1
+      && data.graphics > 2 || data.graphics == 1
+      && cv.shadow
     ) {
-      /* Shadow Subtraction */
       cv.shadow.style.display = "block";
       /* Resize cv.main to resolution */
       res = data.graphics > 2 ? data.shadow.resolution_high : data.shadow.resolution_low;
-      // res = 0.1;
       cv.shadow.w = _w * res;
       cv.shadow.h = _h * res;
       cv.shadow.style.width = _ws;
       cv.shadow.style.height = _hs;
       ctxs.shadow.fillCanvas("#0008");
-
-      /* Create inverted opacity shadow around player */
-      var grd = ctxs.shadow.createRadialGradient(
-        (- cam.x + player.x + (player.w / 2)) * res,
-        (- cam.y + player.y + (player.w / 2)) * res,
-        Math.max(player.w, player.h) * data.shadow.p_r0 * res,
-        (- cam.x + player.x + (player.w / 2)) * res,
-        (- cam.y + player.y + (player.w / 2)) * res,
-        tw * data.shadow.p_r1 * (player.hold && data.blocks[player.hold].light ? data.shadow.torch_multiply : 1) * res,
+      ctxs.shadow.clearRect(
+        0,
+        0,
+        cv.shadow.w,
+        cv.shadow.h,
       );
-      grd.addColorStop(0, "#FFF");
-      grd.addColorStop(1, "#0000");
-      ctxs.shadow.fillCanvas(grd);
 
-      /* Create inverted opacity shadow around all blocks */
-      /* for (x = Math.max(0, Math.floor(cam.x / tw)); x < Math.min(grid.length, Math.floor((cam.x + cv.main.w) / tw)); x++) {
-        for (y = Math.max(0, Math.floor(cam.y / tw)); y < Math.min(grid[0].length, Math.floor((cam.y + cv.main.h) / tw)); y++) { */
-      res1 = res;
+      /* Shadow Subtraction */
+      if (data.graphics > 3 || data.graphics == 1) {
+        ctxs.shadow.fillCanvas("#000");
+        /* Create inverted opacity shadow around player */
+        var grd = ctxs.shadow.createRadialGradient(
+          (- cam.x + player.x + (player.w / 2)) * res,
+          (- cam.y + player.y + (player.w / 2)) * res,
+          Math.max(player.w, player.h) * data.shadow.p_r0 * res,
+          (- cam.x + player.x + (player.w / 2)) * res,
+          (- cam.y + player.y + (player.w / 2)) * res,
+          tw * data.shadow.p_r1 * (player.hold && data.blocks[player.hold].light ? data.shadow.torch_multiply : 1) * res,
+        );
+        grd.addColorStop(0, "#FFF");
+        grd.addColorStop(1, "#0000");
+        ctxs.shadow.fillCanvas(grd);
+
+        /* Create inverted opacity shadow around all blocks */
+        for (x = 0; x < grid.length; x++) {
+          for (y = 0; y < grid[x].length; y++) {
+            if (data.blocks[grid[x][y]?.block]?.light > 0) {
+              grd = ctxs.shadow.createRadialGradient(
+                - cam.x * res + (x + 0.5) * tw * res,
+                - cam.y * res + (y + 0.5) * tw * res,
+                tw * data.shadow.r0 * res * data.blocks[grid[x][y]?.block].light,
+                - cam.x * res + (x + 0.5) * tw * res,
+                - cam.y * res + (y + 0.5) * tw * res,
+                tw * data.shadow.r1 * res * data.blocks[grid[x][y]?.block].light,
+              );
+              grd.addColorStop(0, "#FFF");
+              grd.addColorStop(1, "#0000");
+              ctxs.shadow.fillCanvas(grd);
+            }
+          }
+        }
+
+        /* Draw particles */
+        ctxs.shadow.save();
+        ax = - cam.x * res / data.particles.parallax;
+        ay = - cam.y * res / data.particles.parallax;
+        for (i = 0; i < particles.length; i++) {
+          a = particles[i].a * (data.particles.maxa - data.particles.mina) + data.particles.mina;
+          h = a.round().toString(16);
+          if (h.length > 2) {
+            h = "FF";
+          }
+          if (h.length < 2) {
+            h = "0" + h;
+          }
+          ctxs.shadow.globalAlpha = a;
+          ctxs.shadow.fillStyle = "#FFFFFF" + h;
+          ctxs.shadow.beginPath();
+          x = particles[i].x * (data.particles.maxx - data.particles.minx) + data.particles.minx;
+          y = particles[i].y * (data.particles.maxy - data.particles.miny) + data.particles.miny;
+          sx = particles[i].sx * (data.particles.maxsx - data.particles.minsx) + data.particles.minsx;
+          sy = particles[i].sy * (data.particles.maxsy - data.particles.minsy) + data.particles.minsy;
+          sx /= 10000;
+          sy /= 10000;
+          ctxs.shadow.ellipse(
+            ((i + Math.sin(Date.now() * sx + x) + 1) * (cv.shadow.w / particles.length) + ax + cv.shadow.w * 10) % cv.shadow.w,
+            (- (y + Date.now() * sy) + ay) % cv.shadow.h + cv.shadow.h,
+            data.particles.r,
+            data.particles.r,
+            0, 0, 2 * Math.PI,
+          );
+          ctxs.shadow.fill();
+        }
+        ctxs.shadow.restore();
+
+        /* Invert opacity of all shadows */
+        imgd = ctxs.shadow.getImageData(0, 0, cv.shadow.w, cv.shadow.h);
+        pix = imgd.data;
+        for (i = 0, n = pix.length; i < n; i += 4) {
+          if (
+            pix[i + 1] > 0
+          ) {
+            pix[i + 3] = data.shadow.opacity - pix[i + 0];
+            pix[i + 0] = 0;
+            pix[i + 1] = 0;
+            pix[i + 2] = 0;
+          } else {
+            pix[i + 3] = data.shadow.opacity;
+          }
+        }
+        ctxs.shadow.putImageData(imgd, 0, 0);
+      }
+
+      /* Draw shadow blocks */
       for (x = 0; x < grid.length; x++) {
+        if (!grid[x]) {
+          continue;
+        }
         for (y = 0; y < grid[x].length; y++) {
-          if (data.blocks[grid[x][y]?.block]?.light) {
+          if (data.blocks[grid[x][y]?.block]?.light < 0) {
             grd = ctxs.shadow.createRadialGradient(
               - cam.x * res + (x + 0.5) * tw * res,
               - cam.y * res + (y + 0.5) * tw * res,
-              tw * data.shadow.r0 * res1 * data.blocks[grid[x][y]?.block].light,
+              tw * data.shadow.r0 * res * (- data.blocks[grid[x][y]?.block].light),
               - cam.x * res + (x + 0.5) * tw * res,
               - cam.y * res + (y + 0.5) * tw * res,
-              tw * data.shadow.r1 * res1 * data.blocks[grid[x][y]?.block].light,
+              tw * data.shadow.r1 * res * (- data.blocks[grid[x][y]?.block].light),
             );
-            grd.addColorStop(0, "#FFF");
+            h = data.shadow.block_opacity.toString(16);
+            if (h.length > 2) {
+              h = "FF";
+            }
+            if (h.length < 1) {
+              h = "0" + h;
+            }
+            grd.addColorStop(0, "#000000" + h);
             grd.addColorStop(1, "#0000");
-            ctxs.shadow.fillCanvas(grd);
           }
         }
       }
-
-      /* Invert opacity of all shadows */
-      imgd = ctxs.shadow.getImageData(0, 0, cv.main.width, cv.main.height);
-      pix = imgd.data;
-      for (i = 0, n = pix.length; i < n; i += 4) {
-        if (
-          pix[i + 1] > 0
-        ) {
-          pix[i + 3] = data.shadow.opacity - pix[i + 0];
-          pix[i + 0] = 0;
-          pix[i + 1] = 0;
-          pix[i + 2] = 0;
-        } else {
-          pix[i + 3] = data.shadow.opacity;
-        }
-      }
-      ctxs.shadow.putImageData(imgd, 0, 0);
     } else {
       cv.shadow.style.display = "none";
     }

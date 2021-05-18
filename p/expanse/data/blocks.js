@@ -59,6 +59,11 @@ data.blocks = { // Block data
     light: 1.3,
     pick: true,
   },
+  shadow: {
+    color: "#100",
+    images: 1,
+    light: -2,
+  },
   fire: {
     color: "#FF8",
     images: 3,
@@ -96,5 +101,21 @@ data.blocks = { // Block data
     images: 1,
     outline: true,
     collide: true,
+  },
+  ice: {
+    color: "#2D637E",
+    images: 1,
+    collide: true,
+    slip: 0.1,
+  },
+  goup: {
+    color: "#B0C82C",
+    images: 2,
+    up: 1,
+  },
+  check: {
+    color: "#0A231F",
+    images: 2,
+    check: true,
   },
 };

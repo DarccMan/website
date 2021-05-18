@@ -16,7 +16,9 @@ async function death() {
   if (F.url.query.speedrun) {
     lvl = 0;
   }
+  global.wasDeath = true;
   reset();
+  global.wasDeath = false;
 }
 
 /* Goal function */
@@ -98,4 +100,13 @@ function checkStats() {
   } else {
     console.log("No previous stats available :(");
   }
+}
+
+/* Stop keys being pressed on tab / window change */
+window.onblur = function () {
+  F.keysDown = {};
+}
+
+function randomDecimal() {
+  return (F.randomInt(0, 1000) / 1000)
 }

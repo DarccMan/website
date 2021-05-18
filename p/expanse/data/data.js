@@ -36,8 +36,9 @@ var data = {
     r1: 3, // Large radius around light blocks
     torch_multiply: 2, // How much holding torch multiplies light by
     opacity: 190, // Opacity of full shadow (0-255)
+    block_opacity: 210, // Opacity of shadow-type blocks (0-255)
     resolution_low: 0.03,
-    resolution_high: 0.06,
+    resolution_high: 0.1,
   },
   floor_gap: 8, // Gap between bottom most block and floor spikes
   v: { // Player velocity settings
@@ -64,6 +65,21 @@ var data = {
   // font: "skull-void", // Font
   font: "samdan", // Font
   hold_size: 0.8, // Size of held block
+  particles: { // Particles effects (Graphics > 3)
+    amount: 7,
+    parallax: 1.5, // Parallax effect (See data.parallax)
+    r: 1, // Radius
+    minx: 0, // (For following) Min and max values
+    maxx: 1, // X offset
+    miny: 0, // Y offset
+    maxy: 1,
+    minsx: 5, // X speed
+    maxsx: 10,
+    minsy: 10, // Y speed
+    maxsy: 30,
+    mina: 80, // Alpha (Opacity)
+    maxa: 150,
+  },
 };
 var controls = { // Kinda self explanatory
   keys: {
