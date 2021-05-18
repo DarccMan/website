@@ -397,13 +397,13 @@ var levels = [
       // #goal;
       y+3;
       x+2;
-      // #spike;
+      #check*6;
     `,
     player: {
       x: 11,
       y: 18.5,
       x: 24,
-      x: 3,
+      // x: 3,
       // y: 17,
     },
   },

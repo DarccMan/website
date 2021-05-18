@@ -57,6 +57,7 @@ function reset() {
   }
   if (gameState == "load") {
     loadLevels();
+    resetParticles();
   }
   setLevel(lvl);
   global.playerMoveAmount = 0;
@@ -85,17 +86,5 @@ function reset() {
     global.timeStart = Date.now();
     global.deaths = 0;
     global.restartCount = 0;
-  }
-
-  /* Create particles */
-  particles = [];
-  for (i = 0; i < data.particles.amount; i++) {
-    particles.push({
-      x: randomDecimal(),
-      y: randomDecimal(),
-      sx: randomDecimal(),
-      sy: randomDecimal(),
-      a: randomDecimal(),
-    });
   }
 }

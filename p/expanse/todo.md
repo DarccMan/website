@@ -3,9 +3,13 @@
 ## Features
  - Change controls
  - Crouch goes down in scaffold
+ - Add noises
+ - Pause screen
 
 ## Levels
  - Add Levels
+ - Change last level name
+ - Refine level names
 
 ## Small stuff
  - Change player death rotation to stay the same for flip
@@ -33,6 +37,7 @@
 
 ## CSS / HTML
  - Redo all text
+ - Update controls
 
 ## Textures
  - Fix ice block tiling
@@ -75,6 +80,7 @@ Completed
  - Removed all keysDown on tab / window change
  - Light scattering around screen
  - ADD PARTICLES
+ - Make checkpoint flag change when checkpoint set
 
 </details>
 

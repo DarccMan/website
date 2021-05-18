@@ -116,6 +116,9 @@ data.blocks = { // Block data
   check: {
     color: "#0A231F",
     images: 2,
+    alt: {
+      down: 2,
+    },
     check: true,
   },
 };

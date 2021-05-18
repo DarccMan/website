@@ -111,6 +111,16 @@ for (i = 0; i < data.blocks.keys().length; i++) {
   for (j = 0; j < data.blocks.values()[i].images; j++) {
     addImage("{0}_{1}".format(data.blocks.keys()[i], j), "block/" + data.blocks.keys()[i] + "/" + j);
   }
+  if (data.blocks.values()[i].alt) {
+    for (l = 0; l < data.blocks.values()[i].alt.keys().length; l++) {
+      for (j = 0; j < data.blocks.values()[i].alt.values()[l]; j++) {
+        addImage(
+          "{0}_{1}_{2}".format(data.blocks.keys()[i], data.blocks.values()[i].alt.keys()[l], j),
+          "block/{0}_{1}/{2}".format(data.blocks.keys()[i], data.blocks.values()[i].alt.keys()[l], j),
+        );
+      }
+    }
+  }
 }
 for (i = 0; i < data.enemies.keys().length; i++) {
   for (j = 0; j < data.enemies.values()[i].images; j++) {

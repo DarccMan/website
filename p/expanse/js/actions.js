@@ -30,6 +30,7 @@ async function goal() {
     await F.sleep(0.001);
   }
   lvl++;
+  resetParticles();
   reset();
   player.animate = 0;
 }
@@ -109,4 +110,18 @@ window.onblur = function () {
 
 function randomDecimal() {
   return (F.randomInt(0, 1000) / 1000)
+}
+
+/* Create particles */
+function resetParticles() {
+  particles = [];
+  for (i = 0; i < data.particles.amount; i++) {
+    particles.push({
+      x: randomDecimal(),
+      y: randomDecimal(),
+      sx: randomDecimal(),
+      sy: randomDecimal(),
+      a: randomDecimal(),
+    });
+  }
 }

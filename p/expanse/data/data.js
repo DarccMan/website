@@ -66,9 +66,9 @@ var data = {
   font: "samdan", // Font
   hold_size: 0.8, // Size of held block
   particles: { // Particles effects (Graphics > 3)
-    amount: 7,
+    amount: 10,
     parallax: 1.5, // Parallax effect (See data.parallax)
-    r: 1, // Radius
+    r: 0.8, // Radius
     minx: 0, // (For following) Min and max values
     maxx: 1, // X offset
     miny: 0, // Y offset
@@ -80,57 +80,4 @@ var data = {
     mina: 80, // Alpha (Opacity)
     maxa: 150,
   },
-};
-var controls = { // Kinda self explanatory
-  keys: {
-    player_up: [
-      87,
-      38,
-      32,
-    ],
-    player_crouch: [
-      83,
-      40,
-      16,
-    ],
-    player_left: [
-      65,
-      37,
-    ],
-    player_right: [
-      68,
-      39,
-    ],
-    player_pick: [
-      69,
-    ],
-    player_drop: [
-      81,
-    ],
-    game_restart: [
-      82,
-    ],
-    game_start: [
-      32,
-    ],
-    graphics_decrease: [
-      67,
-    ],
-    graphics_increase: [
-      86,
-    ],
-    debug: [
-      90,
-    ],
-    debug_mode: [
-      76,
-    ],
-    level_decrease: [
-      79,
-    ],
-    level_increase: [
-      80,
-    ],
-  },
-  buttons: {},
 };

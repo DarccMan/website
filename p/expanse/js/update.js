@@ -685,6 +685,12 @@ function update(mod) {
               x: player.x,
               y: player.y,
             };
+            for (x1 = 0; x1 < grid.length; x1++) {
+              for (y1 = 0; y1 < grid[x1].length; y1++) {
+                grid[x1][y1].down = false;
+              }
+            }
+            grid[x][y].down = true;
           } else if (data.blocks[grid[x][y].block].use) {
             switch (grid[x][y].block) {
               case "sign": {
@@ -758,6 +764,7 @@ function update(mod) {
     global.keyOnce_graphicsD = null;
   }
 
+  global.debug_shadow = false;
   if (gameState != "load") {
     /* Debug mode */
     if (keysDown.debug) {
@@ -792,6 +799,12 @@ function update(mod) {
           global.stats.cheats = true;
           global.debug_move = Date.now();
         }
+      }
+
+      /* Show shadows */
+      if (keysDown.debug_shadow) {
+        global.debug_shadow = true;
+        console.log(1);
       }
 
       /* Skip level */

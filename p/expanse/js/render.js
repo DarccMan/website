@@ -116,8 +116,21 @@ function render() {
               - ((y * tw) + (tw / 2)),
             );
           }
+          block = grid[x][y];
+          name = block.block;
+          amount = data.blocks[name]?.images;
+          /* Change image if has attribute */
+          if (data.blocks[name].alt) {
+            for (i = 0; i < data.blocks[name].alt.keys().length; i++) {
+              if (block[data.blocks[name].alt.keys()[i]]) {
+                amount = data.blocks[name].alt.values()[i];
+                name += "_" + data.blocks[name].alt.keys()[i];
+                break;
+              }
+            }
+          }
           ctx.drawImage(
-            images[grid[x][y].block + "_" + (data.graphics < 3 ? 0 : (frame.current % data.blocks[grid[x][y].block]?.images))] || images.unknown_0,
+            images[name + "_" + (data.graphics < 3 ? 0 : (frame.current % amount))] || images.unknown_0,
             Math.floor(x * tw),
             Math.floor(y * tw),
             Math.ceil(tw),
@@ -600,21 +613,23 @@ function render() {
         ctxs.shadow.restore();
 
         /* Invert opacity of all shadows */
-        imgd = ctxs.shadow.getImageData(0, 0, cv.shadow.w, cv.shadow.h);
-        pix = imgd.data;
-        for (i = 0, n = pix.length; i < n; i += 4) {
-          if (
-            pix[i + 1] > 0
-          ) {
-            pix[i + 3] = data.shadow.opacity - pix[i + 0];
-            pix[i + 0] = 0;
-            pix[i + 1] = 0;
-            pix[i + 2] = 0;
-          } else {
-            pix[i + 3] = data.shadow.opacity;
+        if (!global.debug_shadow) {
+          imgd = ctxs.shadow.getImageData(0, 0, cv.shadow.w, cv.shadow.h);
+          pix = imgd.data;
+          for (i = 0, n = pix.length; i < n; i += 4) {
+            if (
+              pix[i + 1] > 0
+            ) {
+              pix[i + 3] = data.shadow.opacity - pix[i + 0];
+              pix[i + 0] = 0;
+              pix[i + 1] = 0;
+              pix[i + 2] = 0;
+            } else {
+              pix[i + 3] = data.shadow.opacity;
+            }
           }
+          ctxs.shadow.putImageData(imgd, 0, 0);
         }
-        ctxs.shadow.putImageData(imgd, 0, 0);
       }
 
       /* Draw shadow blocks */
