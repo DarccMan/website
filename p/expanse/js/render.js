@@ -581,10 +581,10 @@ function render() {
 
         /* Draw particles */
         ctxs.shadow.save();
-        ax = - cam.x * res / data.particles.parallax;
-        ay = - cam.y * res / data.particles.parallax;
         for (i = 0; i < particles.length; i++) {
-          a = particles[i].a * (data.particles.maxa - data.particles.mina) + data.particles.mina;
+          ax = - cam.x * res / (particles[i].p * (data.particles.p[1] - data.particles.p[0]) + data.particles.p[0]);
+          ay = - cam.y * res / (particles[i].p * (data.particles.p[1] - data.particles.p[0]) + data.particles.p[0]);
+          a = particles[i].a * (data.particles.a[1] - data.particles.a[0]) + data.particles.a[0];
           h = a.round().toString(16);
           if (h.length > 2) {
             h = "FF";
@@ -595,17 +595,18 @@ function render() {
           ctxs.shadow.globalAlpha = a;
           ctxs.shadow.fillStyle = "#FFFFFF" + h;
           ctxs.shadow.beginPath();
-          x = particles[i].x * (data.particles.maxx - data.particles.minx) + data.particles.minx;
-          y = particles[i].y * (data.particles.maxy - data.particles.miny) + data.particles.miny;
-          sx = particles[i].sx * (data.particles.maxsx - data.particles.minsx) + data.particles.minsx;
-          sy = particles[i].sy * (data.particles.maxsy - data.particles.minsy) + data.particles.minsy;
+          x = particles[i].x * (data.particles.x[1] - data.particles.x[0]) + data.particles.x[0];
+          y = particles[i].y * (data.particles.y[1] - data.particles.y[0]) + data.particles.y[0];
+          sx = particles[i].sx * (data.particles.sx[1] - data.particles.sx[0]) + data.particles.sx[0];
+          sy = particles[i].sy * (data.particles.sy[1] - data.particles.sy[0]) + data.particles.sy[0];
           sx /= 10000;
           sy /= 10000;
+          r = particles[i].r * (data.particles.r[1] - data.particles.r[0]) + data.particles.r[0];
           ctxs.shadow.ellipse(
             ((i + Math.sin(Date.now() * sx + x) + 1) * (cv.shadow.w / particles.length) + ax + cv.shadow.w * 10) % cv.shadow.w,
             (- (y + Date.now() * sy) + ay) % cv.shadow.h + cv.shadow.h,
-            data.particles.r,
-            data.particles.r,
+            r,
+            r,
             0, 0, 2 * Math.PI,
           );
           ctxs.shadow.fill();
@@ -762,6 +763,36 @@ function render() {
         lang.debug,
         cv.overlay.width * 0.02,
         cv.overlay.width * 0.02,
+      );
+    } else if (gameState == "pause") {
+      if (data.graphics > 2 || data.graphics == 1) {
+        grd = ctxs.overlay.createRadialGradient(
+          cv.overlay.w / 2,
+          cv.overlay.h / 2,
+          0,
+          cv.overlay.w / 2,
+          cv.overlay.h / 2,
+          cv.overlay.h,
+        );
+        if (data.graphics > 3 || data.graphics == 1) {
+          grd.addColorStop(0, "#0004");
+          grd.addColorStop(0.8, "#000F");
+        } else {
+          grd.addColorStop(0, "#0004");
+          grd.addColorStop(0.8, "#000A");
+        }
+        ctxs.overlay.fillCanvas(grd);
+      } else {
+        ctxs.overlay.fillCanvas("#0008");
+      }
+      ctxs.overlay.font = cv.overlay.width * 0.06 + "px " + data.font;
+      ctxs.overlay.textBaseline = "top";
+      ctxs.overlay.textAlign = "center";
+      ctxs.overlay.fillStyle = "#EEE8";
+      ctxs.overlay.fillText(
+        lang.pause,
+        cv.overlay.width * 0.5,
+        cv.overlay.width * 0.05,
       );
     }
 

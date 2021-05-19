@@ -41,7 +41,7 @@ if (F.url.online) {
 var lvl = 0;
 if (global.startDebug) {
   data.graphics = 4;
-  lvl = 6;
+  lvl = 7;
   startState = "play";
   global.ignoreDisabled = true;
 }
@@ -67,6 +67,7 @@ var enemies = [];
 var tw = (Math.min(cv.main.width, cv.main.height) / data.tiles);
 var tw2 = (Math.min(parseInt(cv.main.style.width), cv.main.height) / data.tiles);
 var tx = data.tiles / Math.min(cv.main.width, cv.main.height) * Math.max(cv.main.width, cv.main.height);
+var checkpoint = null;
 
 /* Outline settings for blocks */
 cs = [

@@ -51,21 +51,12 @@ function reset() {
   }
 
   /* Load all levels */
-  check = null;
-  if (player && global.wasDeath) {
-    check = player.check;
-  }
   if (gameState == "load") {
     loadLevels();
     resetParticles();
   }
   setLevel(lvl);
   global.playerMoveAmount = 0;
-  if (check) {
-    player.x = check.x;
-    player.y = check.y;
-    player.check = check;
-  }
 
   /* Start level */
   if (gameState != "load" && gameState != "start") {
@@ -86,5 +77,16 @@ function reset() {
     global.timeStart = Date.now();
     global.deaths = 0;
     global.restartCount = 0;
+  }
+
+  if (checkpoint && checkpoint.lvl == lvl) {
+    player.x = checkpoint.x;
+    player.y = checkpoint.y;
+
+    x = checkpoint.bx;
+    y = checkpoint.by;
+    if (grid[x][y]) {
+      grid[x][y].down = true;
+    }
   }
 }

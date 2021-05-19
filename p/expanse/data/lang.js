@@ -8,6 +8,7 @@ var lang = {
   time_game: "Time: {0}",
   level: "Level {number} '{name}'",
   sign: "The sign reads:",
+  pause: "Game Paused",
   debug: "<DEBUG MODE>",
   death: [
     "Uh - Oh!",

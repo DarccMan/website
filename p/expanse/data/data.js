@@ -1,9 +1,9 @@
 var data = {
   ratio: 1.8,
   resolution: 1,
-  // resolution: 0.3, // Don't touch this!
-  pixelate: true,
   tiles: 9, // Amount of tiles on canvas
+  // Do not touch the above values!!!
+  pixelate: true,
   parallax: 0.5, // How fast the background moves
   cam: { // Position of player to screen
     // Non-fancy graphics
@@ -66,18 +66,14 @@ var data = {
   font: "samdan", // Font
   hold_size: 0.8, // Size of held block
   particles: { // Particles effects (Graphics > 3)
-    amount: 10,
-    parallax: 1.5, // Parallax effect (See data.parallax)
-    r: 0.8, // Radius
-    minx: 0, // (For following) Min and max values
-    maxx: 1, // X offset
-    miny: 0, // Y offset
-    maxy: 1,
-    minsx: 5, // X speed
-    maxsx: 10,
-    minsy: 10, // Y speed
-    maxsy: 30,
-    mina: 80, // Alpha (Opacity)
-    maxa: 150,
+    amount: 12,
+    // (For following) Min and max values
+    p: [1.5, 1.7], // Parallax effect (See data.parallax)
+    r: [0.6, 0.9], // Radius
+    x: [0, 1], // X offset
+    y: [0, 1.5], // Y offset
+    sx: [5, 10], // X speed
+    sy: [10, 40], // Y speed
+    a: [80, 150], // Alpha (opacity)
   },
 };

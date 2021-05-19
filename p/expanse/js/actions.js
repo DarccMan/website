@@ -16,9 +16,9 @@ async function death() {
   if (F.url.query.speedrun) {
     lvl = 0;
   }
-  global.wasDeath = true;
+  // global.wasDeath = true;
   reset();
-  global.wasDeath = false;
+  // global.wasDeath = false;
 }
 
 /* Goal function */
@@ -30,9 +30,23 @@ async function goal() {
     await F.sleep(0.001);
   }
   lvl++;
+  global.check = null;
   resetParticles();
   reset();
   player.animate = 0;
+}
+
+/* Restart (NOT reset) */
+function restart() {
+  if (F.url.query.speedrun) {
+    lvl = 0;
+  }
+  reset();
+  global.restartCount++;
+}
+function restartAll() {
+  checkpoint = null;
+  restart();
 }
 
 /* Change graphics when checkbox toggled */
@@ -122,6 +136,15 @@ function resetParticles() {
       sx: randomDecimal(),
       sy: randomDecimal(),
       a: randomDecimal(),
+      r: randomDecimal(),
+      p: randomDecimal(),
     });
   }
+}
+
+/* Load disabled levels */
+function reloadDisabled() {
+  global.ignoreDisabled = true;
+  loadLevels();
+  reset();
 }

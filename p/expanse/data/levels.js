@@ -318,7 +318,7 @@ var levels = [
       x+6;
       #brick;
       x+2;
-      #sign{text:Set_Checkpoint!};
+      #sign{text:Set_Checkpoint_with_E!};
       x+1;
       #check;
       x-3;
@@ -361,8 +361,75 @@ var levels = [
     },
   },
   {
+    name: "Secret Level! :)",
+    disabled: true,
+    secret: true,
+    dim: [40, 30],
+    set: `
+      y=20;
+      #block*400&3,cracked:1;
+      x=16;
+      y=11;
+      #block;
+      x=1;
+      y=19;
+      $6[
+        #scaffold*6,
+        y-1,
+      ];
+      y=19;
+      x+8;
+      #check;
+      x+5;
+      #brick*4;
+      y-1;
+      x+1;
+      #brick*3;
+      y-1;
+      x+1;
+      #brick*2;
+      y-1;
+      x+1;
+      #brick;
+      x-9;
+      y+4;
+      #scaffold;
+      $3[
+        y+1,
+        #trap,
+      ];
+      y-3;
+      x+1;
+      y+3;
+      #trap*8;
+      x+8;
+      $3[
+        #none*4,
+        y-1,
+      ];
+      #none;
+      $8[
+        y-1,
+        #goup,
+      ];
+      x+1;
+      y-10;
+      $2[
+        #goup*20,
+        y-1,
+      ];
+    `,
+    player: {
+      x: 16,
+      y: 9.5,
+      x: 13,
+      y: 18.5,
+    },
+  },
+  {
     name: "<Debug Level!>",
     disabled: true,
+    debug: true,
     dim: [40, 30],
     set: `
       y=20;
@@ -397,7 +464,10 @@ var levels = [
       // #goal;
       y+3;
       x+2;
-      #check*6;
+      #check*3;
+      x+3;
+      x+1;
+      // #spike;
     `,
     player: {
       x: 11,

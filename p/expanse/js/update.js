@@ -4,11 +4,11 @@ function update(mod) {
   if (keysDown.game_restart) {
     if (!["start", "end", "load", "death"].includes(gameState)) {
       if (global.keyOnce_restart) {
-        if (F.url.query.speedrun) {
-          lvl = 0;
+        if (keysDown.game_restart_all) {
+          restartAll();
+        } else {
+          restart();
         }
-        reset();
-        global.restartCount++;
         global.keyOnce_restart = false;
       }
     }
@@ -28,7 +28,25 @@ function update(mod) {
     playerHit.y -= 3;
     playerHit.h = data.player.ch * tw;
   }
-  if (gameState == "play") {
+  if (gameState == "pause") {
+    if (keysDown.game_pause) {
+      if (global.keyOnce_pause) {
+        gameState = "play";
+        global.keyOnce_pause = false;
+      }
+    } else {
+      global.keyOnce_pause = true;
+    }
+  } else if (gameState == "play") {
+    if (keysDown.game_pause) {
+      if (global.keyOnce_pause) {
+        gameState = "pause";
+        global.keyOnce_pause = false;
+      }
+    } else {
+      global.keyOnce_pause = true;
+    }
+
     if (!global.stats) {
       global.stats = {};
     }
@@ -191,7 +209,7 @@ function update(mod) {
     }
 
     blockUnder = null;
-    p = {...player};
+    p = {...playerHit};
     for (x = minx; x < maxx; x++) {
       for (y = miny; y < maxy; y++) {
         if (F.collide(p, {
@@ -206,11 +224,9 @@ function update(mod) {
     }
 
     blockIn = null;
-    p = {...player};
+    p = {...playerHit};
     p.y += p.h * 0.2;
     p.h *= 0.6;
-    // p.x += p.w * 0.2;
-    // p.w *= 0.6;
     for (x = minx; x < maxx; x++) {
       for (y = miny; y < maxy; y++) {
         if (grid[x]?.[y]?.block != "none") {
@@ -671,6 +687,7 @@ function update(mod) {
       }
     }
 
+    val = true;
     if (keysDown.player_pick) {
       /* Pick up block */
       if (!player.hold) {
@@ -680,17 +697,24 @@ function update(mod) {
           grid[x]
           && grid[x][y]
         ) {
+          val = false;
           if (data.blocks[grid[x][y].block].check) {
-            player.check = {
-              x: player.x,
-              y: player.y,
-            };
-            for (x1 = 0; x1 < grid.length; x1++) {
-              for (y1 = 0; y1 < grid[x1].length; y1++) {
-                grid[x1][y1].down = false;
+            if (global.keyOnce_use) {
+              global.keyOnce_use = false;
+              checkpoint = {
+                x: (x + 0.5) * tw - player.w / 2,
+                y: player.y - player.h * 0.4,
+                bx: x,
+                by: y,
+                lvl,
+              };
+              for (x1 = 0; x1 < grid.length; x1++) {
+                for (y1 = 0; y1 < grid[x1].length; y1++) {
+                  grid[x1][y1].down = false;
+                }
               }
+              grid[x][y].down = true;
             }
-            grid[x][y].down = true;
           } else if (data.blocks[grid[x][y].block].use) {
             switch (grid[x][y].block) {
               case "sign": {
@@ -725,6 +749,9 @@ function update(mod) {
           }
         }
       }
+    }
+    if (val) {
+      global.keyOnce_use = true;
     }
   } else if (gameState == "start") {
     if (keysDown.game_start) {

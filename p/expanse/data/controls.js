@@ -27,8 +27,14 @@ var controls = { // Kinda self explanatory
     game_restart: [
       82,
     ],
+    game_restart_all: [
+      16,
+    ],
     game_start: [
       32,
+    ],
+    game_pause: [
+      27,
     ],
     graphics_decrease: [
       67,
