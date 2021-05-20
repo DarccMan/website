@@ -434,7 +434,7 @@ function render() {
             - (player.y + player.h / 2),
           );
         }
-        ctx.fillStyle = data.blocks[player.hold].color;
+        ctx.fillStyle = data.blocks[player?.hold?.block]?.color;
         ctx.fillRect(
           player.x + 20,
           player.y,
@@ -557,7 +557,7 @@ function render() {
           Math.max(player.w, player.h) * data.shadow.p_r0 * res,
           (- cam.x + player.x + (player.w / 2)) * res,
           (- cam.y + player.y + (player.w / 2)) * res,
-          tw * data.shadow.p_r1 * (player.hold && data.blocks[player.hold].light ? data.shadow.torch_multiply : 1) * res,
+          tw * data.shadow.p_r1 * (player.hold && data.blocks[player.hold?.block]?.light ? data.shadow.torch_multiply : 1) * res,
         );
         grd.addColorStop(0, "#FFF");
         grd.addColorStop(1, "#0000");
