@@ -250,8 +250,7 @@ var levels = [
     },
   },
   {
-    name: "Uhm... no name?",
-    // disabled: true,
+    name: "Difficult Juice",
     dim: [35, 20],
     set: `
       %tunnel=trap;
@@ -355,14 +354,13 @@ var levels = [
     `,
     player: {
       x: 5.9,
-      // x: 17,
+      x: 17,
       y: 8,
-      // y: 4,
+      y: 4,
     },
   },
   {
     name: "Secret Level! :)",
-    disabled: true,
     secret: true,
     dim: [40, 30],
     set: `
@@ -452,27 +450,23 @@ var levels = [
       y-1;
       #scaffold;
       x+7;
-      y=20;
-      #ice*8;
-      // $4[@rat,x+1];
-      x+8;
-      $4[
-        y-1,
-        #check,
-      ];
-      x+1;
-      // #goal;
-      y+3;
+      y=19;
+      #sign{text:Test_123};
       x+2;
-      #check*3;
-      x+3;
-      x+1;
-      // #spike;
+      #check*5;
+      x+6;
+      y+1;
+      #none*3;
+      $2[
+        @rat,
+        x+1,
+      ];
+      @bat;
     `,
     player: {
-      x: 11,
+      x: 20,
       y: 18.5,
-      x: 24,
+      // x: 24,
       // x: 3,
       // y: 17,
     },

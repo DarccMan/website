@@ -46,8 +46,8 @@ var data = {
     fa: 25, // Acceleration speed
     ft: 40, // Terminal velocity
     // Jump (-y)
-    jb: 8, // Base jump
-    ja: 80, // Add this to jump height for how long key held (Within reason)
+    jb: 10.5, // Base jump
+    ja: 0, // Add this to jump height for how long key held (Within reason)
     jc: 40, // Cooldown before adding adding above amount
     jm: 80, // Maximum time to hold down key
     jt: 30, // Terminal jump velocity
@@ -57,8 +57,8 @@ var data = {
     mt: 10, // Terminal velocity
     mm: 0.2, // If less than this number, reset to 0
     // Crouching
-    cfa: 0.05, // Fall acceleration
-    cft: 1.1, // Fall terminal
+    cfa: 0.03, // Fall acceleration
+    cft: 1.08, // Fall terminal
     cma: 0.2, // Movement acceleration
     cmt: 0.6, // Movement terminal
   },

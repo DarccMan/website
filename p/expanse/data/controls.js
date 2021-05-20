@@ -18,11 +18,8 @@ var controls = { // Kinda self explanatory
       68,
       39,
     ],
-    player_pick: [
+    player_use: [
       69,
-    ],
-    player_drop: [
-      81,
     ],
     game_restart: [
       82,
@@ -45,8 +42,8 @@ var controls = { // Kinda self explanatory
     debug: [
       90,
     ],
-    debug_mode: [
-      76,
+    debug_freeze: [
+      88,
     ],
     debug_shadow: [
       75,

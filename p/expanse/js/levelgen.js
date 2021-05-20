@@ -9,6 +9,10 @@ function loadLevels() {
       levels[l] && (
         global.ignoreDisabled
         || !levels[l].disabled
+      ) && (
+        global.secretUnlocked
+        || global.ignoreDisabled
+        || !levels[l].secret
       )
     ) {
       ld = readLevelData(levels[l].set);

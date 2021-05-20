@@ -1,50 +1,43 @@
 # To Do list for Expanse of Darkness
 
 ## Features
- - Change controls
  - Crouch goes down in scaffold
  - Add noises
- - Pause screen
- - Remove extra jump
  - Fix tiles amount
  - Add seperate acceleration / decceleration for midair
- - Stop timer on pause
 
 ## Levels
  - Add Levels
- - Change last level name
  - Refine level names
 
 ## Small stuff
  - Change player death rotation to stay the same for flip
  - Fix camera misalignment on load
  - Redo all low graphics colours
- - Set checkpoint on initial key
 
 ## Bugs
  - Crouching while moving stops movement until uncrouch
  - Debug centre of movement not aligned to player
  - Super jump occurs when jumping in scaffolding (One piece even)
  - Death causes level completion
- - Crouching in scaffold stop all movement
- - Checkpoint goes up after death
+ - Crouching in scaffold stops all movement
+ - Hitting head in elevator stops all movement
 
  - Completing level 0 restarts to 0 (Fixed??)
 
 ## Technical
  - Change player death animation to calculate on render
+ - Calculate frames on render
  - Parse nbt values
  - Add line numbers to level gen errors
  - Redo all collisions
  - Change level gen string parsing
- - Move min max particle values to individual arrays
 
 ## Optimisations
  - Floor and ceil all renders
 
 ## CSS / HTML
  - Redo all text
- - Update controls
  - Add all text to lang
 
 ## Textures
@@ -91,6 +84,15 @@ Completed
  - Make checkpoint flag change when checkpoint set
  - Restart moves player to checkpoint
  - - SHIFT restart to restart whole level
+ - Move min max particle values to individual arrays
+ - Checkpoint goes up after death
+ - Set checkpoint on initial key
+ - Change last level name
+ - Add unlockSecret()
+ - Stop timer on pause
+ - Remove extra jump
+ - Pause screen
+ - Change controls
 
 </details>
 

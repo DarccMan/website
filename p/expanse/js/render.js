@@ -368,7 +368,7 @@ function render() {
       ctx.restore();
 
       /* Draw player holding block */
-      if (player.hold) {
+      if (data.blocks[player?.hold?.block]) {
         ay = 0;
         if (gameState == "win") {
           ay = player.animate * (cv.main.w - player.y);
@@ -395,7 +395,7 @@ function render() {
           - (player.y + player.h / 2 + ay),
         );
         ctx.drawImage(
-          images[player.hold + "_" + (data.graphics < 3 ? 0 : (frame.current % data.blocks[player.hold].images))],
+          images[player.hold.block + "_" + (data.graphics < 3 ? 0 : (frame.current % data.blocks[player.hold.block].images))],
           player.x + 20,
           player.y + ay,
           player.w * data.hold_size,
@@ -502,6 +502,9 @@ function render() {
           animate_offset = enemies[i].stamp;
         }
         frameNumber = ((Date.now() + animate_offset) / (data.enemies[enemies[i].type].animateSpeed || 500)) % data.enemies[enemies[i].type].images;
+        if (gameState == "freeze") {
+          frameNumber = 0;
+        }
         ctx.drawImage(
           images[enemies[i].type + "_" + (data.graphics < 3 ? 0 : Math.floor(frameNumber))],
           enemies[i].x,
@@ -666,28 +669,30 @@ function render() {
 
     if (gameState == "play") {
       /* Draw level number and fade out */
-      time0 = 1500;
-      time1 = 1000;
-      if (global.lastRestart + time0 > Date.now()) {
-        ctxs.overlay.font = cv.overlay.width * 0.05 + "px " + data.font;
-        h = "FF";
-        if (data.graphics > 0) {
-          h = Math.round((Math.min(time1, time0 - (Date.now() - global.lastRestart)) * (256 / time1)) * 0.7).toString(16);
-          if (h.length > 2) {
-            h = "FF";
+      if (!global.debug_show) {
+        time0 = 1500;
+        time1 = 1000;
+        if (global.lastRestart + time0 > Date.now()) {
+          ctxs.overlay.font = cv.overlay.width * 0.05 + "px " + data.font;
+          h = "FF";
+          if (data.graphics > 0) {
+            h = Math.round((Math.min(time1, time0 - (Date.now() - global.lastRestart)) * (256 / time1)) * 0.7).toString(16);
+            if (h.length > 2) {
+              h = "FF";
+            }
           }
+          ctxs.overlay.fillStyle = "#FFFFFF" + (h.length < 2 ? "0" : "") + h;
+          ctxs.overlay.textBaseline = "top";
+          ctxs.overlay.textAlign = "left";
+          ctxs.overlay.fillText(
+            lang.level.format({
+              number: lvl,
+              name: levels[lvl].name || "Unknown",
+            }),
+            cv.overlay.width * 0.02,
+            cv.overlay.width * 0.02,
+          );
         }
-        ctxs.overlay.fillStyle = "#FFFFFF" + (h.length < 2 ? "0" : "") + h;
-        ctxs.overlay.textBaseline = "top";
-        ctxs.overlay.textAlign = "left";
-        ctxs.overlay.fillText(
-          lang.level.format({
-            number: lvl,
-            name: levels[lvl].name || "Unknown",
-          }),
-          cv.overlay.width * 0.02,
-          cv.overlay.width * 0.02,
-        );
       }
 
       /* Draw sign text */
@@ -754,14 +759,14 @@ function render() {
         cv.overlay.height * 0.3,
       );
       ctxs.overlay.restore();
-    } else if (gameState == "debug") {
+    } else if (gameState == "freeze") {
       ctxs.overlay.font = cv.overlay.width * 0.04 + "px " + data.font;
       ctxs.overlay.textBaseline = "top";
-      ctxs.overlay.textAlign = "left";
+      ctxs.overlay.textAlign = "center";
       ctxs.overlay.fillStyle = "#EEEE";
       ctxs.overlay.fillText(
-        lang.debug,
-        cv.overlay.width * 0.02,
+        lang.freeze,
+        cv.overlay.width * 0.5,
         cv.overlay.width * 0.02,
       );
     } else if (gameState == "pause") {
@@ -785,14 +790,23 @@ function render() {
       } else {
         ctxs.overlay.fillCanvas("#0008");
       }
-      ctxs.overlay.font = cv.overlay.width * 0.06 + "px " + data.font;
+      ctxs.overlay.font = cv.overlay.width * 0.07 + "px " + data.font;
       ctxs.overlay.textBaseline = "top";
       ctxs.overlay.textAlign = "center";
       ctxs.overlay.fillStyle = "#EEE8";
       ctxs.overlay.fillText(
         lang.pause,
         cv.overlay.width * 0.5,
-        cv.overlay.width * 0.05,
+        cv.overlay.width * 0.07,
+      );
+      ctxs.overlay.font = cv.overlay.width * 0.03 + "px " + data.font;
+      ctxs.overlay.textBaseline = "top";
+      ctxs.overlay.textAlign = "center";
+      ctxs.overlay.fillStyle = "#EEE8";
+      ctxs.overlay.fillText(
+        lang.pause_sub,
+        cv.overlay.width * 0.5,
+        cv.overlay.width * 0.16,
       );
     }
 
@@ -802,7 +816,11 @@ function render() {
     ctxs.overlay.textAlign = "left";
     ctxs.overlay.fillStyle = "#EEE5";
     ctxs.overlay.lineWidth = 4;
-    time = ((Date.now() - global.timeStart) / 1000).toFixed(2).toString();
+    time = Date.now() - global.timeStart;
+    if (["pause"].includes(gameState)) {
+      time = global.lastTime;
+    }
+    time = (time / 1000).toFixed(2).toString();
     ctxs.overlay.fillText(
       lang.time_game.format(time),
       cv.overlay.width * 0.87 - cv.overlay.width * 0.01 * time.length,
@@ -1243,5 +1261,81 @@ function render() {
       cv.overlay.h * 0.02,
       cv.overlay.h * 0.99,
     );
+  }
+
+  if (global.debug_show) {
+    p = {...playerHit};
+    ctx.fillStyle = "#0F02";
+    ctx.strokeStyle = "#AFA4";
+    ctx.lineWidth = 2;
+    ctx.fillRect(
+      - cam.x + p.x,
+      - cam.y + p.y + 1 + (player.crouch ? p.h - (data.player.ch * tw) : 0),
+      p.w,
+      player.crouch ? data.player.ch * tw : p.h,
+    );
+    ctx.strokeRect(
+      - cam.x + p.x + player.vx,
+      - cam.y + p.y + player.vy + 1 + (player.crouch ? p.h - (data.player.ch * tw) : 0),
+      p.w,
+      player.crouch ? data.player.ch * tw : p.h,
+    );
+    ctx.font = cv.main.width * 0.015 + "px Arial";
+    ctx.textAlign = "left";
+    ctx.textBaseline = "top";
+    ctx.fillStyle = "#888888";
+    ctx.fillText(
+      "player",
+      - cam.x + p.x + player.vx,
+      - cam.y + p.y + player.vy + p.h,
+    );
+
+    for (i = 0; i < enemies.length; i++) {
+      ctx.fillStyle = "#F0F2";
+      ctx.strokeStyle = "#FAF4";
+      if (enemies[i].dead) {
+        ctx.fillStyle = "#9091";
+        ctx.strokeStyle = "#FAF1";
+      }
+      ctx.fillRect(
+        - cam.x + enemies[i].x,
+        - cam.y + enemies[i].y,
+        enemies[i].w,
+        enemies[i].h,
+      );
+      ctx.strokeRect(
+        - cam.x + enemies[i].x + enemies[i].vx,
+        - cam.y + enemies[i].y + enemies[i].vy,
+        enemies[i].w,
+        enemies[i].h,
+      );
+      ctx.fillStyle = "#888888";
+      ctx.fillText(
+        "{0}_{1}{2}".format(
+          i,
+          enemies[i].type,
+          enemies[i].dead ? "*" : "",
+        ),
+        - cam.x + enemies[i].x + enemies[i].vx,
+        - cam.y + enemies[i].y + enemies[i].vy + enemies[i].h,
+      );
+    }
+
+    ctx.font = cv.main.width * 0.025 + "px Arial";
+    ctx.textAlign = "left";
+    ctx.textBaseline = "top";
+    ctx.fillStyle = "#CFC";
+    values = {
+      lvl,
+      checkpoint: checkpoint ? [Math.floor(checkpoint.x / tw), Math.floor(checkpoint.y / tw)] : null,
+      holding: player?.hold?.block || null,
+    };
+    for (i = 0; i < values.keys().length; i++) {
+      ctx.fillText(
+        "{0}: {1}".format(values.keys()[i], values.values()[i]),
+        cv.main.width * 0.01,
+        cv.main.width * 0.01 + i * cv.main.width * 0.025,
+      );
+    }
   }
 }

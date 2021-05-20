@@ -22,7 +22,7 @@ function reset() {
     }
   }
   /* Reset game if completed all levels */
-  if (!levels[lvl]) {
+  if (loadedLevels && !loadedLevels[lvl]) {
     gameState = "end";
     global.timerEnd = ((Date.now() - global.timeStart) / 1000).toFixed(2).toString();
 
@@ -88,5 +88,7 @@ function reset() {
     if (grid[x][y]) {
       grid[x][y].down = true;
     }
+  } else {
+    checkpoint = null;
   }
 }

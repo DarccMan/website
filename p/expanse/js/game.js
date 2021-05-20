@@ -40,10 +40,11 @@ if (F.url.online) {
 }
 var lvl = 0;
 if (global.startDebug) {
-  data.graphics = 4;
-  lvl = 7;
+  data.graphics = 3;
+  // lvl = 1;
   startState = "play";
-  global.ignoreDisabled = true;
+  // startState = "pause";
+  // global.ignoreDisabled = true;
 }
 if (F.url.query.speedrun) {
   startState = "play";

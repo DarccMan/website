@@ -18,21 +18,27 @@ function update(mod) {
 
   /* Create player hitbox */
   playerHit = {...player};
-  playerHit.w *= data.player.hitX;
-  playerHit.h *= data.player.hitY;
-  playerHit.x += player.w / 2 - playerHit.w / 2;
-  playerHit.y += player.h - playerHit.h;
-  playerHitNC = {...playerHit};
-  if (player.crouch) {
-    playerHit.y += player.h - (data.player.ch * tw);
-    playerHit.y -= 3;
-    playerHit.h = data.player.ch * tw;
+  if (!["load", "start", "end"].includes(gameState)) {
+    playerHit.w *= data.player.hitX;
+    playerHit.h *= data.player.hitY;
+    playerHit.x += player.w / 2 - playerHit.w / 2;
+    playerHit.y += player.h - playerHit.h;
+    playerHitNC = {...playerHit};
+    if (player.crouch) {
+      playerHit.y += player.h - (data.player.ch * tw);
+      playerHit.y -= 3;
+      playerHit.h = data.player.ch * tw;
+    }
   }
   if (gameState == "pause") {
     if (keysDown.game_pause) {
       if (global.keyOnce_pause) {
         gameState = "play";
         global.keyOnce_pause = false;
+        if (global.lastPause) {
+          global.timeStart += Date.now() - global.lastPause;
+        }
+        global.lastTime = null;
       }
     } else {
       global.keyOnce_pause = true;
@@ -42,6 +48,8 @@ function update(mod) {
       if (global.keyOnce_pause) {
         gameState = "pause";
         global.keyOnce_pause = false;
+        global.lastPause = Date.now();
+        global.lastTime = Date.now() - global.timeStart;
       }
     } else {
       global.keyOnce_pause = true;
@@ -493,7 +501,7 @@ function update(mod) {
       /* Player death from enemy */
       if (
         !data.enemies[enemies[i].type].attr.avoidLight
-        || !data.blocks[player.hold]?.light
+        || !data.blocks[player?.hold?.block]?.light
       ) {
         if (F.collide(p, enemies[i])) {
           death();
@@ -512,7 +520,10 @@ function update(mod) {
 
       /* Move enemy towards / away from player */
       dir = 1;
-      if (data.enemies[enemies[i].type].attr.avoidLight && data.blocks[player.hold]?.light) {
+      if (
+        data.enemies[enemies[i].type].attr.avoidLight
+        && data.blocks[player?.hold?.block]?.light
+      ) {
         dir = -1;
       }
       fast = 1;
@@ -687,70 +698,62 @@ function update(mod) {
       }
     }
 
-    val = true;
-    if (keysDown.player_pick) {
-      /* Pick up block */
-      if (!player.hold) {
+    if (keysDown.player_use) {
+      if (global.keyOnce_use) {
+        global.keyOnce_use = false;
         x = Math.floor((playerHit.x + playerHit.w / 2) / tw);
         y = Math.floor((playerHit.y + playerHit.h / 2) / tw);
-        if (
-          grid[x]
-          && grid[x][y]
-        ) {
-          val = false;
-          if (data.blocks[grid[x][y].block].check) {
-            if (global.keyOnce_use) {
-              global.keyOnce_use = false;
-              checkpoint = {
-                x: (x + 0.5) * tw - player.w / 2,
-                y: player.y - player.h * 0.4,
-                bx: x,
-                by: y,
-                lvl,
-              };
-              for (x1 = 0; x1 < grid.length; x1++) {
-                for (y1 = 0; y1 < grid[x1].length; y1++) {
-                  grid[x1][y1].down = false;
-                }
-              }
-              grid[x][y].down = true;
-            }
-          } else if (data.blocks[grid[x][y].block].use) {
-            switch (grid[x][y].block) {
-              case "sign": {
-                global.signText = grid[x][y].text || "No text";
-                global.lastReadSign = Date.now();
-              }; break;
-            }
-          } else if (data.blocks[grid[x][y].block].pick) {
-            player.hold = grid[x][y].block;
-            grid[x][y] = {
-              block: "none"
-            };
-          }
-        }
-      }
-    } else if (keysDown.player_drop) {
-      /* Drop block */
-      if (player.hold) {
-        x = Math.floor((playerHit.x + playerHit.w / 2) / tw);
-        y = Math.floor((playerHit.y + playerHit.h / 2) / tw);
-        if (
-          grid[x]
-          && grid[y]
-        ) {
-          if (grid[x][y].block == "none") {
-            if (data.blocks[player.hold].pick) {
-              grid[x][y] = {
-                block: player.hold,
-              };
+        if (grid[x]?.[y]) {
+          other = true;
+          if (player?.hold) {
+            if (grid[x][y].block == "none") {
+              grid[x][y] = player.hold;
               player.hold = null;
+              other = false;
+            }
+          } else {
+            if (data.blocks[grid[x][y].block].pick) {
+              player.hold = grid[x][y];
+              grid[x][y] = {
+                block: "none",
+              };
+              other = false;
+            }
+          }
+          if (data.blocks[grid[x][y].block].check) {
+            checkpoint = {
+              x: (x + 0.5) * tw - player.w / 2,
+              y: player.y - player.h * 0.4,
+              bx: x,
+              by: y,
+              lvl,
+            };
+            for (x1 = 0; x1 < grid.length; x1++) {
+              for (y1 = 0; y1 < grid[x1].length; y1++) {
+                grid[x1][y1].down = false;
+              }
+            }
+            grid[x][y].down = true;
+            other = false;
+          }
+          if (other) {
+            canHold = false;
+            if (data.blocks[grid[x][y].block].use) {
+              switch (grid[x][y].block) {
+                case "sign": {
+                  global.signText = grid[x][y].text || lang.no_text;
+                  global.lastReadSign = Date.now();
+                  canHold = true;
+                }; break;
+              };
+            }
+            if (canHold) {
+              global.keyOnce_use = true;
             }
           }
         }
       }
-    }
-    if (val) {
+    } else {
       global.keyOnce_use = true;
     }
   } else if (gameState == "start") {
@@ -792,29 +795,12 @@ function update(mod) {
   }
 
   global.debug_shadow = false;
+  global.debug_show = false;
   if (gameState != "load") {
     /* Debug mode */
     if (keysDown.debug) {
       global.stats.debug = true;
-      /* Show hitboxes */
-      p = {...playerHit};
-      ctx.fillStyle = "#0F02";
-      ctx.fillRect(
-        - cam.x + p.x + player.vx,
-        - cam.y + p.y + player.vy + 1 + (player.crouch ? p.h - (data.player.ch * tw) : 0),
-        p.w,
-        player.crouch ? data.player.ch * tw : p.h,
-      );
-
-      for (i = 0; i < enemies.length; i++) {
-        ctx.fillStyle = "#F0F2";
-        ctx.fillRect(
-          - cam.x + enemies[i].x + enemies[i].vx,
-          - cam.y + enemies[i].y + enemies[i].vy,
-          enemies[i].w,
-          enemies[i].h,
-        );
-      }
+      global.debug_show = true;
 
       /* Move player */
       if (F.mouse.onCanvas) {
@@ -831,7 +817,6 @@ function update(mod) {
       /* Show shadows */
       if (keysDown.debug_shadow) {
         global.debug_shadow = true;
-        console.log(1);
       }
 
       /* Skip level */
@@ -872,13 +857,13 @@ function update(mod) {
       }
     }
     /* Toggle debug mode */
-    if (keysDown.debug_mode) {
-      if (gameState != "debug") {
+    if (keysDown.debug_freeze) {
+      if (gameState != "freeze") {
         global.lastGameState_debug = gameState;
-        gameState = "debug";
+        gameState = "freeze";
       }
     } else {
-      if (gameState == "debug") {
+      if (gameState == "freeze") {
         gameState = global.lastGameState_debug || "play";
       }
     }
@@ -891,6 +876,7 @@ fancy = {
   a: [68, 65, 66, 65, 66, 89],
   b: [38, 38, 40, 40, 37, 39, 37, 39, 66, 65],
   c: [83, 75, 69, 76, 76, 89],
+  d: [45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45],
 };
 onkeydown = function (e) {
   if (!global.prevKeys) {
@@ -924,6 +910,10 @@ onkeydown = function (e) {
             }
           }
           global.stats.key = true;
+        }; break;
+        case "d": {
+          unlockSecret();
+          global.prevKeys.push("buffer");
         }; break;
       }
     }

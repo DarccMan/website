@@ -8,8 +8,10 @@ var lang = {
   time_game: "Time: {0}",
   level: "Level {number} '{name}'",
   sign: "The sign reads:",
-  pause: "Game Paused",
-  debug: "<DEBUG MODE>",
+  pause: "Its Paused!",
+  pause_sub: "Press ESC to unpause",
+  no_text: "No text!",
+  freeze: "<FREEZE MODE>",
   death: [
     "Uh - Oh!",
     "Yikers!",

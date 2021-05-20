@@ -143,8 +143,12 @@ function resetParticles() {
 }
 
 /* Load disabled levels */
-function reloadDisabled() {
+function enableLevels() {
   global.ignoreDisabled = true;
   loadLevels();
-  reset();
+}
+function unlockSecret() {
+  global.secretUnlocked = true;
+  loadLevels();
+  console.log("What??");
 }
