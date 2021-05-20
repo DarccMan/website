@@ -40,10 +40,13 @@ function reset() {
       loadedLevels.length.toString().fill(2),
       global.deaths,
       global.restartCount || 0,
+      global.ignoreDisabled ? 1 : 0,
+      global.secretUnlocked ? 1 : 0,
       ((global.pntr - global.delta_pntr) + global.stats.dist__ * (finalTime % 10)) / ((Date.now() - 1000) / 10) // Polynomial time radix
     ];
     stat = stats.splice(0, stats.length - 1).join("");
-    stat += stat.length == 31 ? 1 : 0;
+    stat += stat.length == 33 ? 1 : 0;
+    stat = btoa(stat);
     global.lastStats = stat;
 
     console.log("You finished the game!\nHello :)\nYour personal completion key is:\n{0}".format(stat));

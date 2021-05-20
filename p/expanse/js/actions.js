@@ -89,6 +89,7 @@ function startPlay() {
 }
 
 function decodeStats(str) {
+  str = atob(str);
   stats = {
     time: parseInt(str.s(21, 27)) / 100,
     dateCode: parseInt(str.s(3, 16)),
@@ -103,6 +104,8 @@ function decodeStats(str) {
     key: str[20] == 1,
     graphics: parseInt(str[16]),
     levels: parseInt(str.s(27, 29)),
+    disabledLevels: str[31] == 1,
+    secretLevels: str[32] == 1,
     valid: str.s(-1) == 1,
   };
 

@@ -14,6 +14,8 @@
  - Change player death rotation to stay the same for flip
  - Fix camera misalignment on load
  - Redo all low graphics colours
+ - Add digits for restart value in keycode
+ - Encrypt keycode
 
 ## Bugs
  - Crouching while moving stops movement until uncrouch
