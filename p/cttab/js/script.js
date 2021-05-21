@@ -5,7 +5,6 @@ if (F.url.online && !F.url.port) {
 }
 /* Initialize all */
 function init() {
-  handle.startTimeout();
   handle.hide();
   ls.check();
   if (page == "index") {
@@ -36,14 +35,6 @@ handle.error = function (msg) {
   doc.id("content").style.display = "none";
   handle.show();
 }
-handle.startTimeout = function () {
-  handle.timeout = setTimeout(() => {
-    handle.error("Timeout of 2000 milliseconds");
-  }, 2000);
-}
-handle.stopTimeout = function () {
-  clearInterval(handle.timeout);
-}
 handle.hide = function () {
   doc.id("error").style.display = "none";
 }
@@ -53,7 +44,6 @@ handle.show = function () {
 handle.continue = function () {
   handle.hide();
   doc.id("content").style.visibility = "visible";
-  handle.stopTimeout();
 }
 
 
