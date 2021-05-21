@@ -30,4 +30,5 @@ var lang = {
     "Bugger",
   ],
   graphics: "Graphics: {0}",
+  mobile: "Warning! Does not work on mobile or device without keyboard.",
 };
