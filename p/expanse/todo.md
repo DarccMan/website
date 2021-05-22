@@ -5,6 +5,8 @@
  - Add noises
  - Fix tiles amount
  - Add seperate acceleration / decceleration for midair
+ - Add rat attribute to enemies
+ - Add jetrat
 
 ## Levels
  - Add Levels

@@ -498,11 +498,11 @@ function render() {
       }
       if (data.graphics > 1) {
         animate_offset = 0;
-        if (enemies[i].type == "rat") {
+        if (data.enemies[enemies[i].type].attr.rat) {
           animate_offset = enemies[i].stamp;
         }
         frameNumber = ((Date.now() + animate_offset) / (data.enemies[enemies[i].type].animateSpeed || 500)) % data.enemies[enemies[i].type].images;
-        if (gameState == "freeze") {
+        if (["freeze", "pause"].includes(gameState)) {
           frameNumber = 0;
         }
         ctx.drawImage(
@@ -1337,5 +1337,5 @@ function render() {
         cv.main.width * 0.01 + i * cv.main.width * 0.025,
       );
     }
-  }
+  } n
 }

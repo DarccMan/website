@@ -457,11 +457,18 @@ var levels = [
       x+6;
       y+1;
       #none*3;
-      $2[
-        @rat,
-        x+1,
-      ];
-      @bat;
+      @rat;
+      x+1;
+      @rat;
+      x+1;
+      @rat;
+      x+1;
+      y-1;
+      @jetrat;
+      x+2;
+      @jetrat;
+      x+2;
+      @jetrat;
     `,
     player: {
       x: 20,

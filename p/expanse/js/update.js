@@ -533,6 +533,18 @@ function update(mod) {
       enemies[i].vx += dir * Math.sign(player.x - enemies[i].x) * data.enemies[enemies[i].type].v.ma * mod * fast;
       enemies[i].flip = dir * - Math.sign(player.x - enemies[i].x);
 
+      if (data.enemies[enemies[i].type].attr.fly) {
+        dir = 1;
+        if (
+          data.enemies[enemies[i].type].attr.avoidLight
+          && data.blocks[player?.hold?.block]?.light
+        ) {
+          dir = -1;
+        }
+        enemies[i].vy += dir * Math.sign(player.y - enemies[i].y) * data.enemies[enemies[i].type].v.ma * mod;
+        enemies[i].flip = dir * - Math.sign(player.y - enemies[i].y);
+      }
+
       /* Enemy stop X collision */
       cb = null;
       e = {...enemies[i]};
@@ -644,7 +656,7 @@ function update(mod) {
 
       /* Shaky rats */
       dist = 2;
-      if (enemies[i].type == "rat") {
+      if (data.enemies[enemies[i].type].attr.rat) {
         amount = 0;
         X: for (j = 0; j < enemies.length; j++) {
           if (i == j) {

@@ -46,26 +46,29 @@ body {
   right: 20px;
   top: 20px;
 }
+#links {
+  -webkit-column-fill: auto;
+  column-fill: auto;
+  -moz-column-gap: 50px;
+  column-gap: 50px;
+}
 #links h2 {
   font-size: 30px;
   padding-left: 50px;
 }
 #links .content {
   column-count: 3;
+  -webkit-column-count: 3;
+  -moz-column-count: 3;
   column-fill: auto;
+  -webkit-column-fill: auto;
   margin-top: -10px;
   padding: 5px;
   font-size: 18px;
 }
 @media (max-width: 1050px) {
-  #links .content {
-    column-count: 2;
-  }
 }
 @media (max-width: 750px) {
-  #links .content {
-    column-count: 1;
-  }
 }
 #links .content .link {
   break-inside: avoid;
