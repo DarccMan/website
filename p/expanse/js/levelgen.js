@@ -11,7 +11,6 @@ function loadLevels() {
         || !levels[l].disabled
       ) && (
         global.secretUnlocked
-        || global.ignoreDisabled
         || !levels[l].secret
       )
     ) {

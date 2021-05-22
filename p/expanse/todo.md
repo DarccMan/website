@@ -5,8 +5,10 @@
  - Add noises
  - Fix tiles amount
  - Add seperate acceleration / decceleration for midair
- - Add rat attribute to enemies
- - Add jetrat
+ - Fix debug / secret / disabled level loading
+ - - Disabled: all
+ - - Debug: only debug
+ - - Secret: only secret
 
 ## Levels
  - Add Levels
@@ -97,6 +99,8 @@ Completed
  - Remove extra jump
  - Pause screen
  - Change controls
+ - Add rat attribute to enemies
+ - Add jetrat
 
 </details>
 
