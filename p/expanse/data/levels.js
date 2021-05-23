@@ -437,7 +437,7 @@ var levels = [
       #fire;
       x+2;
       y-1;
-      #block;
+      // #block;
       y-1;
       #block*3;
       x+2;
@@ -449,33 +449,91 @@ var levels = [
       #scaffold*2;
       y-1;
       #scaffold;
-      x+7;
-      y=19;
-      #sign{text:Test_123};
-      x+2;
-      #check*5;
-      x+6;
-      y+1;
-      #none*3;
-      @rat;
-      x+1;
-      @rat;
-      x+1;
-      @rat;
-      x+1;
-      y-1;
-      @jetrat;
-      x+2;
-      @jetrat;
-      x+2;
-      @jetrat;
+      x-3;
+      y+2;
+      #fire;
     `,
     player: {
-      x: 20,
+      x: 0,
       y: 18.5,
       // x: 24,
       // x: 3,
       // y: 17,
+    },
+  },
+  {
+    name: "Spy Rats",
+    disabled: true,
+    dim: [40, 30],
+    set: `
+      y=20;
+      x=19;
+      y=19;
+      #glass;
+      y+1;
+      #glass*4;
+      x+4;
+      #climb;
+      x-4;
+      y-2;
+      #glass;
+      y-1;
+      #glass*8;
+      x+7;
+      $6[
+        y+1,
+        #glass,
+      ];
+      x+3;
+      y-5;
+      @jetrat;
+      y+5;
+      x-13;
+      #glass*10;
+      $4[
+        y-1,
+        #glass,
+        x+1,
+        #climb,
+        x-1,
+        y-1,
+        #glass,
+      ];
+      y+2;
+      x-6;
+      @jetrat;
+      x+10;
+      y-4;
+      #climb;
+      x+9;
+      #climb;
+      $8[
+        y-1,
+        #goup,
+      ];
+      x-2;
+      #spike{rotate:2}*5;
+      y-1;
+      #brick*5;
+      y+13;
+      #glass*8;
+      x+7;
+      y-1;
+      #fire;
+      x+1;
+      y+1;
+      $4[
+        #glass,
+        y-1,
+      ];
+      x-5;
+      #glass*8;
+    `,
+    player: {
+      x: 20.4,
+      y: 18.2,
+      // x: 28,
+      // y: 13,
     },
   },
 ];

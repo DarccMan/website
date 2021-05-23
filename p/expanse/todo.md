@@ -15,20 +15,18 @@
  - Refine level names
 
 ## Small stuff
- - Change player death rotation to stay the same for flip
  - Fix camera misalignment on load
  - Redo all low graphics colours
  - Add digits for restart value in keycode
- - Encrypt keycode
 
 ## Bugs
- - Crouching while moving stops movement until uncrouch
+ - Player goes into block when uncrouching at same time as moving into 1 block high hole
  - Debug centre of movement not aligned to player
  - Super jump occurs when jumping in scaffolding (One piece even)
- - Death causes level completion
  - Crouching in scaffold stops all movement
  - Hitting head in elevator stops all movement
 
+ - Death causes level completion (Fixed??)
  - Completing level 0 restarts to 0 (Fixed??)
 
 ## Technical
@@ -101,6 +99,9 @@ Completed
  - Change controls
  - Add rat attribute to enemies
  - Add jetrat
+ - Encrypt keycode
+ - Crouching while moving stops movement until uncrouch
+ - Change player death rotation to stay the same for flip
 
 </details>
 

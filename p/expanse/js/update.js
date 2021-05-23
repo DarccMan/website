@@ -326,7 +326,7 @@ function update(mod) {
     }
 
     /* Player crouching don't fall off */
-    if (player.crouch && blockUnder) {
+    if (player.crouch && blockUnder && data.blocks[blockUnder.block].collide) {
       cb = null;
       p = {...playerHit};
       p.x += player.vx * 4;

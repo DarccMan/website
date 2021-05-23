@@ -86,6 +86,12 @@ data.blocks = { // Block data
     walkInto: true,
     pick: true,
   },
+  climb: {
+    color: "#765",
+    images: 1,
+    collide: true,
+    walkInto: true,
+  },
   glass: {
     color: "#C9FFFF30",
     images: 2,

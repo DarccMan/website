@@ -58,7 +58,7 @@ var data = {
     mm: 0.2, // If less than this number, reset to 0
     // Crouching
     cfa: 0.03, // Fall acceleration
-    cft: 1.08, // Fall terminal
+    cft: 1.05, // Fall terminal
     cma: 0.2, // Movement acceleration
     cmt: 0.6, // Movement terminal
   },

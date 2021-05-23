@@ -319,7 +319,7 @@ function render() {
           x,
           y,
         );
-        ctx.rotate(player.animate * Math.PI / 2);
+        ctx.rotate(player.animate * player.flip * player.deathFlip * Math.PI / 2);
         ctx.translate(
           - x,
           - y,
@@ -687,7 +687,7 @@ function render() {
           ctxs.overlay.fillText(
             lang.level.format({
               number: lvl,
-              name: levels[lvl].name || "Unknown",
+              name: loadedLevels[lvl].name || "Unknown",
             }),
             cv.overlay.width * 0.02,
             cv.overlay.width * 0.02,

@@ -6,6 +6,7 @@ async function death() {
   global.deathMessage = F.randomChoice(lang.death);
   player.status = "death";
   player.animate = 0;
+  player.deathFlip = F.randomChoice([1, -1]);
   for (j = 0; j < 100; j += 4) {
     player.animate = j / 100;
     await F.sleep(0.001);
@@ -154,4 +155,11 @@ function unlockSecret() {
   global.secretUnlocked = true;
   loadLevels();
   console.log("What??");
+}
+
+/* Kill all enemies */
+function killEnemies() {
+  enemies.forEach((i) => {
+    i.dead = Date.now();
+  })
 }
