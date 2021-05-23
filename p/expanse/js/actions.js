@@ -1,6 +1,9 @@
 /* Death function */
 async function death() {
   gameState = "death";
+  if (!global.deaths) {
+    global.deaths = 0;
+  }
   global.deaths++;
   global.lastDeath = Date.now();
   global.deathMessage = F.randomChoice(lang.death);
@@ -17,9 +20,7 @@ async function death() {
   if (F.url.query.speedrun) {
     lvl = 0;
   }
-  // global.wasDeath = true;
   reset();
-  // global.wasDeath = false;
 }
 
 /* Goal function */
@@ -43,6 +44,9 @@ function restart() {
     lvl = 0;
   }
   reset();
+  if (!global.restartCount) {
+    global.restartCount = 0;
+  }
   global.restartCount++;
 }
 function restartAll() {
@@ -92,22 +96,23 @@ function startPlay() {
 function decodeStats(str) {
   str = atob(str);
   stats = {
-    time: parseInt(str.s(21, 27)) / 100,
-    dateCode: parseInt(str.s(3, 16)),
-    date: new Date(parseInt(str.s(3, 16))),
-    deaths: parseInt(str[29]),
-    restarts: parseInt(str[30]),
+    pntr_dist: str.s(0, 2), // Polynomial time radix
     cheats: str[2] == 1,
+    dateCode: parseInt(str.s(3, 16)),
+    date: new Date(parseInt(str.s(3, 16))).toString(),
     debug: str[17] == 1,
     egg: str[18] == 1,
-    pntr_dist: str.s(0, 2), // Polynomial time radix
     speedrun: str[19] == 1,
     key: str[20] == 1,
+    time: parseInt(str.s(21, 27)) / 100,
+    deaths: parseInt(str[29]),
+    restarts: parseInt(str[30]),
     graphics: parseInt(str[16]),
     levels: parseInt(str.s(27, 29)),
     disabledLevels: str[31] == 1,
     secretLevels: str[32] == 1,
     valid: str.s(-1) == 1,
+    decoded: str,
   };
 
   console.table(stats);

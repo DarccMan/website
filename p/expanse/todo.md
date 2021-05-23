@@ -25,6 +25,7 @@
  - Super jump occurs when jumping in scaffolding (One piece even)
  - Crouching in scaffold stops all movement
  - Hitting head in elevator stops all movement
+ - Fix keycode
 
  - Death causes level completion (Fixed??)
  - Completing level 0 restarts to 0 (Fixed??)

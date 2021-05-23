@@ -30,7 +30,7 @@ function reset() {
     stats = [
       global.stats.date ? (global.stats.date.toString().s(-1) + global.stats.date.toString().s(-3)) : "00",
       global.stats.cheats ? 1 : 0,
-      global.stats.date,
+      global.stats.date ? global.stats.date : "9".repeat(13),
       data.graphics,
       global.stats.debug ? 1 : 0,
       global.stats.egg ? 1 : 0,
@@ -38,17 +38,16 @@ function reset() {
       global.stats.key ? 1 : 0,
       finalTime.length > 6 ? "9".repeat(6) : (isNaN(finalTime) ? "9".repeat(6) : finalTime),
       loadedLevels.length.toString().fill(2),
-      global.deaths,
-      global.restartCount || 0,
+      (global.deaths || 0).toString().fill(3),
+      (global.restartCount || 0).toString().fill(3),
       global.ignoreDisabled ? 1 : 0,
       global.secretUnlocked ? 1 : 0,
       ((global.pntr - global.delta_pntr) + global.stats.dist__ * (finalTime % 10)) / ((Date.now() - 1000) / 10) // Polynomial time radix
     ];
     stat = stats.splice(0, stats.length - 1).join("");
-    stat += stat.length == 33 ? 1 : 0;
+    stat += stat.length == 37 ? 1 : 0;
     stat = btoa(stat);
     global.lastStats = stat;
-
     console.log("You finished the game!\nHello :)\nYour personal completion key is:\n{0}".format(stat));
     return;
   }
@@ -94,4 +93,12 @@ function reset() {
   } else {
     checkpoint = null;
   }
+
+  /* if (lvl == 0) {
+    if (!global.once_debugLvl) {
+      global.once_debugLvl = true;
+      lvl = 7;
+      reset();
+    }
+  } */
 }
