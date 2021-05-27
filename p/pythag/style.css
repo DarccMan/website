@@ -1,0 +1,86 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: linear-gradient(0deg, rgba(79,45,157,1) 0%, rgba(39,24,92,1) 100%);
+}
+content {
+  display: table;
+  margin: 0 auto;
+}
+article {
+  width: 340px;
+  height: 120px;
+}
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+#canvas_contain {
+  margin-top: 10px;
+  height: 230px;
+  float: left;
+  border-radius: 20px;
+  background-color: #1234;
+}
+select, input, button, textarea {
+  color: black;
+}
+button {
+  border: none;
+  border-radius: 5px;
+  background: linear-gradient(0deg, hsl(230, 70%, 60%) 0%, hsl(250, 60%, 40%) 100%);
+  padding: 10px;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+button:hover, button:focus-visible {
+  outline: none;
+  background: linear-gradient(0deg, hsl(250, 60%, 40%) 0%, hsl(230, 70%, 60%) 100%);
+}
+button:active {
+  background: linear-gradient(0deg, hsl(250, 50%, 30%) 0%, hsl(230, 60%, 50%) 100%);
+}
+form {
+  float: left;
+  width: 210px;
+  margin-right: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #4568;
+}
+form:nth-child(2) {
+  width: 100px;
+}
+input[type="number"] {
+  width: 200px;
+  height: 20px;
+  margin: 2px 0;
+  padding: 5px;
+  border: none;
+  border-radius: 3px;
+  font-size: 17px;
+  background: linear-gradient(0deg, hsl(250, 60%, 70%) 0%, hsl(230, 70%, 80%) 100%);
+}
+input[type="number"]:hover:not(:disabled):not(:focus) {
+  outline: none;
+  background: linear-gradient(0deg, hsl(230, 70%, 80%) 0%, hsl(250, 60%, 70%) 100%);
+}
+input[type="number"]:focus {
+  outline: none;
+  background: linear-gradient(0deg, hsl(230, 60%, 70%) 0%, hsl(250, 50%, 60%) 100%);
+}
+input[type="number"]:disabled {
+  background: linear-gradient(0deg, hsl(250, 30%, 70%) 0%, hsl(230, 40%, 80%) 100%);
+  color: #555;
+}
+label {
+  color: white;
+}
+header {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 25px;
+  text-align: center;
+  color: #DEF;
+}

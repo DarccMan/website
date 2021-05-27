@@ -97,8 +97,14 @@ function render() {
       - cam.y,
     );
 
-    for (x = 0; x < grid.length; x++) {
-      for (y = 0; y < grid[x].length; y++) {
+    span = {
+      minx: (Math.floor(cam.x / tw)).setBorder(0, grid.length - 1),
+      maxx: (Math.floor((cam.x + cv.main.w) / tw) + 1).setBorder(0, grid.length),
+      miny: (Math.floor(cam.y / tw)).setBorder(0, grid[0].length - 1),
+      maxy: (Math.floor((cam.y + cv.main.h) / tw) + 1).setBorder(0, grid[0].length),
+    };
+    for (x = span.minx; x < span.maxx; x++) {
+      for (y = span.miny; y < span.maxy; y++) {
         if (grid[x][y].block == "none") {
           continue;
         }
@@ -319,7 +325,7 @@ function render() {
           x,
           y,
         );
-        ctx.rotate(player.animate * player.flip * player.deathFlip * Math.PI / 2);
+        ctx.rotate(player.animate * (player.flip || 1) * player.deathFlip * Math.PI / 2);
         ctx.translate(
           - x,
           - y,
@@ -687,7 +693,7 @@ function render() {
           ctxs.overlay.fillText(
             lang.level.format({
               number: lvl,
-              name: loadedLevels[lvl].name || "Unknown",
+              name: levels[lvl].name || "Unknown",
             }),
             cv.overlay.width * 0.02,
             cv.overlay.width * 0.02,
@@ -1337,5 +1343,5 @@ function render() {
         cv.main.width * 0.01 + i * cv.main.width * 0.025,
       );
     }
-  } n
+  }
 }

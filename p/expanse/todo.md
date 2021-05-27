@@ -9,6 +9,9 @@
  - - Disabled: all
  - - Debug: only debug
  - - Secret: only secret
+ - Overhaul level reader
+ - Add commands
+ - Add issue template to github
 
 ## Levels
  - Add Levels
@@ -17,7 +20,6 @@
 ## Small stuff
  - Fix camera misalignment on load
  - Redo all low graphics colours
- - Add digits for restart value in keycode
 
 ## Bugs
  - Player goes into block when uncrouching at same time as moving into 1 block high hole
@@ -25,18 +27,12 @@
  - Super jump occurs when jumping in scaffolding (One piece even)
  - Crouching in scaffold stops all movement
  - Hitting head in elevator stops all movement
- - Fix keycode
-
- - Death causes level completion (Fixed??)
- - Completing level 0 restarts to 0 (Fixed??)
 
 ## Technical
  - Change player death animation to calculate on render
  - Calculate frames on render
- - Parse nbt values
  - Add line numbers to level gen errors
  - Redo all collisions
- - Change level gen string parsing
 
 ## Optimisations
  - Floor and ceil all renders
@@ -103,6 +99,13 @@ Completed
  - Encrypt keycode
  - Crouching while moving stops movement until uncrouch
  - Change player death rotation to stay the same for flip
+ - Add digits for restart value in keycode
+ - Render blocks that are in frame
+
+ ## Possibly?
+ - Death causes level completion
+ - Completing level 0 restarts to 0
+ - Fix keycode
 
 </details>
 

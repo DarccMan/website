@@ -1,5 +1,5 @@
-var levels = [
-  {
+var rawLevels = [
+  /* {
     name: "Spiky :(",
     dim: [25, 10],
     set: `
@@ -425,43 +425,6 @@ var levels = [
     },
   },
   {
-    name: "<Debug Level!>",
-    disabled: true,
-    debug: true,
-    dim: [40, 30],
-    set: `
-      y=20;
-      #block*400&3,cracked:1;
-      x=0;
-      y=19;
-      #fire;
-      x+2;
-      y-1;
-      // #block;
-      y-1;
-      #block*3;
-      x+2;
-      #scaffold*2;
-      x+3;
-      y+2;
-      #scaffold*3;
-      y-1;
-      #scaffold*2;
-      y-1;
-      #scaffold;
-      x-3;
-      y+2;
-      #fire;
-    `,
-    player: {
-      x: 0,
-      y: 18.5,
-      // x: 24,
-      // x: 3,
-      // y: 17,
-    },
-  },
-  {
     name: "Spy Rats",
     disabled: true,
     dim: [40, 30],
@@ -534,6 +497,30 @@ var levels = [
       y: 18.2,
       // x: 28,
       // y: 13,
+    },
+  }, */
+  {
+    name: "<Debug Level!>",
+    disabled: true,
+    debug: true,
+    dim: [40, 30],
+    set: `
+      y=10;
+      #brick*200;
+      x+6;
+      y-1;
+      $4[;
+        #test;
+        x+1;
+        #glass;
+        y-1;
+      ];
+    `,
+    player: {
+      x: 4,
+      y: 18.5,
+      // x: 0,
+      y: 8,
     },
   },
 ];

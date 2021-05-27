@@ -6,7 +6,6 @@ data.blocks = { // Block data
   test: {
     color: "#F0F",
     images: 1,
-    outline: true,
     collide: true,
   },
   unknown: {

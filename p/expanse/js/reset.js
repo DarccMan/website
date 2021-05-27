@@ -4,7 +4,7 @@ function reset() {
       if (F.url.query.lvl) {
         if (
           parseInt(F.url.query.lvl) >= 0
-          && parseInt(F.url.query.lvl) < levels.length
+          && parseInt(F.url.query.lvl) < rawLevels.length
         ) {
           lvl = parseInt(F.url.query.lvl);
           global.firstStarted = true;
@@ -15,14 +15,14 @@ function reset() {
 
   /* Skip level if marked as disabled */
   if (!global.ignoreDisabled) {
-    for (i = 0; i < levels.length; i++) {
-      if (!levels[lvl] || levels[lvl].disabled) {
+    for (i = 0; i < rawLevels.length; i++) {
+      if (!rawLevels[lvl] || rawLevels[lvl].disabled) {
         lvl++;
       }
     }
   }
   /* Reset game if completed all levels */
-  if (loadedLevels && !loadedLevels[lvl]) {
+  if (levels && !levels[lvl]) {
     gameState = "end";
     global.timerEnd = ((Date.now() - global.timeStart) / 1000).toFixed(2).toString();
 
@@ -37,7 +37,7 @@ function reset() {
       F.url.query.speedrun ? 1 : 0,
       global.stats.key ? 1 : 0,
       finalTime.length > 6 ? "9".repeat(6) : (isNaN(finalTime) ? "9".repeat(6) : finalTime),
-      loadedLevels.length.toString().fill(2),
+      levels.length.toString().fill(2),
       (global.deaths || 0).toString().fill(3),
       (global.restartCount || 0).toString().fill(3),
       global.ignoreDisabled ? 1 : 0,

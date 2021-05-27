@@ -1,23 +1,25 @@
 /* Set up game */
-var loadedLevels;
+var levels;
 var levelVars;
+var levelFunctions;
 function loadLevels() {
-  loadedLevels = [];
+  levels = [];
   levelVars = {};
-  for (l = 0; l < levels.length; l++) {
+  levelFunctions = {};
+  for (l = 0; l < rawLevels.length; l++) {
     if (
-      levels[l] && (
+      rawLevels[l] && (
         global.ignoreDisabled
-        || !levels[l].disabled
+        || !rawLevels[l].disabled
       ) && (
         global.secretUnlocked
-        || !levels[l].secret
+        || !rawLevels[l].secret
       )
     ) {
-      ld = readLevelData(levels[l].set);
-      loadedLevels.push({
+      ld = readLevelData(rawLevels[l].set, l);
+      levels.push({
         ...ld,
-        ...levels[l],
+        ...rawLevels[l],
       });
     }
   }
@@ -25,13 +27,13 @@ function loadLevels() {
 
 function setLevel(number) {
   /* Read level file */
-  grid = JSON.parse(JSON.stringify(loadedLevels[number].grid));
-  enemies = JSON.parse(JSON.stringify(loadedLevels[number].enemies));
+  grid = JSON.parse(JSON.stringify(levels[number].grid));
+  enemies = JSON.parse(JSON.stringify(levels[number].enemies));
 
   /* Create player */
   player = {
-    x: (loadedLevels[number].player?.x || 2) * tw,
-    y: (loadedLevels[number].player?.y || 2) * tw,
+    x: (levels[number].player?.x || 2) * tw,
+    y: (levels[number].player?.y || 2) * tw,
     w: tw * data.player.w,
     h: tw * data.player.h,
     vx: 0,
@@ -41,199 +43,279 @@ function setLevel(number) {
   };
 }
 
-function readLevelData(str) {
-  __grid = [];
-  for (x = 0; x < levels[l].dim[0]; x++) {
-    __grid[x] = [];
-    for (y = 0; y < levels[l].dim[1]; y++) {
-      if (!__grid[x][y]) {
-        __grid[x][y] = {
+function readLevelData(str, l) {
+  read = {
+    enemies: [],
+    grid: [],
+  };
+  for (x = 0; x < rawLevels[l].dim[0]; x++) {
+    read.grid[x] = [];
+    for (y = 0; y < rawLevels[l].dim[1]; y++) {
+      if (!read.grid[x][y]) {
+        read.grid[x][y] = {
           block: "none",
+          original: true,
         };
       }
     }
   }
-  __enemies = [];
-  fen = str.replace(/(\r\n|\n|\r| )/gm, "").replaceAll("_", " ").split(";");
+  fen = [];
+  //! Move to function
+  str = str.replace(/(\r\n|\n|\r)/gm, "").split(";");
+  for (i = 0; i < str.length; i++) {
+    line = str[i];
+    temp = "";
+    for (j = 0; j < line.length; j++) {
+      if (line[j] != " ") {
+        temp += line[j];
+      }
+    }
+    line = temp;
+    fen.push(line);
+  }
+  output = [];
+  I: for (i = 0; i < fen.length; i++) {
+    if (fen[i][0] && fen[i].s(0, 2) != "//") {
+      output.push(readRawComp(fen[i], fen) || {
+        type: "unknown",
+        str: null,
+      });
+    }
+  }
+  fen = output;
+  for (i = 0; i < fen.length; i++) {
+    // console.log(fen[i]);
+    // console.table(fen[i]);
+  }
   x = 0;
   y = 0;
   for (i = 0; i < fen.length; i++) {
-    levelComponent(fen[i], i);
-    y = Math.floor(x / __grid.length);
+    //! Move to function
+    // console.log(x, y);
+    ret = readComp(fen[i], read, x, y);
+    x = ret.x || x;
+    y = ret.y || y;
+    x = x.setBorder(0, read.grid.length - 1);
+    y = y.setBorder(0, read.grid[0].length - 1);
   }
 
-  return ({
-    grid: __grid,
-    enemies: __enemies,
-  });
+  return (read);
 }
 
-function levelComponent(comp, line) {
-  if (!comp || comp.s(0) == "/") {
-    return;
+function readComp(comp, read, x, y) {
+  ret = {x, y};
+  switch (fen[i]?.name) {
+    case "move": {
+      amount = fen[i].amount;
+      if (fen[i].dir == "x") {
+        switch (fen[i].type) {
+          case "=": {
+            x = amount;
+          }; break;
+          case "+": {
+            x += amount;
+          }; break;
+          case "-": {
+            x -= amount;
+          }; break;
+        }
+      } else if (fen[i].dir == "y") {
+        switch (fen[i].type) {
+          case "=": {
+            y = amount;
+          }; break;
+          case "+": {
+            y += amount;
+          }; break;
+          case "-": {
+            y -= amount;
+          }; break;
+        }
+      }
+    }; break;
+    case "block": {
+      for (j = 0; j < fen[i].amount; j++) {
+        x1 = (x + j) % read.grid.length;
+        y1 = y + Math.floor((x + j) / read.grid.length);
+        if (read.grid[x1]?.[y1]) {
+          read.grid[x1][y1] = {
+            block: fen[i].type,
+            ...fen[i].nbt,
+          };
+        }
+      }
+    }; break;
+    case "enemy": {
+      type = fen[i].type;
+      enemy = {
+        type,
+        x: ((x % read.grid.length) * tw) + ((1 - data.enemies[type].w) * tw / 2),
+        y: ((y + 1) * tw) - (data.enemies[type].rh ? (
+          data.enemies[type].rh * tw
+        ) : (
+          data.enemies[type].h * tw
+        )),
+        w: data.enemies[type].w * tw,
+        h: data.enemies[type].rh ? (
+          data.enemies[type].rh * tw
+        ) : (
+          data.enemies[type].h * tw
+        ),
+        vx: 0,
+        vy: 0,
+        stamp: F.randomInt(0, 1000),
+        ...fen[i].nbt,
+      };
+      if (data.enemies[type].attr.rat) {
+        enemy.name = "Clive";
+      }
+      read.enemies.push(enemy);
+    }; break;
+    case "loop": {
+      arr = comp.arr;
+      for (l0 = 0; l0 < comp.amount; l0++) {
+        for (l1 = 0; l1 < arr?.length; l1++) {
+          console.log(l0);
+          ret1 = readComp(arr?.[l1], read, x, y);
+          x = ret1.x || x;
+          y = ret1.y || y;
+        }
+      }
+    }; break;
+    case "unknown": {
+      console.warn("Unknown operator '{0}'".format(fen[i].str));
+    }; break;
   }
-  switch (comp.s(0)) {
-    case "#": {
-      /* Add block */
-      str = comp.s(1, -1).split("*");
-      nbt = {};
-      block = str[0];
-      if (block.split("{").length > 1) {
-        raw = block.split("{")[1].s(0, -2).split(",");
-        for (j = 0; j < raw.length; j++) {
-          if (raw[j].split(":").length > 1) {
-            nbt[raw[j].split(":")[0]] = raw[j].split(":")[1];
-          } else {
-            nbt[raw[j].split(":")[0]] = true;
+  ret.x = x;
+  ret.y = y;
+  return ret;
+}
+
+function readRawComp(comp, whole) {
+  switch (comp[0]) {
+    case ("$"): {
+      if (comp.split("[").length > 1) {
+        arr = [];
+        J: for (j = i; j < whole.length; j++) {
+          if (whole[j][0] == "]") {
+            break J;
+          }
+          arr.push(whole[j]);
+        }
+        arr = [arr[0].s(3, -1), ...F.toArray(arr.s(1, -1))];
+        temp = [];
+        for (j = 0; j < arr.length; j++) {
+          item = readRawComp(arr[j]);
+          if (item) {
+            temp.push(item);
           }
         }
-        block = block.split("{")[0];
+        arr = temp;
+        amount = comp.split("[")[0].s(1, -1);
+        return ({
+          name: "loop",
+          amount,
+          arr,
+        });
       }
-      if (block[0] == "%") {
-        block = levelVars[block.s(1, -1)];
+    }; break;
+    case ("x"): {
+      return ({
+        name: "move",
+        dir: "x",
+        type: comp[1],
+        amount: parseInt(comp.s(2, -1)),
+      });
+    }; break;
+    case ("y"): {
+      return ({
+        name: "move",
+        dir: "y",
+        type: comp[1],
+        amount: parseInt(comp.s(2, -1)),
+      });
+    }; break;
+    case ("#"): {
+      type = comp.split("{")[0]?.split("*")[0].s(1, -1)?.split("&")[0];
+      nbt = comp.split("{")[1]?.split("}")[0]?.s(0, -1)?.split(",");
+      amount = parseInt(comp.split("*")[1]?.split("&")[0]) || 1;
+      if (amount < 0) {
+        amount = read.grid.length * read.grid[0].length;
       }
-      amount = parseInt(str[1]) || 1;
-      random = comp.s(1, -1).split("&")[1];
+      random = comp.split("&")[1];
       if (random) {
         random = random.split(",");
-        if (random[0].split(":").length < 2) {
-          random = [block + ":" + random[0].split(":"), ...F.toArray(random.s(1, -1))];
-        } else {
-          random = [block + ":1", ...random];
-        }
-      } else {
-        random = [block];
-      }
-      arr = [];
-      for (j = 0; j < random.length; j++) {
-        block = random[j].split(":");
-        if (data.blocks[block[0]]) {
-          arr.push(block);
-        } else {
-          console.error("Level Generation:\n'{0}' is not a valid block".format(block[0]));
-        }
-      }
-      random = arr;
-      if (random.length < 1) {
-        random = [["unknown", 1]];
-      }
-      arr = [];
-      for (j = 0; j < random.length; j++) {
-        for (k = 0; k < (parseInt(random[j][1]) || 1); k++) {
-          arr.push(random[j][0]);
-        }
-      }
-      random = arr;
-      oldX = x;
-      for (j = 0; j < amount; j++) {
-        __grid[(x + __grid.length) % __grid.length][Math.max(0, Math.min(__grid[0].length - 1, Math.floor(x / __grid.length)))] = {
-          block: F.randomChoice(random),
-          ...nbt,
-        }
-        x++;
-      }
-      // console.error("Block out of bounds");
-      x = oldX;
-    }; break;
-    case "x": {
-      /* Change X position of item placer */
-      value = comp.s(2, -1);
-      if (parseFloat(value) == value) {
-        value = parseFloat(value);
-        if (comp.s(1) == "+") {
-          x += value;
-        } else if (comp.s(1) == "-") {
-          x -= value;
-        } else if (comp.s(1) == "=") {
-          x = value;
-        } else {
-          console.error("Level Generation:\nSet X operater must be '=', '+' or '-'")
-        }
-      } else {
-        console.error("Level Generation ({0}): Set X number must be float or integer".format(line));
-      }
-    }; break;
-    case "y": {
-      /* Change Y position of item placer */
-      value = comp.s(2, -1);
-      if (parseFloat(value) == value) {
-        value = parseFloat(value);
-        if (comp.s(1) == "+") {
-          x += value * __grid.length;
-        } else if (comp.s(1) == "-") {
-          x -= value * __grid.length;
-        } else if (comp.s(1) == "=") {
-          ox = x;
-          x = value * __grid.length;
-          x += ox % __grid.length;
-        } else {
-          console.error("Level Generation:\nSet Y operater must be '=', '+' or '-'")
-        }
-      } else {
-        console.error("Level Generation: Set Y number must be float or integer");
-      }
-    }; break;
-    case "@": {
-      /* Spawn enemy */
-      type = comp.s(1, -1).split("{");
-      nbt = {};
-      if (type.length > 1) {
-        raw = type[1].s(0, -2).split(",");
-        for (j = 0; j < raw.length; j++) {
-          if (raw[j].split(":").length > 1) {
-            nbt[raw[j].split(":")[0]] = raw[j].split(":")[1];
-          } else {
-            nbt[raw[j].split(":")[0]] = true;
+        temp = [];
+        for (j = 0; j < random.length; j++) {
+          arr = random[j].split(":");
+          if (arr.length == 1) {
+            arr = [type, arr[0]];
+          }
+          if (arr.length > 1) {
+            temp.push([arr[0], parseInt(arr[1]) || 1]);
           }
         }
-      }
-      type = type[0];
-      if (data.enemies[type]) {
-        enemy = {
-          type,
-          x: ((x % __grid.length) * tw) + ((1 - data.enemies[type].w) * tw / 2),
-          y: ((Math.floor(x / __grid.length) + 1) * tw) - (data.enemies[type].rh ? (
-            data.enemies[type].rh * tw
-          ) : (
-            data.enemies[type].h * tw
-          )),
-          w: data.enemies[type].w * tw,
-          h: data.enemies[type].rh ? (
-            data.enemies[type].rh * tw
-          ) : (
-            data.enemies[type].h * tw
-          ),
-          vx: 0,
-          vy: 0,
-          stamp: F.randomInt(0, 1000),
-          ...nbt,
-        };
-        if (type == "rat") {
-          // I cannot change this. It is their choice
-          enemy.name = "Clive";
-        }
-        __enemies.push(enemy);
+        random = temp;
       } else {
-        console.error("Level Generation:\n'{0}' is not a valid enemy".format(type));
+        random = [[type, 1]];
       }
-    }; break;
-    case "$": {
-      comps = comp.split("[")[1].s(0, -2).split(",");
-      loop = parseInt(comp.split("[")[0].s(1, -1));
-      if (!isNaN(loop)) {
-        for (n = 0; n < loop; n++) {
-          for (c = 0; c < comps.length; c++) {
-            levelComponent(comps[c]);
+      if (nbt) {
+        temp = {};
+        for (j = 0; j < nbt.length; j++) {
+          value = nbt[j].split(":")[1];
+          if (!isNaN(parseInt(value))) {
+            value = parseInt(value);
           }
+          if (F.nullish(value)) {
+            value = true;
+          }
+          temp[nbt[j].split(":")[0]] = value;
         }
+        nbt = temp;
       } else {
-        console.error("Level Generation ({0}): Loop number must be float".format(line));
+        nbt = {};
       }
+
+      return ({
+        name: "block",
+        type,
+        nbt,
+        amount,
+        random,
+      });
     }; break;
-    case "%": {
-      key = comp.split("=")[0].s(1, -1);
-      value = comp.split("=")[1];
-      levelVars[key] = value;
+    case ("@"): {
+      type = comp.split("{")[0].s(1, -1);
+      nbt = comp.split("{")[1]?.split("}")[0]?.s(0, -1)?.split(",");
+      if (nbt) {
+        temp = {};
+        for (j = 0; j < nbt.length; j++) {
+          value = nbt[j].split(":")[1];
+          if (!isNaN(parseInt(value))) {
+            value = parseInt(value);
+          }
+          if (F.nullish(value)) {
+            value = true;
+          }
+          temp[nbt[j].split(":")[0]] = value;
+        }
+        nbt = temp;
+      } else {
+        nbt = {};
+      }
+      return ({
+        name: "enemy",
+        type,
+        nbt,
+      });
     }; break;
+    default: {
+      if (!"[]".includes(comp)) {
+        return ({
+          name: "unknown",
+          str: comp,
+        });
+      }
+    };
   }
 }

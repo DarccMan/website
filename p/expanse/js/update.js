@@ -840,9 +840,9 @@ function update(mod) {
             global.stats.cheats = true;
             global.keyOnce_level = false;
             if (lvl == 0) {
-              lvl = loadedLevels.length - 1;
+              lvl = levels.length - 1;
             } else {
-              lvl = (lvl - 1 + loadedLevels.length) % loadedLevels.length;
+              lvl = (lvl - 1 + levels.length) % levels.length;
             }
             reset();
           }
@@ -852,10 +852,10 @@ function update(mod) {
           if (global.keyOnce_level) {
             global.stats.cheats = true;
             global.keyOnce_level = false;
-            if (lvl + 1 >= loadedLevels.length) {
+            if (lvl + 1 >= levels.length) {
               lvl++;
             } else {
-              lvl = (lvl + 1 + loadedLevels.length) % loadedLevels.length;
+              lvl = (lvl + 1 + levels.length) % levels.length;
             }
             if (gameState == "end") {
               lvl = 0;
