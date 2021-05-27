@@ -89,6 +89,10 @@ var links = {
         id: "zalgo",
         name: "Zalgo Text Generator",
       },
+      {
+        id: "pythag",
+        name: "Pythagorean Theorem Calculator",
+      },
     ],
   },
   games: {
