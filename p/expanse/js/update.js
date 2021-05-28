@@ -868,10 +868,11 @@ function update(mod) {
         global.keyOnce_level = true;
       }
     }
-    /* Toggle debug mode */
+    /* Toggle debug freeze */
     if (keysDown.debug_freeze) {
       if (gameState != "freeze") {
         global.lastGameState_debug = gameState;
+        global.stats.debug = true;
         gameState = "freeze";
       }
     } else {

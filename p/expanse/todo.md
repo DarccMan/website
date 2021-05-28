@@ -9,9 +9,7 @@
  - - Disabled: all
  - - Debug: only debug
  - - Secret: only secret
- - Overhaul level reader
  - Add commands
- - Add issue template to github
 
 ## Levels
  - Add Levels
@@ -33,6 +31,7 @@
  - Calculate frames on render
  - Add line numbers to level gen errors
  - Redo all collisions
+ - - Add global player min/max collision checks
 
 ## Optimisations
  - Floor and ceil all renders
@@ -101,6 +100,8 @@ Completed
  - Change player death rotation to stay the same for flip
  - Add digits for restart value in keycode
  - Render blocks that are in frame
+ - Overhaul level reader
+ - Add issue template to github
 
  ## Possibly?
  - Death causes level completion

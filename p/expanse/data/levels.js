@@ -1,5 +1,5 @@
 var rawLevels = [
-  /* {
+  {
     name: "Spiky :(",
     dim: [25, 10],
     set: `
@@ -7,7 +7,7 @@ var rawLevels = [
       #block*125&3,cracked:1;
       x=0;
       y=3;
-      #sign{text:Watch_out_for_rats!};
+      #sign{text:Watch out for rats!};
       x=6;
       y=3;
       #brick*2;
@@ -20,6 +20,7 @@ var rawLevels = [
       y=1;
       #block*4&3,cracked:1;
       x=10;
+      y-2;
       #spike;
       y=2;
       x+1;
@@ -54,7 +55,7 @@ var rawLevels = [
       #block*400&3,cracked:1;
       x=1;
       y=5;
-      #sign{text:Rats_get_funky};
+      #sign{text:Rats get funky};
       x=5;
       y=6;
       #trap*3;
@@ -62,38 +63,33 @@ var rawLevels = [
       y-1;
       #torch;
       x-2;
-      $6[@rat,x+1];
+      $6[
+        @rat;
+        x+1;
+      ];
       x=16;
       y=4;
       @bat;
       x=12;
-      y=4;
       #brick;
       x-2;
-      y=2;
+      y-2;
       #brick;
       x+2;
-      y=0;
+      y-2;
       #brick*6;
       x+5;
       y+1;
-      #brick;
-      y+1;
-      #brick;
-      y+1;
-      #brick;
-      y+1;
-      #brick;
-      y+1;
-      #brick;
-      y+1;
+      $5[
+        #brick;
+        y+1;
+      ];
+      y-2;
       x+3;
-      #none*2;
-      y+1;
-      #none*2;
-      y+1;
-      #none*2;
-      y+1;
+      $5[
+        y+1;
+        #none*2;
+      ];
       x-2;
       #none*4;
       y+1;
@@ -108,7 +104,7 @@ var rawLevels = [
       y=14;
       #none*3;
       x+2;
-      #sign{text:What's_the_secret_code?};
+      #sign{text:What's the secret code?};
     `,
     player: {
       x: 2,
@@ -124,7 +120,7 @@ var rawLevels = [
       #block*100&30,cracked:1,brick:2;
       x=0;
       y=5;
-      #sign{text:Press_E_to_pick_up...};
+      #sign{text:Press E to pick up...};
       x=7;
       y=5;
       @bat;
@@ -161,7 +157,7 @@ var rawLevels = [
       #block*150&3,cracked:1;
       x=1;
       y=6;
-      #sign{text:Press_SHIFT_to_crouch,lol:y_u_lookin_here};
+      #sign{text:Press SHIFT to crouch,lol:y u lookin here};
       x+4;
       #brick;
       x=9;
@@ -197,7 +193,10 @@ var rawLevels = [
       y-1;
       #goal;
       y+1;
-      $5[y+1,#pillar];
+      $5[
+        y+1;
+        #pillar;
+      ];
     `,
     player: {
       x: 2,
@@ -224,7 +223,7 @@ var rawLevels = [
       @rat;
       y=7;
       x-5;
-      #sign{text:Go_into_the_blocks};
+      #sign{text:Go into the block};
       x+7;
       @skelly;
       y-2;
@@ -277,22 +276,23 @@ var rawLevels = [
       y+1;
       #%tunnel*7;
       $3[
-        y-1,
-        #%tunnel,
-        y-1,
-        #scaffold,
+        y-1;
+        #%tunnel;
+        y-1;
+        #scaffold;
       ];
-      $4[
-        x-1,
-        #block,
-        x+1,
-        #scaffold,
-        x+1,
-        #block,
-        x-1,
-        y-1,
+      y+1;
+      $3[
+        x-1;
+        #block;
+        x+1;
+        #scaffold;
+        x+1;
+        #block;
+        y-1;
+        x-2;
       ];
-      x-1;
+      x-2;
       #pillar;
       y-1;
       #fire;
@@ -301,11 +301,11 @@ var rawLevels = [
       #brick*8;
       x+7;
       $3[
-        y+1,
-        #force,
+        y+1;
+        #force;
       ];
       x-2;
-      #sign{text:Take_the_long_way};
+      #sign{text:Take the long way};
       x+5;
       #goal;
       x-2;
@@ -317,7 +317,7 @@ var rawLevels = [
       x+6;
       #brick;
       x+2;
-      #sign{text:Set_Checkpoint_with_E!};
+      #sign{text:Set Checkpoint with E!};
       x+1;
       #check;
       x-3;
@@ -334,16 +334,17 @@ var rawLevels = [
       #spike*3;
       x+3;
       $2[
-        #block,
-        y-1,
+        #block;
+        y-1;
       ];
-      y-3;
+      y-2;
       x+2;
       $9[
-        #glass,
-        y+1,
+        #glass;
+        y+1;
       ];
       x-1;
+      y-1;
       #spike;
       x-3;
       #spike;
@@ -372,8 +373,8 @@ var rawLevels = [
       x=1;
       y=19;
       $6[
-        #scaffold*6,
-        y-1,
+        #scaffold*6;
+        y-1;
       ];
       y=19;
       x+8;
@@ -393,8 +394,8 @@ var rawLevels = [
       y+4;
       #scaffold;
       $3[
-        y+1,
-        #trap,
+        y+1;
+        #trap;
       ];
       y-3;
       x+1;
@@ -402,19 +403,19 @@ var rawLevels = [
       #trap*8;
       x+8;
       $3[
-        #none*4,
-        y-1,
+        #none*4;
+        y-1;
       ];
       #none;
       $8[
-        y-1,
-        #goup,
+        y-1;
+        #goup;
       ];
       x+1;
       y-10;
       $2[
-        #goup*20,
-        y-1,
+        #goup*20;
+        y-1;
       ];
     `,
     player: {
@@ -444,8 +445,8 @@ var rawLevels = [
       #glass*8;
       x+7;
       $6[
-        y+1,
-        #glass,
+        y+1;
+        #glass;
       ];
       x+3;
       y-5;
@@ -454,13 +455,13 @@ var rawLevels = [
       x-13;
       #glass*10;
       $4[
-        y-1,
-        #glass,
-        x+1,
-        #climb,
-        x-1,
-        y-1,
-        #glass,
+        y-1;
+        #glass;
+        x+1;
+        #climb;
+        x-1;
+        y-1;
+        #glass;
       ];
       y+2;
       x-6;
@@ -471,8 +472,8 @@ var rawLevels = [
       x+9;
       #climb;
       $8[
-        y-1,
-        #goup,
+        y-1;
+        #goup;
       ];
       x-2;
       #spike{rotate:2}*5;
@@ -486,8 +487,8 @@ var rawLevels = [
       x+1;
       y+1;
       $4[
-        #glass,
-        y-1,
+        #glass;
+        y-1;
       ];
       x-5;
       #glass*8;
@@ -498,7 +499,7 @@ var rawLevels = [
       // x: 28,
       // y: 13,
     },
-  }, */
+  },
   {
     name: "<Debug Level!>",
     disabled: true,
@@ -513,7 +514,6 @@ var rawLevels = [
         #test;
         x+1;
         #glass;
-        y-1;
       ];
     `,
     player: {

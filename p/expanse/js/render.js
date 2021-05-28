@@ -1,12 +1,12 @@
 function render() {
-  sizes = ["overlay", "bg"];
+  sizes = ["overlay", "bg", "debug"];
   for (i = 0; i < sizes.length; i++) {
     cv[sizes[i]].w = _w;
     cv[sizes[i]].h = _h;
     cv[sizes[i]].style.width = _ws;
     cv[sizes[i]].style.height = _hs;
   }
-  clears = ["overlay", "main"];
+  clears = ["overlay", "main", "debug"];
   for (i = 0; i < clears.length; i++) {
     ctxs[clears[i]].clearRect(
       0,
@@ -126,7 +126,7 @@ function render() {
           name = block.block;
           amount = data.blocks[name]?.images;
           /* Change image if has attribute */
-          if (data.blocks[name].alt) {
+          if (data.blocks[name]?.alt) {
             for (i = 0; i < data.blocks[name].alt.keys().length; i++) {
               if (block[data.blocks[name].alt.keys()[i]]) {
                 amount = data.blocks[name].alt.values()[i];
@@ -1270,53 +1270,73 @@ function render() {
   }
 
   if (global.debug_show) {
+    px = ((player.x + (player.w / 2 - (player.w * (data.player.hitX) / 2))) + (player.w * data.player.hitX)) / tw;
+    py = ((player.y + (player.h - player.h * (data.player.hitY))) + (player.h * data.player.hitY)) / tw;
+    reach = 2;
+    minx = Math.max(Math.floor(px - reach), 0);
+    maxx = Math.min(Math.floor(px + reach), grid.length);
+    miny = Math.max(Math.floor(py - reach), 0);
+    maxy = Math.min(Math.floor(py + reach), grid[0].length);
+    ctxs.debug.lineWidth = 2;
+    ctxs.debug.strokeStyle = "#6116";
+    for (x = minx; x < maxx; x++) {
+      for (y = miny; y < maxy; y++) {
+        ctxs.debug.strokeRect(
+          - cam.x + x * tw,
+          - cam.y + y * tw,
+          tw,
+          tw,
+        );
+      }
+    }
+
     p = {...playerHit};
-    ctx.fillStyle = "#0F02";
-    ctx.strokeStyle = "#AFA4";
-    ctx.lineWidth = 2;
-    ctx.fillRect(
+    ctxs.debug.fillStyle = "#0F02";
+    ctxs.debug.strokeStyle = "#AFA4";
+    ctxs.debug.lineWidth = 2;
+    ctxs.debug.fillRect(
       - cam.x + p.x,
       - cam.y + p.y + 1 + (player.crouch ? p.h - (data.player.ch * tw) : 0),
       p.w,
       player.crouch ? data.player.ch * tw : p.h,
     );
-    ctx.strokeRect(
+    ctxs.debug.strokeRect(
       - cam.x + p.x + player.vx,
       - cam.y + p.y + player.vy + 1 + (player.crouch ? p.h - (data.player.ch * tw) : 0),
       p.w,
       player.crouch ? data.player.ch * tw : p.h,
     );
-    ctx.font = cv.main.width * 0.015 + "px Arial";
-    ctx.textAlign = "left";
-    ctx.textBaseline = "top";
-    ctx.fillStyle = "#888888";
-    ctx.fillText(
+    ctxs.debug.font = cv.main.width * 0.015 + "px Arial";
+    ctxs.debug.textAlign = "left";
+    ctxs.debug.textBaseline = "top";
+    ctxs.debug.fillStyle = "#888888";
+    ctxs.debug.fillText(
       "player",
       - cam.x + p.x + player.vx,
       - cam.y + p.y + player.vy + p.h,
     );
 
     for (i = 0; i < enemies.length; i++) {
-      ctx.fillStyle = "#F0F2";
-      ctx.strokeStyle = "#FAF4";
+      ctxs.debug.fillStyle = "#F0F2";
+      ctxs.debug.strokeStyle = "#FAF4";
       if (enemies[i].dead) {
-        ctx.fillStyle = "#9091";
-        ctx.strokeStyle = "#FAF1";
+        ctxs.debug.fillStyle = "#9091";
+        ctxs.debug.strokeStyle = "#FAF1";
       }
-      ctx.fillRect(
+      ctxs.debug.fillRect(
         - cam.x + enemies[i].x,
         - cam.y + enemies[i].y,
         enemies[i].w,
         enemies[i].h,
       );
-      ctx.strokeRect(
+      ctxs.debug.strokeRect(
         - cam.x + enemies[i].x + enemies[i].vx,
         - cam.y + enemies[i].y + enemies[i].vy,
         enemies[i].w,
         enemies[i].h,
       );
-      ctx.fillStyle = "#888888";
-      ctx.fillText(
+      ctxs.debug.fillStyle = "#888888";
+      ctxs.debug.fillText(
         "{0}_{1}{2}".format(
           i,
           enemies[i].type,
@@ -1327,17 +1347,17 @@ function render() {
       );
     }
 
-    ctx.font = cv.main.width * 0.025 + "px Arial";
-    ctx.textAlign = "left";
-    ctx.textBaseline = "top";
-    ctx.fillStyle = "#CFC";
+    ctxs.debug.font = cv.main.width * 0.025 + "px Arial";
+    ctxs.debug.textAlign = "left";
+    ctxs.debug.textBaseline = "top";
+    ctxs.debug.fillStyle = "#CFC";
     values = {
       lvl,
       checkpoint: checkpoint ? [Math.floor(checkpoint.x / tw), Math.floor(checkpoint.y / tw)] : null,
       holding: player?.hold?.block || null,
     };
     for (i = 0; i < values.keys().length; i++) {
-      ctx.fillText(
+      ctxs.debug.fillText(
         "{0}: {1}".format(values.keys()[i], values.values()[i]),
         cv.main.width * 0.01,
         cv.main.width * 0.01 + i * cv.main.width * 0.025,

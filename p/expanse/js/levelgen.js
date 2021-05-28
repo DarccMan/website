@@ -1,7 +1,6 @@
 /* Set up game */
 var levels;
 var levelVars;
-var levelFunctions;
 function loadLevels() {
   levels = [];
   levelVars = {};
@@ -65,21 +64,48 @@ function readLevelData(str, l) {
   for (i = 0; i < str.length; i++) {
     line = str[i];
     temp = "";
+    afterStart = false;
     for (j = 0; j < line.length; j++) {
-      if (line[j] != " ") {
+      if (afterStart || line[j] != " ") {
+        afterStart = true;
+        if ("[]".includes(line[j])) {
+          afterStart = false;
+        }
         temp += line[j];
       }
     }
     line = temp;
     fen.push(line);
   }
+  str = fen.s(-1);
+  if (str) {
+    for (j = str.length - 1; j >= 0; j--) {
+      if (str[j] == " ") {
+        str = str.s(0, -2);
+      } else {
+        break;
+      }
+    }
+    fen[fen.length - 1] = str;
+  }
   output = [];
   I: for (i = 0; i < fen.length; i++) {
     if (fen[i][0] && fen[i].s(0, 2) != "//") {
-      output.push(readRawComp(fen[i], fen) || {
-        type: "unknown",
-        str: null,
-      });
+      item = readRawComp(fen[i], fen);
+      if (item) {
+        if (item.type == "loop") {
+          for (k = 0; k < item.arr.length; k++) {
+            output.push(item.arr[k]);
+          }
+        } else {
+          output.push(item);
+        }
+      } else {
+        output.push({
+          type: "unknown",
+          str: null,
+        });
+      }
     }
   }
   fen = output;
@@ -93,102 +119,13 @@ function readLevelData(str, l) {
     //! Move to function
     // console.log(x, y);
     ret = readComp(fen[i], read, x, y);
-    x = ret.x || x;
-    y = ret.y || y;
+    x = ret.x ?? x;
+    y = ret.y ?? y;
     x = x.setBorder(0, read.grid.length - 1);
-    y = y.setBorder(0, read.grid[0].length - 1);
+    y = y.setBorder(0, read.grid[0].length);
   }
 
   return (read);
-}
-
-function readComp(comp, read, x, y) {
-  ret = {x, y};
-  switch (fen[i]?.name) {
-    case "move": {
-      amount = fen[i].amount;
-      if (fen[i].dir == "x") {
-        switch (fen[i].type) {
-          case "=": {
-            x = amount;
-          }; break;
-          case "+": {
-            x += amount;
-          }; break;
-          case "-": {
-            x -= amount;
-          }; break;
-        }
-      } else if (fen[i].dir == "y") {
-        switch (fen[i].type) {
-          case "=": {
-            y = amount;
-          }; break;
-          case "+": {
-            y += amount;
-          }; break;
-          case "-": {
-            y -= amount;
-          }; break;
-        }
-      }
-    }; break;
-    case "block": {
-      for (j = 0; j < fen[i].amount; j++) {
-        x1 = (x + j) % read.grid.length;
-        y1 = y + Math.floor((x + j) / read.grid.length);
-        if (read.grid[x1]?.[y1]) {
-          read.grid[x1][y1] = {
-            block: fen[i].type,
-            ...fen[i].nbt,
-          };
-        }
-      }
-    }; break;
-    case "enemy": {
-      type = fen[i].type;
-      enemy = {
-        type,
-        x: ((x % read.grid.length) * tw) + ((1 - data.enemies[type].w) * tw / 2),
-        y: ((y + 1) * tw) - (data.enemies[type].rh ? (
-          data.enemies[type].rh * tw
-        ) : (
-          data.enemies[type].h * tw
-        )),
-        w: data.enemies[type].w * tw,
-        h: data.enemies[type].rh ? (
-          data.enemies[type].rh * tw
-        ) : (
-          data.enemies[type].h * tw
-        ),
-        vx: 0,
-        vy: 0,
-        stamp: F.randomInt(0, 1000),
-        ...fen[i].nbt,
-      };
-      if (data.enemies[type].attr.rat) {
-        enemy.name = "Clive";
-      }
-      read.enemies.push(enemy);
-    }; break;
-    case "loop": {
-      arr = comp.arr;
-      for (l0 = 0; l0 < comp.amount; l0++) {
-        for (l1 = 0; l1 < arr?.length; l1++) {
-          console.log(l0);
-          ret1 = readComp(arr?.[l1], read, x, y);
-          x = ret1.x || x;
-          y = ret1.y || y;
-        }
-      }
-    }; break;
-    case "unknown": {
-      console.warn("Unknown operator '{0}'".format(fen[i].str));
-    }; break;
-  }
-  ret.x = x;
-  ret.y = y;
-  return ret;
 }
 
 function readRawComp(comp, whole) {
@@ -202,20 +139,20 @@ function readRawComp(comp, whole) {
           }
           arr.push(whole[j]);
         }
+        loop = parseInt(comp.split("[")[0].s(1, -1));
         arr = [arr[0].s(3, -1), ...F.toArray(arr.s(1, -1))];
-        temp = [];
-        for (j = 0; j < arr.length; j++) {
-          item = readRawComp(arr[j]);
-          if (item) {
-            temp.push(item);
+        retn = [];
+        for (lp = 0; lp < loop; lp++) {
+          for (lp1 = 0; lp1 < arr.length; lp1++) {
+            item = readRawComp(arr[lp1], whole);
+            if (item) {
+              retn.push(item);
+            }
           }
         }
-        arr = temp;
-        amount = comp.split("[")[0].s(1, -1);
         return ({
-          name: "loop",
-          amount,
-          arr,
+          type: "loop",
+          arr: retn,
         });
       }
     }; break;
@@ -237,6 +174,11 @@ function readRawComp(comp, whole) {
     }; break;
     case ("#"): {
       type = comp.split("{")[0]?.split("*")[0].s(1, -1)?.split("&")[0];
+      if (type.s(0) == "%") {
+        if (levelVars[type.s(1, -1)]) {
+          type = levelVars[type.s(1, -1)];
+        }
+      }
       nbt = comp.split("{")[1]?.split("}")[0]?.s(0, -1)?.split(",");
       amount = parseInt(comp.split("*")[1]?.split("&")[0]) || 1;
       if (amount < 0) {
@@ -259,6 +201,14 @@ function readRawComp(comp, whole) {
       } else {
         random = [[type, 1]];
       }
+      temp = [];
+      for (j = 0; j < random.length; j++) {
+        for (k = 0; k < random[j][1]; k++) {
+          temp.push(random[j][0]);
+        }
+      }
+      random = temp;
+
       if (nbt) {
         temp = {};
         for (j = 0; j < nbt.length; j++) {
@@ -309,6 +259,12 @@ function readRawComp(comp, whole) {
         nbt,
       });
     }; break;
+    case ("%"): {
+      type = comp.s(1, -1)?.split("=");
+      if (type) {
+        levelVars[type[0]] = type[1];
+      }
+    }; break;
     default: {
       if (!"[]".includes(comp)) {
         return ({
@@ -318,4 +274,82 @@ function readRawComp(comp, whole) {
       }
     };
   }
+}
+
+function readComp(comp, read, x, y) {
+  ret = {x, y};
+  switch (fen[i]?.name) {
+    case "move": {
+      amount = fen[i].amount;
+      if (fen[i].dir == "x") {
+        switch (fen[i].type) {
+          case "=": {
+            x = amount;
+          }; break;
+          case "+": {
+            x += amount;
+          }; break;
+          case "-": {
+            x -= amount;
+          }; break;
+        }
+      } else if (fen[i].dir == "y") {
+        switch (fen[i].type) {
+          case "=": {
+            y = amount;
+          }; break;
+          case "+": {
+            y += amount;
+          }; break;
+          case "-": {
+            y -= amount;
+          }; break;
+        }
+      }
+    }; break;
+    case "block": {
+      for (j = 0; j < fen[i].amount; j++) {
+        x1 = (x + j) % read.grid.length;
+        y1 = y + Math.floor((x + j) / read.grid.length);
+        if (read.grid[x1]?.[y1]) {
+          read.grid[x1][y1] = {
+            block: F.randomChoice(fen[i].random),
+            ...fen[i].nbt,
+          };
+        }
+      }
+    }; break;
+    case "enemy": {
+      type = fen[i].type;
+      enemy = {
+        type,
+        x: ((x % read.grid.length) * tw) + ((1 - data.enemies[type].w) * tw / 2),
+        y: ((y + 1) * tw) - (data.enemies[type].rh ? (
+          data.enemies[type].rh * tw
+        ) : (
+          data.enemies[type].h * tw
+        )),
+        w: data.enemies[type].w * tw,
+        h: data.enemies[type].rh ? (
+          data.enemies[type].rh * tw
+        ) : (
+          data.enemies[type].h * tw
+        ),
+        vx: 0,
+        vy: 0,
+        stamp: F.randomInt(0, 1000),
+        ...fen[i].nbt,
+      };
+      if (data.enemies[type].attr.rat) {
+        enemy.name = "Clive";
+      }
+      read.enemies.push(enemy);
+    }; break;
+    case "unknown": {
+      console.warn("Unknown operator '{0}'".format(fen[i].str));
+    }; break;
+  }
+  ret.x = x;
+  ret.y = y;
+  return ret;
 }

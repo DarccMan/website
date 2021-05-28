@@ -58,7 +58,10 @@ function reset() {
     resetParticles();
   }
   setLevel(lvl);
-  global.playerMoveAmount = 0;
+  if (global.disableEnemies) {
+    enemies = [];
+    global.playerMoveAmount = 0;
+  }
 
   /* Start level */
   if (gameState != "load" && gameState != "start") {

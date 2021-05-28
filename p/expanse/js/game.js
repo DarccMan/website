@@ -2,7 +2,7 @@
 var cv = {};
 var ctxs = {};
 
-cvs = ["bg", "main", "shadow", "overlay"];
+cvs = ["bg", "main", "shadow", "overlay", "debug"];
 for (i = 0; i < cvs.length; i++) {
   cv[cvs[i]] = doc.create("canvas");
   cv[cvs[i]].id = "cv-" + cvs[i];
@@ -33,7 +33,7 @@ if (data.pixelate) {
 var global = {};
 /* Debug stuff */
 global.startDebug = false;
-global.startDebug = true;
+// global.startDebug = true;
 startState = "start";
 global.extraWait = 0.3;
 if (F.url.online) {
@@ -42,11 +42,13 @@ if (F.url.online) {
 var lvl = 0;
 if (global.startDebug) {
   data.graphics = 3;
-  // lvl = 6;
+  lvl = 6;
   startState = "play";
   // startState = "pause";
   global.extraWait = 0;
   global.ignoreDisabled = true;
+  global.secretUnlocked = true;
+  // global.disableEnemies = true;
 }
 if (F.url.query.speedrun) {
   startState = "play";
