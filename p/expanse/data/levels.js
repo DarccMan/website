@@ -44,7 +44,7 @@ var rawLevels = [
     `,
     player: {
       x: 3,
-      y: 2.8,
+      y: 2.5,
     },
   },
   {
@@ -146,15 +146,15 @@ var rawLevels = [
     `,
     player: {
       x: 2,
-      y: 2,
+      y: 4.5,
     },
   },
   {
     name: "Skelly Wag and the Gang",
-    dim: [25, 12],
+    dim: [30, 12],
     set: `
       y=7;
-      #block*150&3,cracked:1;
+      #block*-1&3,cracked:1;
       x=1;
       y=6;
       #sign{text:Press SHIFT to crouch,lol:y u lookin here};
@@ -172,6 +172,11 @@ var rawLevels = [
       x=24;
       y=6;
       @bat;
+      x+3;
+      @mouse;
+      x+1;
+      @mouse;
+      x-4;
       x=24;
       x-2;
       y=6;
@@ -200,7 +205,7 @@ var rawLevels = [
     `,
     player: {
       x: 2,
-      y: 5,
+      y: 5.5,
     },
   },
   {
@@ -245,7 +250,7 @@ var rawLevels = [
     `,
     player: {
       x: 3.9,
-      y: 6.8,
+      y: 6.5,
     },
   },
   {
@@ -356,7 +361,7 @@ var rawLevels = [
     player: {
       x: 5.9,
       // x: 17,
-      y: 8,
+      y: 8.5,
       // y: 4,
     },
   },
@@ -508,18 +513,9 @@ var rawLevels = [
     set: `
       y=10;
       #brick*200;
-      x+6;
-      y-1;
-      $4[;
-        #test;
-        x+1;
-        #glass;
-      ];
     `,
     player: {
       x: 4,
-      y: 18.5,
-      // x: 0,
       y: 8,
     },
   },

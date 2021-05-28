@@ -126,4 +126,8 @@ data.blocks = { // Block data
     },
     check: true,
   },
+  door: {
+    color: "#1118",
+    images: 1,
+  },
 };

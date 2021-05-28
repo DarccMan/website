@@ -504,7 +504,11 @@ function update(mod) {
         || !data.blocks[player?.hold?.block]?.light
       ) {
         if (F.collide(p, enemies[i])) {
-          death();
+          if (data.enemies[enemies[i].type].attr.weak) {
+            enemies[i].dead = Date.now();
+          } else {
+            death();
+          }
           break;
         }
       }
@@ -567,6 +571,9 @@ function update(mod) {
       }
       X: for (j = 0; j < enemies.length; j++) {
         if (i == j) {
+          continue;
+        }
+        if (enemies[j].dead) {
           continue;
         }
         if (F.collide(e, enemies[j])) {

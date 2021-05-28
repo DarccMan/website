@@ -42,12 +42,12 @@ if (F.url.online) {
 var lvl = 0;
 if (global.startDebug) {
   data.graphics = 3;
-  lvl = 6;
+  lvl = 3;
   startState = "play";
   // startState = "pause";
   global.extraWait = 0;
   global.ignoreDisabled = true;
-  global.secretUnlocked = true;
+  // global.secretUnlocked = true;
   // global.disableEnemies = true;
 }
 if (F.url.query.speedrun) {

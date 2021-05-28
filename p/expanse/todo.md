@@ -102,6 +102,8 @@ Completed
  - Render blocks that are in frame
  - Overhaul level reader
  - Add issue template to github
+ - Add mouse enemy
+ - Add door block
 
  ## Possibly?
  - Death causes level completion

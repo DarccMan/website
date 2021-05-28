@@ -28,11 +28,19 @@ function setLevel(number) {
   /* Read level file */
   grid = JSON.parse(JSON.stringify(levels[number].grid));
   enemies = JSON.parse(JSON.stringify(levels[number].enemies));
+  lplayer = JSON.parse(JSON.stringify(levels[number].player));
+  x = lplayer.x || 2;
+  y = lplayer.y || 2;
+  if (grid[x.round()]?.[(y + 0.5).round()]) {
+    grid[x.round()][(y + 0.5).round()] = {
+      block: "door",
+    };
+  }
 
   /* Create player */
   player = {
-    x: (levels[number].player?.x || 2) * tw,
-    y: (levels[number].player?.y || 2) * tw,
+    x: x * tw,
+    y: y * tw,
     w: tw * data.player.w,
     h: tw * data.player.h,
     vx: 0,
@@ -59,7 +67,6 @@ function readLevelData(str, l) {
     }
   }
   fen = [];
-  //! Move to function
   str = str.replace(/(\r\n|\n|\r)/gm, "").split(";");
   for (i = 0; i < str.length; i++) {
     line = str[i];
@@ -109,15 +116,9 @@ function readLevelData(str, l) {
     }
   }
   fen = output;
-  for (i = 0; i < fen.length; i++) {
-    // console.log(fen[i]);
-    // console.table(fen[i]);
-  }
   x = 0;
   y = 0;
   for (i = 0; i < fen.length; i++) {
-    //! Move to function
-    // console.log(x, y);
     ret = readComp(fen[i], read, x, y);
     x = ret.x ?? x;
     y = ret.y ?? y;
