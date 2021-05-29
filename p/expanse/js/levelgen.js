@@ -141,7 +141,7 @@ function readRawComp(comp, whole) {
           arr.push(whole[j]);
         }
         loop = parseInt(comp.split("[")[0].s(1, -1));
-        arr = [arr[0].s(3, -1), ...F.toArray(arr.s(1, -1))];
+        arr = [arr[0].split("[").s(-1), ...F.toArray(arr.s(1, -1))];
         retn = [];
         for (lp = 0; lp < loop; lp++) {
           for (lp1 = 0; lp1 < arr.length; lp1++) {
@@ -265,6 +265,9 @@ function readRawComp(comp, whole) {
       if (type) {
         levelVars[type[0]] = type[1];
       }
+    }; break;
+    case ("/"): {
+      // Comment
     }; break;
     default: {
       if (!"[]".includes(comp)) {

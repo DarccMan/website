@@ -1378,6 +1378,7 @@ function render() {
     }
     values = {
       lvl,
+      gameState,
       checkpoint: checkpoint ? [Math.floor(checkpoint.x / tw), Math.floor(checkpoint.y / tw)] : null,
       holding: player?.hold?.block || null,
       bs_in: bs.in,

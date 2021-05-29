@@ -24,6 +24,8 @@
  - Super jump occurs when jumping in scaffolding (One piece even)
  - Hitting head in elevator stops all movement
  - Going down in scaffold glitches on floor
+ - Player gets stuck on edge of block when jump crouching
+ - Entire screen shakes
 
 ## Technical
  - Change player death animation to calculate on render

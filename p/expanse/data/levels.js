@@ -432,17 +432,30 @@ var rawLevels = [
   },
   {
     name: "Spy Rats",
-    disabled: true,
-    dim: [40, 30],
+    // disabled: true,
+    dim: [50, 30],
     set: `
-      y=20;
       x=19;
       y=19;
       #glass;
+      y+2;
+      #pillar;
       y+1;
+      #pillar;
+      y-2;
       #glass*4;
       x+4;
+      y-2;
+      #pillar;
+      y+1;
+      #pillar;
+      y+1;
       #climb;
+      y+1;
+      #pillar;
+      y+1;
+      #pillar;
+      y-2;
       x-4;
       y-2;
       #glass;
@@ -464,17 +477,34 @@ var rawLevels = [
         #glass;
         x+1;
         #climb;
-        x-1;
         y-1;
+        #pillar;
+        x-1;
         #glass;
       ];
+      y+1;
+      x+1;
+      #pillar;
+      y-1;
+      #climb;
+      x-1;
       y+2;
       x-6;
       @jetrat;
-      x+10;
-      y-4;
+      x+12;
+      $5[
+        #pillar;
+        y-1;
+      ];
+      y+1;
       #climb;
       x+9;
+      y+5;
+      $6[
+        #pillar;
+        y-1;
+      ];
+      y+1;
       #climb;
       $8[
         y-1;
@@ -483,26 +513,112 @@ var rawLevels = [
       x-2;
       #spike{rotate:2}*5;
       y-1;
-      #brick*5;
-      y+13;
+      #brick*13;
+      y+16;
+      x-2;
       #glass*8;
-      x+7;
+      x+6;
       y-1;
       #fire;
       x+1;
-      y+1;
-      $4[
+      $6[
         #glass;
         y-1;
       ];
-      x-5;
+      x-2;
+      y+1;
       #glass*8;
+      x+7;
+      y+1;
+      #pillar;
+      y+1;
+      #pillar;
+      x+2;
+      y-11;
+      x+5;
+      @jetrat;
+      x-5;
+      $11[
+        y+1;
+        #glass;
+      ];
+      y+1;
+      x-4;
+      #glass*5;
+      y+1;
+      #pillar;
+      y+1;
+      #pillar;
+      y-2;
+      x-2;
+      y+3;
+      #glass*4;
+      x+6;
+      y-3;
+      $8[
+        y+1;
+        #glass;
+      ];
+      x-12;
+      #glass*12;
+      x+1;
+      y-1;
+      #brick;
+      y-1;
+      #pillar;
+      y-1;
+      #pillar;
+      y+1;
+      x+2;
+      #brick;
+      y+1;
+      #pillar;
+      x+2;
+      #brick;
+      y-1;
+      #pillar;
+      y-1;
+      #pillar;
+      y+1;
+      x+2;
+      #brick;
+      y+1;
+      #pillar;
+      x+2;
+      #brick;
+      y-1;
+      #pillar;
+      y-1;
+      #pillar;
+      y+1;
+      y-1;
+      #pillar;
+      y-1;
+      #pillar;
+      y+1;
+      x-12;
+      y+6;
+      #glass*16;
+      x+6;
+      y-1;
+      #goal;
+      x+9;
+      #pillar;
+      y-1;
+      #pillar;
+      x=24;
+      y=4;
+      %mid=force;
+      #%mid;
+      x-2;
+      y-2;
+      #%mid;
     `,
     player: {
-      x: 20.4,
-      y: 18.2,
-      // x: 28,
-      // y: 13,
+      x: 21,
+      y: 18,
+      // x: 34,
+      // y: 8,
     },
   },
   {
@@ -540,7 +656,7 @@ var rawLevels = [
     `,
     player: {
       x: 4,
-      y: 8,
+      y: 4,
       // x: 17,
     },
   },

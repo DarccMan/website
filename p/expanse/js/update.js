@@ -2,7 +2,7 @@
 function update(mod) {
   var keysDown = F.getKeyCodes(controls);
   if (keysDown.game_restart) {
-    if (!["start", "end", "load", "death"].includes(gameState)) {
+    if (!["start", "end", "load"].includes(gameState)) {
       if (global.keyOnce_restart) {
         if (keysDown.game_restart_all) {
           restartAll();
@@ -761,6 +761,10 @@ function update(mod) {
       }
 
       /* Toggle debug freeze */
+      if (keysDown.debug_kill) {
+        killEnemies();
+        global.disableEnemies = true;
+      }
       if (keysDown.debug_freeze) {
         if (gameState != "freeze") {
           global.lastGameState_debug = gameState;

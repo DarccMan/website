@@ -20,7 +20,10 @@ async function death() {
   if (F.url.query.speedrun) {
     lvl = 0;
   }
-  reset();
+  if (!global.deathReset) {
+    reset();
+  }
+  global.deathReset = false;
 }
 
 /* Goal function */
@@ -42,6 +45,9 @@ async function goal() {
 function restart() {
   if (F.url.query.speedrun) {
     lvl = 0;
+  }
+  if (gameState == "death") {
+    global.deathReset = true;
   }
   reset();
   if (!global.restartCount) {

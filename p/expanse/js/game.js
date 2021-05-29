@@ -42,7 +42,7 @@ if (F.url.online) {
 var lvl = 0;
 if (global.startDebug) {
   data.graphics = 3;
-  lvl = 7;
+  lvl = 6;
   startState = "play";
   // startState = "pause";
   global.extraWait = 0;

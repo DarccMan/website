@@ -48,6 +48,9 @@ var controls = { // Kinda self explanatory
     debug_shadow: [
       75,
     ],
+    debug_kill: [
+      76,
+    ],
     level_decrease: [
       79,
     ],
