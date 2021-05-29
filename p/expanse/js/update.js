@@ -90,8 +90,10 @@ function update(mod) {
     }, true);
 
     /* Crouch */
+    moved = false;
     playerSpeed = 1;
     if (keysDown.player_crouch) {
+      moved = true;
       player.crouch = true;
       player.status = "crouch";
       player.vy += data.v.cfa * data.v.fa;
@@ -145,6 +147,7 @@ function update(mod) {
 
     /* Jump */
     if (keysDown.player_up) {
+      moved = true;
       if (!player.crouch) {
         if (global.keyOnce_start) {
           if (collideAttr(tech.bs_un, i => data.blocks[i.block].collide)) {
@@ -175,6 +178,7 @@ function update(mod) {
         if (!player.crouch) {
           player.status = "run";
         }
+        moved = true;
       }; break;
       case "01": {
         speed = playerSpeed;
@@ -186,6 +190,7 @@ function update(mod) {
         if (!player.crouch) {
           player.status = "run";
         }
+        moved = true;
       }; break;
       default: {
         speed = data.v.md;
@@ -200,6 +205,17 @@ function update(mod) {
           player.status = "idle";
         }
       };
+    }
+
+    if (moved) {
+      if (
+        F.url.query.speedrun
+        && global.speedrunOnce
+        && lvl == 0
+      ) {
+        global.speedrunOnce = false;
+        global.timeStart = Date.now();
+      }
     }
 
     /* Player hit wall */
@@ -258,14 +274,6 @@ function update(mod) {
         global.playerMoveAmount = 0;
       }
       global.playerMoveAmount++;
-
-      if (
-        F.url.query.speedrun
-        && lvl == 0
-        && global.playerMoveAmount == 2
-      ) {
-        global.timeStart = Date.now();
-      }
     }
 
     /* Stop player getting stuck in block */

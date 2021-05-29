@@ -827,11 +827,20 @@ function render() {
       time = global.lastTime;
     }
     time = (time / 1000).toFixed(2).toString();
-    ctxs.overlay.fillText(
-      lang.time_game.format(time),
-      cv.overlay.width * 0.87 - cv.overlay.width * 0.01 * time.length,
-      cv.overlay.height * 0.02,
-    );
+    if (global.speedrunOnce && lvl == 0) {
+      ctxs.overlay.textAlign = "right";
+      ctxs.overlay.fillText(
+        lang.time_speedrun,
+        cv.overlay.width * 0.99,
+        cv.overlay.height * 0.02,
+      );
+    } else {
+      ctxs.overlay.fillText(
+        lang.time_game.format(time),
+        cv.overlay.width * 0.87 - cv.overlay.width * 0.01 * time.length,
+        cv.overlay.height * 0.02,
+      );
+    }
   } else if (gameState == "start") {
     /* Title screen */
     ctx.fillCanvas("#222");

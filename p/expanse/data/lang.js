@@ -6,6 +6,7 @@ var lang = {
   thank: "Thanks for playing!",
   time_end: "Your time: {time}",
   time_game: "Time: {0}",
+  time_speedrun: "Move to start",
   level: "Level {number} '{name}'",
   sign: "The sign reads:",
   pause: "Its Paused!",

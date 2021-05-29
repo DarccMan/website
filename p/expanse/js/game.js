@@ -33,7 +33,7 @@ if (data.pixelate) {
 var global = {};
 /* Debug stuff */
 global.startDebug = false;
-global.startDebug = true;
+// global.startDebug = true;
 startState = "start";
 global.extraWait = 0.3;
 if (F.url.online) {
@@ -52,6 +52,7 @@ if (global.startDebug) {
 }
 if (F.url.query.speedrun) {
   startState = "play";
+  global.speedrunOnce = true;
 }
 if (F.url.query.debug) {
   global.ignoreDisabled = true;

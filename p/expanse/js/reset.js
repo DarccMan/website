@@ -62,6 +62,9 @@ function reset() {
     enemies = [];
     global.playerMoveAmount = 0;
   }
+  if (F.url.query.speedrun) {
+    global.speedrunOnce = true;
+  }
 
   /* Start level */
   if (gameState != "load" && gameState != "start") {
