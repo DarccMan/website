@@ -512,11 +512,36 @@ var rawLevels = [
     dim: [40, 30],
     set: `
       y=10;
-      #brick*200;
+      #block*-1;
+      x+6;
+      $3[
+        y-1;
+        #scaffold*3;
+      ];
+      y+2;
+      x+4;
+      #block*3;
+      x+1;
+      y-1;
+      #block*2;
+      x+1;
+      y-1;
+      #block;
+      x+4;
+      y-1;
+      $3[
+        #block;
+        x+1;
+        y+1;
+      ];
+      x+1;
+      y-3;
+      #scaffold;
     `,
     player: {
       x: 4,
       y: 8,
+      // x: 17,
     },
   },
 ];

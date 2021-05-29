@@ -33,7 +33,7 @@ if (data.pixelate) {
 var global = {};
 /* Debug stuff */
 global.startDebug = false;
-// global.startDebug = true;
+global.startDebug = true;
 startState = "start";
 global.extraWait = 0.3;
 if (F.url.online) {
@@ -42,7 +42,7 @@ if (F.url.online) {
 var lvl = 0;
 if (global.startDebug) {
   data.graphics = 3;
-  lvl = 3;
+  lvl = 7;
   startState = "play";
   // startState = "pause";
   global.extraWait = 0;
@@ -76,6 +76,7 @@ var tw = (Math.min(cv.main.width, cv.main.height) / data.tiles);
 var tw2 = (Math.min(parseInt(cv.main.style.width), cv.main.height) / data.tiles);
 var tx = data.tiles / Math.min(cv.main.width, cv.main.height) * Math.max(cv.main.width, cv.main.height);
 var checkpoint = null;
+var tech = {};
 
 /* Outline settings for blocks */
 cs = [

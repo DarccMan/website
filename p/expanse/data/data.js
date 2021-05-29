@@ -45,6 +45,9 @@ var data = {
     // Fall (+y)
     fa: 25, // Acceleration speed
     ft: 40, // Terminal velocity
+    // Down in scaffold (+y)
+    da: 200, // Acceleration speed
+    dt: 40, // Terminal velocity
     // Jump (-y)
     jb: 10.5, // Base jump
     ja: 0, // Add this to jump height for how long key held (Within reason)

@@ -1270,17 +1270,18 @@ function render() {
   }
 
   if (global.debug_show) {
-    px = ((player.x + (player.w / 2 - (player.w * (data.player.hitX) / 2))) + (player.w * data.player.hitX)) / tw;
-    py = ((player.y + (player.h - player.h * (data.player.hitY))) + (player.h * data.player.hitY)) / tw;
-    reach = 2;
-    minx = Math.max(Math.floor(px - reach), 0);
-    maxx = Math.min(Math.floor(px + reach), grid.length);
-    miny = Math.max(Math.floor(py - reach), 0);
-    maxy = Math.min(Math.floor(py + reach), grid[0].length);
     ctxs.debug.lineWidth = 2;
-    ctxs.debug.strokeStyle = "#6116";
-    for (x = minx; x < maxx; x++) {
-      for (y = miny; y < maxy; y++) {
+    for (x = 0; x < grid.length; x++) {
+      for (y = 0; y < grid[x].length; y++) {
+        ctxs.debug.strokeStyle = "#0003";
+        if (
+          x >= tech.player_minx
+          && x < tech.player_maxx
+          && y >= tech.player_miny
+          && y < tech.player_maxy
+        ) {
+          ctxs.debug.strokeStyle = "#8006";
+        }
         ctxs.debug.strokeRect(
           - cam.x + x * tw,
           - cam.y + y * tw,
@@ -1347,14 +1348,32 @@ function render() {
       );
     }
 
+    /* Draw debug text */
     ctxs.debug.font = cv.main.width * 0.025 + "px Arial";
     ctxs.debug.textAlign = "left";
     ctxs.debug.textBaseline = "top";
     ctxs.debug.fillStyle = "#CFC";
+    bs_names = ["in", "un", "ab"];
+    bs = [];
+    for (i = 0; i < bs_names.length; i++) {
+      bs[bs_names[i]] = tech["bs_" + bs_names[i]] || null;
+      if (bs[bs_names[i]]) {
+        temp = [];
+        bs[bs_names[i]].forEach(i => {
+          if (!temp.includes(i.block)) {
+            temp.push(i.block);
+          }
+        });
+        bs[bs_names[i]] = temp.join(",");
+      }
+    }
     values = {
       lvl,
       checkpoint: checkpoint ? [Math.floor(checkpoint.x / tw), Math.floor(checkpoint.y / tw)] : null,
       holding: player?.hold?.block || null,
+      bs_in: bs.in,
+      bs_un: bs.un,
+      bs_ab: bs.ab,
     };
     for (i = 0; i < values.keys().length; i++) {
       ctxs.debug.fillText(

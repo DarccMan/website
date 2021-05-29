@@ -168,3 +168,42 @@ function killEnemies() {
     i.dead = Date.now();
   })
 }
+
+/* Collision checks */
+function playerBlockCollision(name, func, noCrouch) {
+  tech["bs_" + name] = [];
+  cb = null;
+  p = noCrouch ? {...playerHitNC} : {...playerHit};
+  func(p);
+  X: for (x = tech.player_minx; x < tech.player_maxx; x++) {
+    for (y = tech.player_miny; y < tech.player_maxy; y++) {
+      if (F.collide(p, {
+        x: (x + 0.001) * tw,
+        y: (y + 0.001) * tw,
+        w: tw + 1,
+        h: tw + 1,
+      })) {
+        tech["bs_" + name].push(grid[x][y]);
+      }
+    }
+  }
+  return tech["bs_" + name];
+}
+function collideAttr(arr, func) {
+  val = false;
+  for (i = 0; i < arr.length; i++) {
+    if (func(arr[i])) {
+      val = true;
+      break;
+    }
+  }
+  return val;
+}
+function getCollideAttr(arr, func) {
+  for (i = 0; i < arr.length; i++) {
+    output = func(arr[i]);
+    if (output) {
+      return output;
+    }
+  }
+}

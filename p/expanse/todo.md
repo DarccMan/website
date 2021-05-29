@@ -1,7 +1,6 @@
 # To Do list for Expanse of Darkness
 
 ## Features
- - Crouch goes down in scaffold
  - Add noises
  - Fix tiles amount
  - Add seperate acceleration / decceleration for midair
@@ -10,6 +9,7 @@
  - - Debug: only debug
  - - Secret: only secret
  - Add commands
+ - Slow jump in scaffold
 
 ## Levels
  - Add Levels
@@ -20,18 +20,15 @@
  - Redo all low graphics colours
 
 ## Bugs
- - Player goes into block when uncrouching at same time as moving into 1 block high hole
  - Debug centre of movement not aligned to player
  - Super jump occurs when jumping in scaffolding (One piece even)
- - Crouching in scaffold stops all movement
  - Hitting head in elevator stops all movement
+ - Going down in scaffold glitches on floor
 
 ## Technical
  - Change player death animation to calculate on render
  - Calculate frames on render
  - Add line numbers to level gen errors
- - Redo all collisions
- - - Add global player min/max collision checks
 
 ## Optimisations
  - Floor and ceil all renders
@@ -104,11 +101,16 @@ Completed
  - Add issue template to github
  - Add mouse enemy
  - Add door block
+ - Crouch goes down in scaffold
+ - Crouching in scaffold stops all movement
+ - Redo all collisions
+ - - Add global player min/max collision checks
 
  ## Possibly?
  - Death causes level completion
  - Completing level 0 restarts to 0
  - Fix keycode
+ - Player goes into block when uncrouching at same time as moving into 1 block high hole
 
 </details>
 

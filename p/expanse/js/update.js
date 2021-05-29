@@ -23,7 +23,7 @@ function update(mod) {
     playerHit.h *= data.player.hitY;
     playerHit.x += player.w / 2 - playerHit.w / 2;
     playerHit.y += player.h - playerHit.h;
-    playerHitNC = {...playerHit};
+    playerHitNC = {...playerHit}; // No crouch
     if (player.crouch) {
       playerHit.y += player.h - (data.player.ch * tw);
       playerHit.y -= 3;
@@ -62,10 +62,32 @@ function update(mod) {
     px = ((player.x + (player.w / 2 - (player.w * (data.player.hitX) / 2))) + (player.w * data.player.hitX)) / tw;
     py = ((player.y + (player.h - player.h * (data.player.hitY))) + (player.h * data.player.hitY)) / tw;
     reach = 2;
-    minx = Math.max(Math.floor(px - reach), 0);
-    maxx = Math.min(Math.floor(px + reach), grid.length);
-    miny = Math.max(Math.floor(py - reach), 0);
-    maxy = Math.min(Math.floor(py + reach), grid[0].length);
+    tech.player_minx = Math.max(Math.floor(px - reach), 0);
+    tech.player_maxx = Math.min(Math.floor(px + reach), grid.length);
+    tech.player_miny = Math.max(Math.floor(py - reach), 0);
+    tech.player_maxy = Math.min(Math.floor(py + reach), grid[0].length);
+
+    /* Get collisions */
+    playerBlockCollision("in", (p) => { });
+    playerBlockCollision("invx", (p) => {
+      p.x += player.vx;
+      s = 1;
+      p.x += s;
+      p.w -= s * 2;
+      p.y += p.h;
+      p.h = 5;
+      p.y -= p.h;
+    });
+    playerBlockCollision("un", (p) => {
+      p.y += player.vy;
+      p.y += p.h;
+      p.h = 5;
+      p.y -= p.h;
+    });
+    playerBlockCollision("ab", (p) => {
+      p.h = 5;
+      p.y -= p.h + 6;
+    }, true);
 
     /* Crouch */
     playerSpeed = 1;
@@ -75,137 +97,57 @@ function update(mod) {
       player.vy += data.v.cfa * data.v.fa;
       playerSpeed = data.v.cma;
     } else {
-      /* Dont uncrouch unless no block above */
-      if (player.crouch) {
-        cb = null;
-        p = {...playerHitNC};
-        p.h = 10;
-        X: for (x = minx; x < maxx; x++) {
-          for (y = miny; y < maxy; y++) {
-            if (data.blocks[grid[x][y].block]?.collide) {
-              if (F.collide(p, {
-                x: (x + 0.001) * tw,
-                y: (y + 0.001) * tw,
-                w: tw + 1,
-                h: tw + 1,
-              })) {
-                cb = grid[x][y];
-                break X;
-              }
-            }
-          }
-        }
-        if (!cb) {
-          if (!global.playerInBlock) {
-            player.crouch = false;
-          }
-        }
+      /* Dont uncrouch if block above */
+      if (!collideAttr(tech.bs_ab, i => (
+        data.blocks[i.block].collide
+        && !data.blocks[i.block].walkInto
+      ))) {
+        player.crouch = false;
       }
     }
 
-    /* Player fall */
-    blockUnder = false;
-    cb = null;
-    p = {...playerHit};
-    p.y += player.vy;
-    p2 = {...playerHit};
-    p2.y -= 5;
-    p2.h = 20;
-    walkInto = false;
-    X: for (x = minx; x < maxx; x++) {
-      for (y = miny; y < maxy; y++) {
-        if (data.blocks[grid[x][y].block]?.collide) {
-          if (F.collide(p, {
-            x: (x + 0.001) * tw,
-            y: (y + 0.001) * tw,
-            w: tw + 1,
-            h: tw + 1,
-          })) {
-            cb = grid[x][y];
-
-            /* Go into walkInto block */
-            if (
-              data.blocks[grid[x][y].block]?.walkInto
-            ) {
-              if (F.collide(p2, {
-                x: (x + 0.001) * tw,
-                y: (y + 0.001) * tw,
-                w: tw + 1,
-                h: tw + 1,
-              })) {
-                walkInto = true;
-                cb = null;
-              }
-            } else {
-              break X;
-            }
-          }
-        }
-      }
-    }
-    if (!cb) {
+    /* Fall */
+    if (!collideAttr(tech.bs_un, i => data.blocks[i.block].collide)) {
       player.vy += data.v.fa * mod * (10 / data.tiles);
     } else {
       player.vy = 0;
-      blockUnder = true;
     }
 
-    /* Player jump */
+    /* Hit block above */
+    if (collideAttr(tech.bs_ab, i => (
+      data.blocks[i.block].collide
+      && !data.blocks[i.block].walkInto
+    ))) {
+      player.vy = player.vy.setBorder(0, Infinity);
+    }
+
+    /* Crouch in scaffold -> Go down */
+    playerBlockCollision("unvy", (p) => {
+      p.y += player.vy;
+      p.y += p.h;
+      p.h = 5;
+      p.y -= p.h;
+      p.vy += data.v.da * mod;
+      p.vy = p.vy.setBorder(- Infinity, data.v.dt);
+    });
+    if (
+      player.crouch
+      && collideAttr(tech.bs_un, i => data.blocks[i.block].walkInto)
+    ) {
+      if (!collideAttr(tech.bs_unvy, i => (
+        data.blocks[i.block].collide
+        && !data.blocks[i.block].walkInto
+      ))) {
+        player.vy += data.v.da * mod;
+        player.vy = player.vy.setBorder(- Infinity, data.v.dt);
+      }
+    }
+
+    /* Jump */
     if (keysDown.player_up) {
       if (!player.crouch) {
         if (global.keyOnce_start) {
-          /* Extra jump */
-          //! Fix. Not working
-          X: for (x = minx; x < maxx; x++) {
-            for (y = miny; y < maxy; y++) {
-              if (
-                data.blocks[grid[x][y].block]?.walkInto
-              ) {
-                if (F.collide(p, {
-                  x: (x + 0.001) * tw,
-                  y: (y + 0.001) * tw,
-                  w: tw + 1,
-                  h: tw + 1,
-                })) {
-                  cb = grid[x][y];
-                  break X;
-                }
-              }
-            }
-          }
-          if (!cb) {
-            if (
-              player.jumpTime > Date.now() - data.v.jm
-              && player.jumpTime < Date.now() - data.v.jc
-            ) {
-              player.vy -= data.v.ja * mod;
-            }
-          }
-
-          //! Fix. Add collision for walkInto
-          cb = null;
-          p = {...playerHit};
-          p.y += player.vy + p.h - 1;
-          p.h = 1;
-          X: for (x = minx; x < maxx; x++) {
-            for (y = miny; y < maxy; y++) {
-              if (
-                data.blocks[grid[x][y].block]?.collide
-                // && !data.blocks[grid[x][y].block]?.walkInto
-              ) {
-                if (F.collide(p, {
-                  x: (x + 0.001) * tw,
-                  y: (y + 0.001) * tw,
-                  w: tw + 1,
-                  h: tw + 1,
-                })) {
-                  cb = grid[x][y];
-                  break X;
-                }
-              }
-            }
-          }
-          if (cb) {
+          if (collideAttr(tech.bs_un, i => data.blocks[i.block].collide)) {
             val = true;
             player.jumpTime = Date.now();
             player.vy -= data.v.jb * (10 / data.tiles);
@@ -216,53 +158,17 @@ function update(mod) {
       global.keyOnce_start = true;
     }
 
-    blockUnder = null;
-    p = {...playerHit};
-    for (x = minx; x < maxx; x++) {
-      for (y = miny; y < maxy; y++) {
-        if (F.collide(p, {
-          x: (x + 0.001) * tw,
-          y: (y + 0.001) * tw,
-          w: tw + 1,
-          h: tw + 1,
-        })) {
-          blockUnder = grid[x][y];
-        }
-      }
-    }
-
-    blockIn = null;
-    p = {...playerHit};
-    p.y += p.h * 0.2;
-    p.h *= 0.6;
-    for (x = minx; x < maxx; x++) {
-      for (y = miny; y < maxy; y++) {
-        if (grid[x]?.[y]?.block != "none") {
-          if (F.collide(p, {
-            x: (x + 0.001) * tw,
-            y: (y + 0.001) * tw,
-            w: tw + 1,
-            h: tw + 1,
-          })) {
-            blockIn = grid[x][y];
-            break;
-          }
-        }
-      }
-    }
-
-    if (blockIn?.block) {
-      if (data.blocks[blockIn.block].up) {
-        player.vy -= data.blocks[blockIn.block].up;
-      }
+    /* Go up in up block */
+    if (collideAttr(tech.bs_un, i => data.blocks[i.block].up)) {
+      player.vy -= getCollideAttr(tech.bs_un, i => data.blocks[i.block].up);
     }
 
     /* Player X movement */
     switch (F.bool_bin(keysDown.player_left, keysDown.player_right)) {
       case "10": {
         speed = playerSpeed;
-        if (data.blocks[blockUnder?.block]?.slip) {
-          speed *= data.blocks[blockUnder.block].slip;
+        if (collideAttr(tech.bs_un, i => data.blocks[i.block].slip)) {
+          speed *= getCollideAttr(tech.bs_un, i => data.blocks[i.block].slip);
         }
         player.vx -= data.v.ma * mod * speed;
         player.flip = -1;
@@ -272,8 +178,8 @@ function update(mod) {
       }; break;
       case "01": {
         speed = playerSpeed;
-        if (data.blocks[blockUnder?.block]?.slip) {
-          speed *= data.blocks[blockUnder.block].slip;
+        if (collideAttr(tech.bs_un, i => data.blocks[i.block].slip)) {
+          speed *= getCollideAttr(tech.bs_un, i => data.blocks[i.block].slip);
         }
         player.vx += data.v.ma * mod * speed;
         player.flip = 1;
@@ -283,8 +189,8 @@ function update(mod) {
       }; break;
       default: {
         speed = data.v.md;
-        if (data.blocks[blockUnder?.block]?.slip) {
-          speed *= data.blocks[blockUnder.block].slip;
+        if (collideAttr(tech.bs_un, i => data.blocks[i.block].slip)) {
+          speed *= getCollideAttr(tech.bs_un, i => data.blocks[i.block].slip);
         }
         player.vx = Math.sign(player.vx) * (Math.abs(player.vx) - speed * mod);
         if (Math.abs(player.vx - 0) < data.v.mm) {
@@ -297,58 +203,30 @@ function update(mod) {
     }
 
     /* Player hit wall */
-    if (!global.playerInBlock) {
-      cb = null;
-      p = {...playerHit};
+    playerBlockCollision("inv", (p) => {
       p.x += player.vx;
-      p.y += player.vy - 1;
-      X: for (x = minx; x < maxx; x++) {
-        for (y = miny; y < maxy; y++) {
-          if (
-            data.blocks[grid[x][y].block]?.collide
-            && !data.blocks[grid[x][y].block]?.walkInto
-          ) {
-            if (F.collide(p, {
-              x: (x + 0.001) * tw,
-              y: (y + 0.001) * tw,
-              w: tw + 1,
-              h: tw + 1,
-            })) {
-              cb = grid[x][y];
-              break X;
-            }
-          }
-        }
-      }
-      if (cb) {
+      p.y += player.vy;
+      p.y -= 1;
+    });
+    if (!tech.in_block) {
+      if (collideAttr(tech.bs_inv, i => (
+        data.blocks[i.block].collide
+        && !data.blocks[i.block].walkInto
+      ))) {
         player.vx = 0;
       }
     }
 
-    /* Player crouching don't fall off */
-    if (player.crouch && blockUnder && data.blocks[blockUnder.block].collide) {
-      cb = null;
-      p = {...playerHit};
-      p.x += player.vx * 4;
-      X: for (x = minx; x < maxx; x++) {
-        for (y = miny; y < maxy; y++) {
-          if (
-            data.blocks[grid[x][y].block]?.collide
-            && !data.blocks[grid[x][y].block]?.walkInto
-          ) {
-            if (F.collide(p, {
-              x: (x + 0.001) * tw,
-              y: (y + 0.001) * tw,
-              w: tw + 1,
-              h: tw + 1,
-            })) {
-              cb = grid[x][y];
-              break X;
-            }
-          }
-        }
-      }
-      if (!cb) {
+    /* Crouching don't fall off */
+    if (
+      player.crouch
+      && collideAttr(tech.bs_un, i => data.blocks[i.block].collide)
+    ) {
+      if (
+        !collideAttr(tech.bs_invx, i => (
+          data.blocks[i.block].collide
+        ))
+      ) {
         player.vx = 0;
       }
     }
@@ -396,8 +274,8 @@ function update(mod) {
     p.y -= 1;
     cx = null;
     cy = null;
-    X: for (x = minx; x < maxx; x++) {
-      for (y = miny; y < maxy; y++) {
+    X: for (x = tech.player_minx; x < tech.player_maxx; x++) {
+      for (y = tech.player_miny; y < tech.player_maxy; y++) {
         if (grid[x][y].block != "none") {
           if (F.collide(p, {
             x: (x + 0.001) * tw,
@@ -432,7 +310,7 @@ function update(mod) {
     }
     if (cb && (!global.debug_move || global.debug_move + 50 < Date.now())) {
       /* Move player to nearest empty block */
-      /* Jee wizz how does this work. help */
+      /* Jee wizz how does this work??? */
       distance = Math.max(grid.length, grid[0].length);
       dirs = [
         [0, 1], // Down
@@ -482,10 +360,9 @@ function update(mod) {
       }
       ctx.globalAlpha = 1;
 
-      // player.y -= tw * 0.03;
-      global.playerInBlock = true;
+      tech.in_block = true;
     } else {
-      global.playerInBlock = false;
+      tech.in_block = false;
     }
 
     if (player.y / tw > grid[0].length + data.floor_gap - 0.7) {
@@ -874,17 +751,18 @@ function update(mod) {
       if (val) {
         global.keyOnce_level = true;
       }
-    }
-    /* Toggle debug freeze */
-    if (keysDown.debug_freeze) {
-      if (gameState != "freeze") {
-        global.lastGameState_debug = gameState;
-        global.stats.debug = true;
-        gameState = "freeze";
-      }
-    } else {
-      if (gameState == "freeze") {
-        gameState = global.lastGameState_debug || "play";
+
+      /* Toggle debug freeze */
+      if (keysDown.debug_freeze) {
+        if (gameState != "freeze") {
+          global.lastGameState_debug = gameState;
+          global.stats.debug = true;
+          gameState = "freeze";
+        }
+      } else {
+        if (gameState == "freeze") {
+          gameState = global.lastGameState_debug || "play";
+        }
       }
     }
   }

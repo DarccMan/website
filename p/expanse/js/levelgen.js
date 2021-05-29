@@ -313,8 +313,9 @@ function readComp(comp, read, x, y) {
         x1 = (x + j) % read.grid.length;
         y1 = y + Math.floor((x + j) / read.grid.length);
         if (read.grid[x1]?.[y1]) {
+          choice = F.randomChoice(fen[i].random);
           read.grid[x1][y1] = {
-            block: F.randomChoice(fen[i].random),
+            block: data.blocks[choice] ? choice : "unknown",
             ...fen[i].nbt,
           };
         }
