@@ -17,7 +17,7 @@
 
       doc.id("name").innerHTML = "{0}".format(name);
       doc.id("title").innerHTML = "{0} Download - EpicWebsite".format(name);
-      doc.id("link").download += "_{0}_UNZIP_{1}".format(
+      doc.id("link").download += "_{0}_{1}".format(
         name,
         Date.now(),
       );
