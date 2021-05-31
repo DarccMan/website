@@ -244,6 +244,7 @@ var links = {
   media: {
     name: "Media / Downloads",
     local: true,
+    image: 1,
     items: [
       {
         id: "funny",
@@ -285,6 +286,20 @@ var links = {
           "hacker-d",
           "hack-download",
           "hack-d",
+        ],
+      },
+      {
+        id: "automail",
+        name: "Automail",
+        image: "./p/automail/icon.png",
+        alias: [
+          "auto-mail",
+          "autoemail",
+          "auto-email",
+          "automailer",
+          "auto-mailer",
+          "autoemailer",
+          "auto-emailer",
         ],
       },
     ],

@@ -471,7 +471,16 @@ var rawLevels = [
       @jetrat;
       y+5;
       x-13;
-      #glass*10;
+      #glass;
+      x+1;
+      #block*9;
+      y-1;
+      $9[
+        @mouse;
+        x+1;
+      ];
+      y+1;
+      x-11;
       $4[
         y-1;
         #glass;

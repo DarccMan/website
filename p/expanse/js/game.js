@@ -33,7 +33,7 @@ if (data.pixelate) {
 var global = {};
 /* Debug stuff */
 global.startDebug = false;
-// global.startDebug = true;
+global.startDebug = true;
 startState = "start";
 global.extraWait = 0.3;
 if (F.url.online) {
