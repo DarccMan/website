@@ -33,7 +33,7 @@ if (data.pixelate) {
 var global = {};
 /* Debug stuff */
 global.startDebug = false;
-global.startDebug = true;
+// global.startDebug = true;
 startState = "start";
 global.extraWait = 0.3;
 if (F.url.online) {
@@ -42,7 +42,7 @@ if (F.url.online) {
 var lvl = 0;
 if (global.startDebug) {
   data.graphics = 3;
-  lvl = 6;
+  lvl = 0;
   startState = "play";
   // startState = "pause";
   global.extraWait = 0;
@@ -156,13 +156,22 @@ addImage("edge_inner", "edge/inner");
 addImage("edge_side", "edge/side");
 
 /* Finish loading when font loads */
-let gameFont = new FontFace(data.font, `url(../../source/font/${data.font}.woff2)`);
+let gameFont = new FontFace(data.font.main, `url(../../source/font/${data.font.main}.woff2)`);
+let gameFont_alt = new FontFace(data.font.alt, `url(../../source/font/${data.font.alt}.woff2)`);
 gameFont.load().then(
   async (font) => {
     document.fonts.add(font);
-    await F.sleep(global.extraWait);
-    global.lastStart = Date.now();
-    gameState = startState;
+    gameFont_alt.load().then(
+      async (font1) => {
+        document.fonts.add(font1);
+        await F.sleep(global.extraWait);
+        global.lastStart = Date.now();
+        gameState = startState;
+      },
+      (err) => {
+        console.error(err);
+      }
+    )
   },
   (err) => {
     console.error(err);

@@ -674,6 +674,7 @@ function update(mod) {
       if (!F.url.query.speedrun) {
         gameState = "start";
         global.keyOnce_start = false;
+        global.lastStart = Date.now();
       } else {
         startPlay();
       }

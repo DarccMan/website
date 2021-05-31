@@ -10,6 +10,9 @@
  - - Secret: only secret
  - Add commands
  - Slow jump in scaffold
+ - Add fullscreen mode
+ - Add sign text to lang
+ - - Add option to not
 
 ## Levels
  - Add Levels
@@ -41,6 +44,8 @@
 
 ## Textures
  - Fix ice block tiling
+ - Update elevator block
+ - Update rat animation
 
 <!-- ## Blocks -->
 
@@ -107,6 +112,8 @@ Completed
  - Crouching in scaffold stops all movement
  - Redo all collisions
  - - Add global player min/max collision checks
+ - Add alt font
+ - Translate all text
 
  ## Possibly?
  - Death causes level completion

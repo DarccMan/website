@@ -24,6 +24,7 @@ function reset() {
   /* Reset game if completed all levels */
   if (levels && !levels[lvl]) {
     gameState = "end";
+    global.lastEnd = Date.now();
     global.timerEnd = ((Date.now() - global.timeStart) / 1000).toFixed(2).toString();
 
     finalTime = (parseFloat(global.timerEnd) * 100).toString().fill(6)

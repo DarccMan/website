@@ -1,6 +1,7 @@
 var rawLevels = [
   {
     name: "Spiky :(",
+    name_alt: "riyi tos",
     dim: [25, 10],
     set: `
       y=4;

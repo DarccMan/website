@@ -330,9 +330,6 @@ function render() {
           - x,
           - y,
         );
-        if (data.graphics > 2) {
-          // ctx.globalAlpha = 1 - player.animate + 0.5;
-        }
       }
       if (gameState == "win") {
         /* Draw player moving for level transition */
@@ -679,7 +676,6 @@ function render() {
         time0 = 1500;
         time1 = 1000;
         if (global.lastRestart + time0 > Date.now()) {
-          ctxs.overlay.font = cv.overlay.width * 0.05 + "px " + data.font;
           h = "FF";
           if (data.graphics > 0) {
             h = Math.round((Math.min(time1, time0 - (Date.now() - global.lastRestart)) * (256 / time1)) * 0.7).toString(16);
@@ -688,13 +684,24 @@ function render() {
             }
           }
           ctxs.overlay.fillStyle = "#FFFFFF" + (h.length < 2 ? "0" : "") + h;
+
           ctxs.overlay.textBaseline = "top";
           ctxs.overlay.textAlign = "left";
-          ctxs.overlay.fillText(
-            lang.level.format({
-              number: lvl,
-              name: levels[lvl].name || "Unknown",
-            }),
+
+          drawTranslated(
+            ctxs.overlay,
+            cv.overlay.width * 0.05,
+            translateText(
+              lang.level.format({
+                number: lvl,
+                name: levels[lvl].name || lang.level_unknown,
+              }),
+              lang.level_.format({
+                number: lvl.toString(6),
+                name: levels[lvl].name_alt || lang.level_unknown_,
+              }),
+              global.lastRestart,
+            ),
             cv.overlay.width * 0.02,
             cv.overlay.width * 0.02,
           );
@@ -716,14 +723,19 @@ function render() {
           ctxs.overlay.fillStyle = "#B0B0B0" + (h.length < 2 ? "0" : "") + h;
           ctxs.overlay.textBaseline = "top";
           ctxs.overlay.textAlign = "center";
-          ctxs.overlay.font = cv.overlay.width * 0.05 + "px " + data.font;
-          ctxs.overlay.fillText(
-            lang.sign,
+          drawTranslated(
+            ctxs.overlay,
+            cv.overlay.width * 0.05,
+            translateText(
+              lang.sign,
+              lang.sign_,
+              global.lastReadSign,
+            ),
             cv.overlay.width * 0.5,
             cv.overlay.height * 0.1,
           );
           ctxs.overlay.fillStyle = "#FFFFFF" + (h.length < 2 ? "0" : "") + h;
-          ctxs.overlay.font = cv.overlay.width * 0.08 + "px " + data.font;
+          ctxs.overlay.font = cv.overlay.width * 0.08 + "px " + data.font.main;
           ctxs.overlay.fillText(
             global.signText,
             cv.overlay.width * 0.5,
@@ -740,7 +752,6 @@ function render() {
         h = Math.round(player.animate * 256 / 10).toString(16);
       }
       ctxs.overlay.fillCanvas("#FF0000" + (h.length < 2 ? "0" : "") + h);
-      ctxs.overlay.font = cv.overlay.width * 0.12 + "px " + data.font;
       ctxs.overlay.fillStyle = "#FFF";
       if (data.graphics > 0) {
         ctxs.overlay.save();
@@ -753,20 +764,27 @@ function render() {
           - cv.overlay.width / 2,
           - cv.overlay.height / 2,
         );
-        ctxs.overlay.font = (cv.overlay.width * 0.001) * (player.animate * 100) + "px " + data.font;
+        ctxs.overlay.font = (cv.overlay.width * 0.001) * (player.animate * 100) + "px " + data.font.main;
         h = Math.round(player.animate * 256 / 2).toString(16);
         ctxs.overlay.fillStyle = "#FFFFFF" + (h.length < 2 ? "0" : "") + h;
       }
       ctxs.overlay.textBaseline = "middle";
       ctxs.overlay.textAlign = "center";
-      ctxs.overlay.fillText(
-        global.deathMessage,
+      drawTranslated(
+        ctxs.overlay,
+        data.graphics > 0 ? ((cv.overlay.width * 0.001) * (player.animate * 100)) : (cv.overlay.width * 0.12),
+        translateText(
+          global.deathMessage,
+          global.deathMessage_,
+          global.lastDeath,
+          true,
+        ),
         cv.overlay.width * 0.5,
         cv.overlay.height * 0.3,
       );
       ctxs.overlay.restore();
     } else if (gameState == "freeze") {
-      ctxs.overlay.font = cv.overlay.width * 0.04 + "px " + data.font;
+      ctxs.overlay.font = cv.overlay.width * 0.04 + "px " + data.font.main;
       ctxs.overlay.textBaseline = "top";
       ctxs.overlay.textAlign = "center";
       ctxs.overlay.fillStyle = "#EEEE";
@@ -796,28 +814,36 @@ function render() {
       } else {
         ctxs.overlay.fillCanvas("#0008");
       }
-      ctxs.overlay.font = cv.overlay.width * 0.07 + "px " + data.font;
       ctxs.overlay.textBaseline = "top";
       ctxs.overlay.textAlign = "center";
       ctxs.overlay.fillStyle = "#EEE8";
-      ctxs.overlay.fillText(
-        lang.pause,
+      drawTranslated(
+        ctxs.overlay,
+        cv.overlay.width * 0.07,
+        translateText(
+          lang.pause,
+          lang.pause_,
+          global.lastPause,
+          true,
+        ),
         cv.overlay.width * 0.5,
         cv.overlay.width * 0.07,
       );
-      ctxs.overlay.font = cv.overlay.width * 0.03 + "px " + data.font;
-      ctxs.overlay.textBaseline = "top";
-      ctxs.overlay.textAlign = "center";
-      ctxs.overlay.fillStyle = "#EEE8";
-      ctxs.overlay.fillText(
-        lang.pause_sub,
+      drawTranslated(
+        ctxs.overlay,
+        cv.overlay.width * 0.03,
+        translateText(
+          lang.pause_sub,
+          lang.pause_sub_,
+          global.lastPause,
+          true,
+        ),
         cv.overlay.width * 0.5,
         cv.overlay.width * 0.16,
       );
     }
 
     /* Timer */
-    ctxs.overlay.font = cv.overlay.width * 0.04 + "px " + data.font;
     ctxs.overlay.textBaseline = "top";
     ctxs.overlay.textAlign = "left";
     ctxs.overlay.fillStyle = "#EEE5";
@@ -829,14 +855,27 @@ function render() {
     time = (time / 1000).toFixed(2).toString();
     if (global.speedrunOnce && lvl == 0) {
       ctxs.overlay.textAlign = "right";
-      ctxs.overlay.fillText(
-        lang.time_speedrun,
+      drawTranslated(
+        ctxs.overlay,
+        cv.overlay.width * 0.04,
+        translateText(
+          lang.time_speedrun,
+          lang.time_speedrun_,
+          global.lastRestart,
+        ),
         cv.overlay.width * 0.99,
         cv.overlay.height * 0.02,
       );
     } else {
-      ctxs.overlay.fillText(
-        lang.time_game.format(time),
+      drawTranslated(
+        ctxs.overlay,
+        cv.overlay.width * 0.04,
+        translateText(
+          lang.time_game.format(time),
+          lang.time_game_.format((time * 100).toString(6)),
+          global.lastRestart,
+          true,
+        ),
         cv.overlay.width * 0.87 - cv.overlay.width * 0.01 * time.length,
         cv.overlay.height * 0.02,
       );
@@ -915,39 +954,66 @@ function render() {
     }
 
     /* Draw text */
-    ctx.textBaseline = "middle";
-    ctx.textAlign = "center";
-    ctx.font = cv.main.width * 0.1 + "px " + data.font;
-    ctx.shadowColor = "#000";
-    ctx.shadowBlur = 3;
-    ctx.lineWidth = 8;
-    ctx.strokeStyle = "#1116";
-    ctx.fillStyle = "#DDE";
+    ctxs.overlay.textBaseline = "middle";
+    ctxs.overlay.textAlign = "center";
+    ctxs.overlay.font = cv.overlay.width * 0.1 + "px " + data.font.main;
+    ctxs.overlay.shadowColor = "#000";
+    ctxs.overlay.shadowBlur = 3;
+    ctxs.overlay.lineWidth = 8;
+    ctxs.overlay.strokeStyle = "#1116";
+    ctxs.overlay.fillStyle = "#DDE";
     if (data.graphics > 2) {
-      ctx.strokeText(
+      drawTranslated(
+        ctxs.overlay,
+        cv.overlay.width * 0.1,
+        translateText(
+          lang.title,
+          lang.title_,
+          global.lastStart,
+          true,
+        ),
+        cv.overlay.width * 0.5,
+        cv.overlay.height * 0.45,
+        true,
+      );
+    }
+    drawTranslated(
+      ctxs.overlay,
+      cv.overlay.width * 0.1,
+      translateText(
         lang.title,
-        cv.main.width * 0.5,
-        cv.main.height * 0.45,
-      );
-    }
-    ctx.fillText(
-      lang.title,
-      cv.main.width * 0.5,
-      cv.main.height * 0.45,
+        lang.title_,
+        global.lastStart,
+        true,
+      ),
+      cv.overlay.width * 0.5,
+      cv.overlay.height * 0.45,
     );
-    ctx.font = cv.main.width * 0.04 + "px " + data.font;
-    ctx.lineWidth = 5;
+    ctxs.overlay.lineWidth = 5;
     if (data.graphics > 2) {
-      ctx.strokeText(
-        lang.continue,
-        cv.main.width * 0.5,
-        cv.main.height * 0.7,
+      drawTranslated(
+        ctxs.overlay,
+        cv.overlay.width * 0.04,
+        translateText(
+          lang.continue,
+          lang.continue_,
+          global.lastStart,
+        ),
+        cv.overlay.width * 0.5,
+        cv.overlay.height * 0.7,
+        true,
       );
     }
-    ctx.fillText(
-      lang.continue,
-      cv.main.width * 0.5,
-      cv.main.height * 0.7,
+    drawTranslated(
+      ctxs.overlay,
+      cv.overlay.width * 0.04,
+      translateText(
+        lang.continue,
+        lang.continue_,
+        global.lastStart,
+      ),
+      cv.overlay.width * 0.5,
+      cv.overlay.height * 0.7,
     );
 
     if (data.graphics > 3) {
@@ -966,22 +1032,34 @@ function render() {
       ctx.fillCanvas(grd);
     }
 
-    ctx.font = cv.main.width * 0.04 + "px " + data.font;
-    ctx.textBaseline = "bottom";
-    ctx.textAlign = "right";
-    ctx.fillStyle = "#CCCA";
-    ctx.lineWidth = 4;
+    ctxs.overlay.textBaseline = "bottom";
+    ctxs.overlay.textAlign = "right";
+    ctxs.overlay.fillStyle = "#CCCA";
+    ctxs.overlay.lineWidth = 4;
     if (data.graphics > 2) {
-      ctx.strokeText(
-        lang.name,
-        cv.main.width * 0.98,
-        cv.main.height * 0.98,
+      drawTranslated(
+        ctxs.overlay,
+        cv.overlay.width * 0.04,
+        translateText(
+          lang.name,
+          lang.name_,
+          global.lastStart,
+        ),
+        cv.overlay.width * 1,
+        cv.overlay.height * 0.98,
+        true,
       );
     }
-    ctx.fillText(
-      lang.name,
-      cv.main.width * 0.98,
-      cv.main.height * 0.98,
+    drawTranslated(
+      ctxs.overlay,
+      cv.overlay.width * 0.04,
+      translateText(
+        lang.name,
+        lang.name_,
+        global.lastStart,
+      ),
+      cv.overlay.width * 1,
+      cv.overlay.height * 0.98,
     );
     ctx.shadowColor = "#0000";
     ctx.shadowBlur = 0;
@@ -1092,53 +1170,95 @@ function render() {
     }
 
     /* Draw text */
-    ctx.textBaseline = "middle";
-    ctx.textAlign = "center";
-    ctx.font = cv.main.width * 0.1 + "px " + data.font;
-    ctx.shadowColor = "#000";
-    ctx.shadowBlur = 3;
-    ctx.lineWidth = 8;
-    ctx.strokeStyle = "#1116";
-    ctx.fillStyle = "#DDE";
+    ctxs.overlay.textBaseline = "middle";
+    ctxs.overlay.textAlign = "center";
+    ctxs.overlay.shadowColor = "#000";
+    ctxs.overlay.shadowBlur = 3;
+    ctxs.overlay.lineWidth = 8;
+    ctxs.overlay.strokeStyle = "#1116";
+    ctxs.overlay.fillStyle = "#DDE";
     if (data.graphics > 2) {
-      ctx.strokeText(
-        lang.thank,
-        cv.main.width * 0.5,
-        cv.main.height * 0.45,
+      drawTranslated(
+        ctxs.overlay,
+        cv.overlay.width * 0.1,
+        translateText(
+          lang.thank,
+          lang.thank_,
+          global.lastEnd,
+        ),
+        cv.overlay.width * 0.5,
+        cv.overlay.height * 0.45,
+        true,
       );
     }
-    ctx.fillText(
-      lang.thank,
-      cv.main.width * 0.5,
-      cv.main.height * 0.45,
+    drawTranslated(
+      ctxs.overlay,
+      cv.overlay.width * 0.1,
+      translateText(
+        lang.thank,
+        lang.thank_,
+        global.lastEnd,
+      ),
+      cv.overlay.width * 0.5,
+      cv.overlay.height * 0.45,
     );
-    ctx.font = cv.main.width * 0.04 + "px " + data.font;
     ctx.lineWidth = 5;
     if (data.graphics > 2) {
-      ctx.strokeText(
+      drawTranslated(
+        ctxs.overlay,
+        cv.overlay.width * 0.04,
+        translateText(
+          lang.time_end.format({
+            time: global.timerEnd
+          }),
+          lang.time_end_.format({
+            time: (global.timerEnd * 100).toString(6)
+          }),
+          global.lastEnd,
+        ),
+        cv.main.width * 0.5,
+        cv.main.height * 0.65,
+        true,
+      );
+    }
+    drawTranslated(
+      ctxs.overlay,
+      cv.overlay.width * 0.04,
+      translateText(
         lang.time_end.format({
           time: global.timerEnd
         }),
-        cv.main.width * 0.5,
-        cv.main.height * 0.65,
-      );
-    }
-    ctx.fillText(
-      lang.time_end.format({
-        time: global.timerEnd
-      }),
+        lang.time_end_.format({
+          time: global.timerEnd
+        }),
+        global.lastEnd,
+      ),
       cv.main.width * 0.5,
       cv.main.height * 0.65,
     );
+
     if (data.graphics > 2) {
-      ctx.strokeText(
-        lang.continue,
+      drawTranslated(
+        ctxs.overlay,
+        cv.overlay.width * 0.04,
+        translateText(
+          lang.continue,
+          lang.continue_,
+          global.lastEnd,
+        ),
         cv.main.width * 0.5,
         cv.main.height * 0.8,
+        true,
       );
     }
-    ctx.fillText(
-      lang.continue,
+    drawTranslated(
+      ctxs.overlay,
+      cv.overlay.width * 0.04,
+      translateText(
+        lang.continue,
+        lang.continue_,
+        global.lastEnd,
+      ),
       cv.main.width * 0.5,
       cv.main.height * 0.8,
     );
@@ -1159,22 +1279,34 @@ function render() {
       ctx.fillCanvas(grd);
     }
 
-    ctx.font = cv.main.width * 0.04 + "px " + data.font;
-    ctx.textBaseline = "bottom";
-    ctx.textAlign = "right";
-    ctx.fillStyle = "#CCCA";
-    ctx.lineWidth = 4;
+    ctxs.overlay.textBaseline = "bottom";
+    ctxs.overlay.textAlign = "right";
+    ctxs.overlay.fillStyle = "#CCCA";
+    ctxs.overlay.lineWidth = 4;
     if (data.graphics > 2) {
-      ctx.strokeText(
-        lang.name,
-        cv.main.width * 0.98,
-        cv.main.height * 0.98,
+      drawTranslated(
+        ctxs.overlay,
+        cv.overlay.width * 0.04,
+        translateText(
+          lang.name,
+          lang.name_,
+          global.lastEnd,
+        ),
+        cv.overlay.width * 1,
+        cv.overlay.height * 0.98,
+        true,
       );
     }
-    ctx.fillText(
-      lang.name,
-      cv.main.width * 0.98,
-      cv.main.height * 0.98,
+    drawTranslated(
+      ctxs.overlay,
+      cv.overlay.width * 0.04,
+      translateText(
+        lang.name,
+        lang.name_,
+        global.lastEnd,
+      ),
+      cv.overlay.width * 1,
+      cv.overlay.height * 0.98,
     );
     ctx.shadowColor = "#0000";
     ctx.shadowBlur = 0;
@@ -1263,7 +1395,7 @@ function render() {
 
   time0 = 1000;
   if (global.lastGraphics + time0 > Date.now()) {
-    ctxs.overlay.font = cv.overlay.width * 0.03 + "px " + data.font;
+    ctxs.overlay.font = cv.overlay.width * 0.03 + "px " + data.font.main;
     ctxs.overlay.textBaseline = "bottom";
     ctxs.overlay.textAlign = "left";
     h = "FF";

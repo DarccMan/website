@@ -6,7 +6,9 @@ async function death() {
   }
   global.deaths++;
   global.lastDeath = Date.now();
-  global.deathMessage = F.randomChoice(lang.death);
+  choice = F.randomChoice(lang.death);
+  global.deathMessage = choice[0];
+  global.deathMessage_ = choice[1];
   player.status = "death";
   player.animate = 0;
   player.deathFlip = F.randomChoice([1, -1]);
@@ -211,5 +213,76 @@ function getCollideAttr(arr, func) {
     if (output) {
       return output;
     }
+  }
+}
+
+/* Functions for rendering transalted text */
+function translateText(lang1, lang2, start, important) {
+  if (data.graphics < 1 || data.graphics == 2) {
+    return lang1;
+  }
+  output = lang1.split("");
+
+  for (i = 0; i < output.length; i++) {
+    output[i] = [0, output[i]];
+    time0 = data.font.show_0;
+    time1 = data.font.show_0 + data.font.show_1;
+    if (important) {
+      time0 = data.font.show_important_0;
+      time1 = data.font.show_important_0 + data.font.show_important_1;
+    }
+    end = start + time1;
+
+    if (end > Date.now()) {
+      amount = 1 - (end - Date.now()) / (time1 - time0);
+      a = 5;
+      b = 4;
+      if (b * (Math.sin(2 * Math.PI * i / a) + 1) >= output.length * amount) {
+        char = lang2[i];
+        output[i] = [1, ""];
+        if (char) {
+          output[i] = [1, char];
+        }
+      }
+    }
+  }
+  return output;
+}
+
+function drawTranslated(ctx_, size, text, x, y, stroke) {
+  if (data.graphics < 1 || data.graphics == 2) {
+    ctx_.font = size + "px " + data.font.main;
+    ctx_[(stroke ? "stroke" : "fill") + "Text"](
+      text,
+      x,
+      y,
+    );
+    return;
+  }
+  oldSize = size;
+  for (i = 0; i < output.length; i++) {
+    font = output[i][0] ? data.font.alt : data.font.main;
+    size = (output[i][0] ? data.font.alt_size : 1) * oldSize;
+    ctx_.font = size + "px " + font;
+    width = 0;
+    wholeWidth = 0;
+    for (k = 0; k < output.length; k++) {
+      if (k < i) {
+        width += ctx_.measureText(output[k][1]).width;
+      }
+      wholeWidth += ctx_.measureText(output[k][1]).width;
+    }
+    d = x;
+    if (ctx_.textAlign == "center") {
+      d = x - wholeWidth / 2;
+    }
+    if (ctx_.textAlign == "right") {
+      d = x - wholeWidth;
+    }
+    ctx_[(stroke ? "stroke" : "fill") + "Text"](
+      output[i][1],
+      d + width + (output[i][0] ? data.font.alt_x * size : 0),
+      y + (output[i][0] ? data.font.alt_y * size : 0),
+    );
   }
 }

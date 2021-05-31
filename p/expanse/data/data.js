@@ -65,8 +65,19 @@ var data = {
     cma: 0.2, // Movement acceleration
     cmt: 0.6, // Movement terminal
   },
-  // font: "skull-void", // Font
-  font: "samdan", // Font
+  font: {
+    // font: "skull-void", // Font
+    main: "samdan", // Font
+    alt: "tsyiral", // Second Font
+    show_0: 500, // How long to wait to show second font
+    show_1: 800, // How long to take in translation animation
+    show_important_0: 10, // For important text
+    show_important_1: 500,
+    alt_size: 1.1,
+    alt_x: 0,
+    alt_y: -0.2,
+  },
+  // font_show: Infinity,
   hold_size: 0.8, // Size of held block
   particles: { // Particles effects (Graphics > 3)
     amount: 12,
