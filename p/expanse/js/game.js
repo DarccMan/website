@@ -9,31 +9,23 @@ for (i = 0; i < cvs.length; i++) {
   doc.id("wrap").appendChild(cv[cvs[i]]);
   ctxs[cvs[i]] = cv[cvs[i]].getContext("2d");
   cv[cvs[i]].initialize();
+  cv[cvs[i]].setAttribute("oncontextmenu", "return(false);");
+  ctxs[cvs[i]].imageSmoothingEnabled = false;
+  if (data.pixelate) {
+    cv[cvs[i]].style.imageRendering = "pixelated";
+  }
 }
 
 size = 512;
-_w = Math.round(size * data.ratio);
-_h = size;
-_ws = _w + "px";
-_hs = _h + "px";
-cv.main.style.width = _ws + "px";
-cv.main.style.height = _hs + "px";
-cv.main.w = _w * data.resolution;
-cv.main.h = _h * data.resolution;
-cv.main.parentNode.style.width = _ws;
-cv.main.parentNode.style.height = _hs;
-cv.main.setAttribute("oncontextmenu", "return(false);");
+cvw = null;
+cvh = null;
 var ctx = ctxs.main;
-ctx.imageSmoothingEnabled = false;
-if (data.pixelate) {
-  cv.main.style.imageRendering = "pixelated";
-}
 
 /* Create global variables */
 var global = {};
 /* Debug stuff */
 global.startDebug = false;
-// global.startDebug = true;
+global.startDebug = true;
 startState = "start";
 global.extraWait = 0.3;
 if (F.url.online) {
@@ -41,8 +33,8 @@ if (F.url.online) {
 }
 var lvl = 0;
 if (global.startDebug) {
-  data.graphics = 3;
-  lvl = 0;
+  data.graphics = 0;
+  lvl = 7;
   startState = "play";
   // startState = "pause";
   global.extraWait = 0;
@@ -73,8 +65,10 @@ var cam = {
 var images = {};
 var gameState = "load";
 var enemies = [];
-var tw = (Math.min(cv.main.width, cv.main.height) / data.tiles);
-var tw2 = (Math.min(parseInt(cv.main.style.width), cv.main.height) / data.tiles);
+var tw = null;
+var rtw = (Math.min(cv.main.width, cv.main.height) / 10);
+setCanvasSize();
+// var tw2 = (Math.min(parseInt(cv.main.style.width), cv.main.height) / data.tiles);
 var tx = data.tiles / Math.min(cv.main.width, cv.main.height) * Math.max(cv.main.width, cv.main.height);
 var checkpoint = null;
 var tech = {};
@@ -157,7 +151,7 @@ addImage("edge_side", "edge/side");
 
 /* Finish loading when font loads */
 let gameFont = new FontFace(data.font.main, `url(../../source/font/${data.font.main}.woff2)`);
-let gameFont_alt = new FontFace(data.font.alt, `url(../../source/font/${data.font.alt}.woff2)`);
+let gameFont_alt = new FontFace(data.font.alt, `url(../../source/font/uncompressed/${data.font.alt}.ttf)`);
 gameFont.load().then(
   async (font) => {
     document.fonts.add(font);

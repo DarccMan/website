@@ -34,6 +34,7 @@
  - Change player death animation to calculate on render
  - Calculate frames on render
  - Add line numbers to level gen errors
+ - Move debug screen to debug canvas
 
 ## Optimisations
  - Floor and ceil all renders

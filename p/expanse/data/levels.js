@@ -5,7 +5,7 @@ var rawLevels = [
     dim: [25, 10],
     set: `
       y=4;
-      #block*125&3,cracked:1;
+      #block*-1&3,cracked:1;
       x=0;
       y=3;
       #sign{text:Watch out for rats!};

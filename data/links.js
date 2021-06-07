@@ -239,6 +239,11 @@ var links = {
         name: "Game with Controls",
         show: 1,
       },
+      {
+        id: "lml",
+        name: "Lord Mumbo Leaps",
+        show: 1,
+      },
     ],
   },
   media: {

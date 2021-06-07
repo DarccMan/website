@@ -2,6 +2,7 @@ data.blocks = { // Block data
   none: {
     color: "#18100A",
     images: 1,
+    ignoreDraw: true,
   },
   test: {
     color: "#F0F",

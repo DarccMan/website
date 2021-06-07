@@ -41,9 +41,11 @@ var data = {
     resolution_high: 0.1,
   },
   floor_gap: 8, // Gap between bottom most block and floor spikes
+  floor_gap: Infinity, //? Testing
   v: { // Player velocity settings
     // Fall (+y)
     fa: 25, // Acceleration speed
+    fa: 0, //? Testing
     ft: 40, // Terminal velocity
     // Down in scaffold (+y)
     da: 200, // Acceleration speed
@@ -64,20 +66,22 @@ var data = {
     cft: 1.05, // Fall terminal
     cma: 0.2, // Movement acceleration
     cmt: 0.6, // Movement terminal
+    // Get out of block
+    g: 1,
+    g: 0, //? Testing
   },
   font: {
-    // font: "skull-void", // Font
     main: "samdan", // Font
     alt: "tsyiral", // Second Font
     show_0: 500, // How long to wait to show second font
     show_1: 800, // How long to take in translation animation
     show_important_0: 10, // For important text
     show_important_1: 500,
-    alt_size: 1.1,
+    alt_size: 1,
     alt_x: 0,
-    alt_y: -0.2,
+    alt_y: -0.1,
+    alt_w: 0.9,
   },
-  // font_show: Infinity,
   hold_size: 0.8, // Size of held block
   particles: { // Particles effects (Graphics > 3)
     amount: 12,

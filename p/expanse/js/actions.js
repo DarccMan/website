@@ -268,7 +268,7 @@ function drawTranslated(ctx_, size, text, x, y, stroke) {
     wholeWidth = 0;
     for (k = 0; k < output.length; k++) {
       if (k < i) {
-        width += ctx_.measureText(output[k][1]).width;
+        width += (output[k][1] ? data.font.alt_w : 1) * ctx_.measureText(output[k][1]).width;
       }
       wholeWidth += ctx_.measureText(output[k][1]).width;
     }
@@ -285,4 +285,24 @@ function drawTranslated(ctx_, size, text, x, y, stroke) {
       y + (output[i][0] ? data.font.alt_y * size : 0),
     );
   }
+}
+
+/* Testing */
+function setCanvasSize() {
+  _w = Math.round(size * data.ratio);
+  _h = size;
+  _ws = _w + "px";
+  _hs = _h + "px";
+  for (i = 0; i < cv.keys().length; i++) {
+    cv.values()[i].style.width = _ws;
+    cv.values()[i].style.height = _h + "px";
+    cv.values()[i].w = _w * data.resolution;
+    cv.values()[i].h = _h * data.resolution;
+    cv.values()[i].getContext("2d").imageSmoothingEnabled = false;
+  }
+  doc.id("wrap").style.width = _ws;
+  doc.id("wrap").style.height = _hs;
+  cvw = _w * data.resolution;
+  cvh = _h * data.resolution;
+  tw = (Math.min(cv.main.width, cv.main.height) / data.tiles);
 }
