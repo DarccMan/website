@@ -41,18 +41,18 @@ var data = {
     resolution_high: 0.1,
   },
   floor_gap: 8, // Gap between bottom most block and floor spikes
-  floor_gap: Infinity, //? Testing
+  // floor_gap: Infinity, //? Testing
   v: { // Player velocity settings
     // Fall (+y)
     fa: 25, // Acceleration speed
-    fa: 0, //? Testing
+    // fa: 0, //? Testing
     ft: 40, // Terminal velocity
     // Down in scaffold (+y)
     da: 200, // Acceleration speed
     dt: 40, // Terminal velocity
     // Jump (-y)
     jb: 10.5, // Base jump
-    ja: 0, // Add this to jump height for how long key held (Within reason)
+    ja: 0, // [deprecated] Add this to jump height for how long key held (Within reason)
     jc: 40, // Cooldown before adding adding above amount
     jm: 80, // Maximum time to hold down key
     jt: 30, // Terminal jump velocity
@@ -68,7 +68,7 @@ var data = {
     cmt: 0.6, // Movement terminal
     // Get out of block
     g: 1,
-    g: 0, //? Testing
+    // g: 0, //? Testing
   },
   font: {
     main: "samdan", // Font

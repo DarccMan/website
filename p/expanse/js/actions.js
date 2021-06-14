@@ -306,3 +306,7 @@ function setCanvasSize() {
   cvh = _h * data.resolution;
   tw = (Math.min(cv.main.width, cv.main.height) / data.tiles);
 }
+
+function help() {
+  alert("There is no help for you.");
+}

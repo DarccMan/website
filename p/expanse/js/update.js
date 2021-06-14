@@ -1,9 +1,9 @@
 
 function update(mod) {
   /* Testing */
-  data.ratio = parseFloat(doc.id("ratio").value);
-  data.resolution = parseFloat(doc.id("res").value);
-  data.tiles = parseFloat(doc.id("tiles").value);
+  // data.ratio = parseFloat(doc.id("ratio").value);
+  // data.resolution = parseFloat(doc.id("res").value);
+  // data.tiles = parseFloat(doc.id("tiles").value);
 
   var keysDown = F.getKeyCodes(controls);
   if (keysDown.game_restart) {
