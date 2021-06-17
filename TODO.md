@@ -11,6 +11,6 @@
  - Add link alias
 
 # Reference
-- [Commit Log](https://github.com/epicwebsite/epicwebsite.github.io/commits/master)
+- [Commit Log](https://github.com/epicwebsite/epicwebsite.bruh.international/commits/master)
 - [HeckDude TODO](./p/heckdude/todo.md)
 - [Solitaire TODO](./p/solitaire/TODO.md)

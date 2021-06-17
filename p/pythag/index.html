@@ -2,37 +2,73 @@
 <html>
   <head>
     <title>Pythag Calculator - EpicWebsite</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://kit.fontawesome.com/03abc70cb1.js" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script
+      src="https://kit.fontawesome.com/03abc70cb1.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-latest.min.js"
+    ></script>
     <!-- <script type="text/javascript" src="file:///C:\Users\darcy\OneDrive\Documents\.other\code\js\fnctjs/index.js"></script> -->
-    <script type="text/javascript" src="https://fnctjs.github.io/index.js"></script>
+    <script
+      type="text/javascript"
+      src="https://fnctjs.github.io/index.js"
+    ></script>
     <script type="text/javascript" src="script.js" defer></script>
-    <link rel="shortcut icon" type="image/png" href="image/favicon.png">
-    <link rel="stylesheet" href="https://epicwebsite.github.io/css/default.css">
-    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-    <meta content="utf-8" http-equiv="encoding">
+    <link rel="shortcut icon" type="image/png" href="image/favicon.png" />
+    <link
+      rel="stylesheet"
+      href="https://epicwebsite.bruh.international/css/default.css"
+    />
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <meta content="utf-8" http-equiv="encoding" />
   </head>
   <body onload="init()">
     <header>Pythagorean Theorem Calculator</header>
     <content>
       <article>
         <form>
-          <input tabindex="0" type="number" id="input_a" value="3" name="a" onchange="calc()">
-          <br>
-          <input tabindex="1"  type="number" id="input_b" value="4" name="b" onchange="calc()">
-          <br> 
-          <input tabindex="2" type="number" id="input_c" value=" " name="c" onchange="calc()">
+          <input
+            tabindex="0"
+            type="number"
+            id="input_a"
+            value="3"
+            name="a"
+            onchange="calc()"
+          />
+          <br />
+          <input
+            tabindex="1"
+            type="number"
+            id="input_b"
+            value="4"
+            name="b"
+            onchange="calc()"
+          />
+          <br />
+          <input
+            tabindex="2"
+            type="number"
+            id="input_c"
+            value=" "
+            name="c"
+            onchange="calc()"
+          />
         </form>
         <form tabindex="3">
-          <input type="radio" name="type" value="a" onchange="calc()" checked>
+          <input type="radio" name="type" value="a" onchange="calc()" checked />
           <label>Find A</label>
-          <br>
-          <input type="radio" name="type" value="b" onchange="calc()">
+          <br />
+          <input type="radio" name="type" value="b" onchange="calc()" />
           <label>Find B</label>
-          <br>
-          <input type="radio" name="type" value="c" onchange="calc()">
+          <br />
+          <input type="radio" name="type" value="c" onchange="calc()" />
           <label>Find C</label>
         </form>
       </article>
@@ -43,6 +79,11 @@
       </div>
       <section id="canvas_contain"></section>
     </content>
-    <footer onclick="location.href='https://github.com/darccyy'" class="ew footer">Made by <span title="That's Me!">Darcy</span></footer>
+    <footer
+      onclick="location.href='https://github.com/darccyy'"
+      class="ew footer"
+    >
+      Made by <span title="That's Me!">Darcy</span>
+    </footer>
   </body>
 </html>

@@ -1,12 +1,12 @@
 function init() {
   ls.check();
 
-  doc.id("link").href = "https://epicwebsite.github.io".format(
+  doc.id("link").href = "https://epicwebsite.bruh.international".format(
     F.url.online ? "" : "/index.html"
   );
 
   if (F.url.filepath == "p/") {
-    location.href = "https://epicwebsite.github.io";
+    location.href = "https://epicwebsite.bruh.international";
   }
 
   path = F.url.filepath;
@@ -24,7 +24,7 @@ function init() {
           )
         )
       ) {
-        link = "https://epicwebsite.github.io/p/{0}{1}".format(
+        link = "https://epicwebsite.bruh.international/p/{0}{1}".format(
           links.values()[o].items[l].id,
           F.url.queryRaw.length > 0 ? "?" + F.url.queryRaw : ""
         );

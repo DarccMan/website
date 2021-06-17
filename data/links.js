@@ -328,7 +328,7 @@ var links = {
         name: "https://coveroil.github.io/",
       },
       {
-        id: "https://github.com/epicwebsite/epicwebsite.github.io",
+        id: "https://github.com/epicwebsite/epicwebsite.bruh.international",
         name: "GitHub",
       },
       {

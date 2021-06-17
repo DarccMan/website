@@ -8,7 +8,7 @@ Name is a work in progress
 
 Made by Darcy
 
-<a style="font-size:30px;" href="https://epicwebsite.github.io">
+<a style="font-size:30px;" href="https://epicwebsite.bruh.international">
 Visit it! ←  ←  ←
 </p>
 
@@ -21,7 +21,7 @@ Powered by [FunctionsJS](https://github.com/darccyy/fnct)
 ## Contributing:
 
 ```bash
-git clone https://github.com/epicwebsite/epicwebsite.github.io.git
+git clone https://github.com/epicwebsite/epicwebsite.bruh.international.git
 ```
 
 <img src="./source/image/favicon.png" width="100%">

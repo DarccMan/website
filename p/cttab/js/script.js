@@ -123,7 +123,7 @@ sc.init = function () {
     sc.reset();
   }
   for (i = 0; i < data.shortcut_amount; i++) {
-    href = "https://epicwebsite.github.io/";
+    href = "https://epicwebsite.bruh.international/";
     unknown = "unknown";
     if (d.sc[i] && d.sc[i].href) {
       href = d.sc[i].href;
@@ -161,7 +161,7 @@ sc.init = function () {
 sc.edit = function (el) {
   unknown = el.parentNode.className.includes("unknown");
   num = parseInt(el.parentNode.id.split("n").s(-1));
-  old_href = "https://epicwebsite.github.io/"
+  old_href = "https://epicwebsite.bruh.international/"
   if (
     !unknown
     && ls.get().sc[num]
