@@ -93,6 +93,10 @@ var links = {
         id: "pythag",
         name: "Pythagorean Theorem Calculator",
       },
+      {
+        id: "pool",
+        name: "Pool Screensaver",
+      },
     ],
   },
   games: {
