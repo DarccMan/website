@@ -1,0 +1,48 @@
+var data = {
+  // fullscreen: true,
+  canvas: {
+    h: 512,
+    ratio: 2,
+  },
+  bg: {
+    speed: 1,
+  },
+  sprites: {
+    r: 30,
+    amount: 24,
+    speed: 70,
+    fast: 1000,
+    accel: 300,
+    rotate: 5,
+    stroke: 1.1,
+  },
+}
+var colors = {
+  stroke: "#FFF",
+  sprites: [
+    "#F00",
+    "#0F0",
+    "#00F",
+    "#FF0",
+    "#F0F",
+    "#0FF",
+    "#800",
+    "#080",
+    "#008",
+    "#880",
+    "#808",
+    "#088",
+    "#F88",
+    "#8F8",
+    "#88F",
+    "#FF8",
+    "#F8F",
+    "#8FF",
+    "#F80",
+    "#F08",
+    "#8F0",
+    "#0F8",
+    "#80F",
+    "#08F",
+  ],
+};

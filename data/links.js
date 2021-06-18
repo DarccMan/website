@@ -96,6 +96,11 @@ var links = {
       {
         id: "pool",
         name: "Pool Screensaver",
+        show: 1,
+      },
+      {
+        id: "screensaver",
+        name: "Weird Screensaver",
       },
     ],
   },
