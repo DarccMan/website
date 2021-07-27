@@ -24,26 +24,30 @@ function render() {
   h = (w / 2) * Math.tan(rad(60));
   d = (parseFloat($("#d").val()) / 100) * w * (Math.sin(rad(60)));
   d2 = (parseFloat($("#d2").val()) / 100) * d;
+  x = parseFloat($("#offx").val());
+  y = parseFloat($("#offy").val());
+  x2 = perc(x);
+  y2 = perc(y);
 
   if ($("#red").is(":checked")) {
     ctx.strokeStyle = "red";
     ctx.lineWidth = 4;
     ctx.beginPath();
     ctx.moveTo(
-      perc(50),
-      perc(50 - h / 2),
+      perc(50) + x2,
+      perc(50 - h / 2) + y2,
     );
     ctx.lineTo(
-      perc(50 - w / 2),
-      perc(50 + h / 2),
+      perc(50 - w / 2) + x2,
+      perc(50 + h / 2) + y2,
     );
     ctx.lineTo(
-      perc(50 + w / 2),
-      perc(50 + h / 2),
+      perc(50 + w / 2) + x2,
+      perc(50 + h / 2) + y2,
     );
     ctx.lineTo(
-      perc(50),
-      perc(50 - h / 2),
+      perc(50) + x2,
+      perc(50 - h / 2) + y2,
     );
     ctx.stroke();
 
@@ -51,28 +55,28 @@ function render() {
     ctx.lineWidth = 4;
     ctx.beginPath();
     ctx.moveTo(
-      perc(50 - w / 2 + d / Math.sin(rad(60)) / 2),
-      perc(50 + h / 2 - d),
+      perc(50 - w / 2 + d / Math.sin(rad(60)) / 2) + x2,
+      perc(50 + h / 2 - d) + y2,
     );
     ctx.lineTo(
-      perc(50 - w / 2 + d / Math.sin(rad(60))),
-      perc(50 + h / 2),
+      perc(50 - w / 2 + d / Math.sin(rad(60))) + x2,
+      perc(50 + h / 2) + y2,
     );
     ctx.moveTo(
-      perc(50 + w / 2 - d / Math.sin(rad(60))),
-      perc(50 + h / 2),
+      perc(50 + w / 2 - d / Math.sin(rad(60))) + x2,
+      perc(50 + h / 2) + y2,
     );
     ctx.lineTo(
-      perc(50 + w / 2 - d / Math.sin(rad(60)) / 2),
-      perc(50 + h / 2 - d),
+      perc(50 + w / 2 - d / Math.sin(rad(60)) / 2) + x2,
+      perc(50 + h / 2 - d) + y2,
     );
     ctx.moveTo(
-      perc(50 + d * Math.tan(rad(30))),
-      perc(50 - h / 2 + d),
+      perc(50 + d * Math.tan(rad(30))) + x2,
+      perc(50 - h / 2 + d) + y2,
     );
     ctx.lineTo(
-      perc(50 - d * Math.tan(rad(30))),
-      perc(50 - h / 2 + d),
+      perc(50 - d * Math.tan(rad(30))) + x2,
+      perc(50 - h / 2 + d) + y2,
     );
     ctx.stroke();
 
@@ -80,54 +84,54 @@ function render() {
     ctx.lineWidth = 4;
     ctx.beginPath();
     ctx.moveTo(
-      perc(50 - w / 2 + d / Math.sin(rad(60)) / 2),
-      perc(50 + h / 2 - d),
+      perc(50 - w / 2 + d / Math.sin(rad(60)) / 2) + x2,
+      perc(50 + h / 2 - d) + y2,
     );
     ctx.lineTo(
-      perc(50 - w / 2 + d2 / Math.sin(rad(60)) / 2),
-      perc(50 + h / 2 - d2),
+      perc(50 - w / 2 + d2 / Math.sin(rad(60)) / 2) + x2,
+      perc(50 + h / 2 - d2) + y2,
     );
     ctx.lineTo(
-      perc(50 - w / 2 + d2 / Math.sin(rad(60))),
-      perc(50 + h / 2),
+      perc(50 - w / 2 + d2 / Math.sin(rad(60))) + x2,
+      perc(50 + h / 2) + y2,
     );
     ctx.lineTo(
-      perc(50 - w / 2 + d / Math.sin(rad(60))),
-      perc(50 + h / 2),
+      perc(50 - w / 2 + d / Math.sin(rad(60))) + x2,
+      perc(50 + h / 2) + y2,
     );
 
     ctx.moveTo(
-      perc(50 + w / 2 - d / Math.sin(rad(60))),
-      perc(50 + h / 2),
+      perc(50 + w / 2 - d / Math.sin(rad(60))) + x2,
+      perc(50 + h / 2) + y2,
     );
     ctx.lineTo(
-      perc(50 + w / 2 - d2 / Math.sin(rad(60))),
-      perc(50 + h / 2),
+      perc(50 + w / 2 - d2 / Math.sin(rad(60))) + x2,
+      perc(50 + h / 2) + y2,
     );
     ctx.lineTo(
-      perc(50 + w / 2 - d2 / Math.sin(rad(60)) / 2),
-      perc(50 + h / 2 - d2),
+      perc(50 + w / 2 - d2 / Math.sin(rad(60)) / 2) + x2,
+      perc(50 + h / 2 - d2) + y2,
     );
     ctx.lineTo(
-      perc(50 + w / 2 - d / Math.sin(rad(60)) / 2),
-      perc(50 + h / 2 - d),
+      perc(50 + w / 2 - d / Math.sin(rad(60)) / 2) + x2,
+      perc(50 + h / 2 - d) + y2,
     );
 
     ctx.moveTo(
-      perc(50 + d * Math.tan(rad(30))),
-      perc(50 - h / 2 + d),
+      perc(50 + d * Math.tan(rad(30))) + x2,
+      perc(50 - h / 2 + d) + y2,
     );
     ctx.lineTo(
-      perc(50 + d2 * Math.tan(rad(30))),
-      perc(50 - h / 2 + d2),
+      perc(50 + d2 * Math.tan(rad(30))) + x2,
+      perc(50 - h / 2 + d2) + y2,
     );
     ctx.lineTo(
-      perc(50 - d2 * Math.tan(rad(30))),
-      perc(50 - h / 2 + d2),
+      perc(50 - d2 * Math.tan(rad(30))) + x2,
+      perc(50 - h / 2 + d2) + y2,
     );
     ctx.lineTo(
-      perc(50 - d * Math.tan(rad(30))),
-      perc(50 - h / 2 + d),
+      perc(50 - d * Math.tan(rad(30))) + x2,
+      perc(50 - h / 2 + d) + y2,
     );
     ctx.stroke();
 
@@ -135,29 +139,29 @@ function render() {
     ctx.lineWidth = 4;
     ctx.beginPath();
     ctx.moveTo(
-      perc(50 - w / 2 + d2 / Math.sin(rad(60)) / 2),
-      perc(50 + h / 2 - d2),
+      perc(50 - w / 2 + d2 / Math.sin(rad(60)) / 2) + x2,
+      perc(50 + h / 2 - d2) + y2,
     );
     ctx.lineTo(
-      perc(50 - w / 2 + d2 / Math.sin(rad(60))),
-      perc(50 + h / 2),
+      perc(50 - w / 2 + d2 / Math.sin(rad(60))) + x2,
+      perc(50 + h / 2) + y2,
     );
     ctx.moveTo(
-      perc(50 + w / 2 - d2 / Math.sin(rad(60))),
-      perc(50 + h / 2),
+      perc(50 + w / 2 - d2 / Math.sin(rad(60))) + x2,
+      perc(50 + h / 2) + y2,
     );
     ctx.lineTo(
-      perc(50 + w / 2 - d2 / Math.sin(rad(60)) / 2),
-      perc(50 + h / 2 - d2),
+      perc(50 + w / 2 - d2 / Math.sin(rad(60)) / 2) + x2,
+      perc(50 + h / 2 - d2) + y2,
     );
 
     ctx.moveTo(
-      perc(50 + d2 * Math.tan(rad(30))),
-      perc(50 - h / 2 + d2),
+      perc(50 + d2 * Math.tan(rad(30))) + x2,
+      perc(50 - h / 2 + d2) + y2,
     );
     ctx.lineTo(
-      perc(50 - d2 * Math.tan(rad(30))),
-      perc(50 - h / 2 + d2),
+      perc(50 - d2 * Math.tan(rad(30))) + x2,
+      perc(50 - h / 2 + d2) + y2,
     );
     ctx.stroke();
   }
@@ -165,44 +169,44 @@ function render() {
   paths = [
     [
       "M",
-      50 - d * Math.tan(rad(30)),
-      50 - h / 2 + d,
+      50 - d * Math.tan(rad(30)) + x,
+      50 - h / 2 + d + y,
     ], [
       "L",
-      50 - w / 2 + d / Math.sin(rad(60)) / 2,
-      50 + h / 2 - d,
+      50 - w / 2 + d / Math.sin(rad(60)) / 2 + x,
+      50 + h / 2 - d + y,
     ], [
       "C",
-      50 - w / 2 + d2 / Math.sin(rad(60)) / 2,
-      50 + h / 2 - d2,
-      50 - w / 2 + d2 / Math.sin(rad(60)),
-      50 + h / 2,
-      50 - w / 2 + d / Math.sin(rad(60)),
-      50 + h / 2,
+      50 - w / 2 + d2 / Math.sin(rad(60)) / 2 + x,
+      50 + h / 2 - d2 + y,
+      50 - w / 2 + d2 / Math.sin(rad(60)) + x,
+      50 + h / 2 + y,
+      50 - w / 2 + d / Math.sin(rad(60)) + x,
+      50 + h / 2 + y,
     ], [
       "L",
-      50 + w / 2 - d / Math.sin(rad(60)),
-      50 + h / 2,
+      50 + w / 2 - d / Math.sin(rad(60)) + x,
+      50 + h / 2 + y,
     ], [
       "C",
-      50 + w / 2 - d2 / Math.sin(rad(60)),
-      50 + h / 2,
-      50 + w / 2 - d2 / Math.sin(rad(60)) / 2,
-      50 + h / 2 - d2,
-      50 + w / 2 - d / Math.sin(rad(60)) / 2,
-      50 + h / 2 - d,
+      50 + w / 2 - d2 / Math.sin(rad(60)) + x,
+      50 + h / 2 + y,
+      50 + w / 2 - d2 / Math.sin(rad(60)) / 2 + x,
+      50 + h / 2 - d2 + y,
+      50 + w / 2 - d / Math.sin(rad(60)) / 2 + x,
+      50 + h / 2 - d + y,
     ], [
       "L",
-      50 + d * Math.tan(rad(30)),
-      50 - h / 2 + d,
+      50 + d * Math.tan(rad(30)) + x,
+      50 - h / 2 + d + y,
     ], [
       "C",
-      50 + d2 * Math.tan(rad(30)),
-      50 - h / 2 + d2,
-      50 - d2 * Math.tan(rad(30)),
-      50 - h / 2 + d2,
-      50 - d * Math.tan(rad(30)),
-      50 - h / 2 + d,
+      50 + d2 * Math.tan(rad(30)) + x,
+      50 - h / 2 + d2 + y,
+      50 - d2 * Math.tan(rad(30)) + x,
+      50 - h / 2 + d2 + y,
+      50 - d * Math.tan(rad(30)) + x,
+      50 - h / 2 + d + y,
     ]
   ];
 
