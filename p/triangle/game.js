@@ -162,7 +162,7 @@ function render() {
     ctx.stroke();
   }
 
-  path = [
+  paths = [
     [
       "M",
       50 - d * Math.tan(rad(30)),
@@ -210,33 +210,33 @@ function render() {
   ctx.lineWidth = 4;
   ctx.beginPath();
   temp = [];
-  for (i = 0; i < path.length; i++) {
-    switch (path[i][0]) {
+  for (i = 0; i < paths.length; i++) {
+    switch (paths[i][0]) {
       case "M": {
         ctx.moveTo(
-          perc(path[i][1]),
-          perc(path[i][2]),
+          perc(paths[i][1]),
+          perc(paths[i][2]),
         );
       }; break;
       case "L": {
         ctx.lineTo(
-          perc(path[i][1]),
-          perc(path[i][2]),
+          perc(paths[i][1]),
+          perc(paths[i][2]),
         );
       }; break;
       case "C": {
         ctx.bezierCurveTo(
-          perc(path[i][1]),
-          perc(path[i][2]),
-          perc(path[i][3]),
-          perc(path[i][4]),
-          perc(path[i][5]),
-          perc(path[i][6]),
+          perc(paths[i][1]),
+          perc(paths[i][2]),
+          perc(paths[i][3]),
+          perc(paths[i][4]),
+          perc(paths[i][5]),
+          perc(paths[i][6]),
         );
       }; break;
     }
 
-    temp.push(path[i].map(j => {
+    temp.push(paths[i].map(j => {
       if (isNaN(parseFloat(j))) {
         return j;
       }
@@ -244,13 +244,13 @@ function render() {
     }).join(" "));
   }
   ctx.stroke();
-  path = temp.join(" ");
+  paths = temp.join(" ");
   $("#svg").attr("width", $("#size").val());
   $("#svg").attr("height", $("#size").val());
   $("#rect").attr("width", $("#size").val());
   $("#rect").attr("height", $("#size").val());
-  $("#path").attr("d", path);
-  $("#output").text(path);
+  $("#path").attr("d", paths);
+  $("#output").text(paths);
 }
 
 function perc(num) {
