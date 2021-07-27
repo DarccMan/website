@@ -53,9 +53,123 @@ function render() {
       perc(50 - h / 2),
     );
     ctx.stroke();
+
+    ctx.strokeStyle = "blue";
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(
+      perc(50 - w / 2 + d / Math.sin(rad(60)) / 2),
+      perc(50 + h / 2 - d),
+    );
+    ctx.lineTo(
+      perc(50 - w / 2 + d / Math.sin(rad(60))),
+      perc(50 + h / 2),
+    );
+    ctx.moveTo(
+      perc(50 + w / 2 - d / Math.sin(rad(60))),
+      perc(50 + h / 2),
+    );
+    ctx.lineTo(
+      perc(50 + w / 2 - d / Math.sin(rad(60)) / 2),
+      perc(50 + h / 2 - d),
+    );
+    ctx.moveTo(
+      perc(50 + d * Math.tan(rad(30))),
+      perc(50 - h / 2 + d),
+    );
+    ctx.lineTo(
+      perc(50 - d * Math.tan(rad(30))),
+      perc(50 - h / 2 + d),
+    );
+    ctx.stroke();
+
+    ctx.strokeStyle = "lime";
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(
+      perc(50 - w / 2 + d / Math.sin(rad(60)) / 2),
+      perc(50 + h / 2 - d),
+    );
+    ctx.lineTo(
+      perc(50 - w / 2 + d2 / Math.sin(rad(60)) / 2),
+      perc(50 + h / 2 - d2),
+    );
+    ctx.lineTo(
+      perc(50 - w / 2 + d2 / Math.sin(rad(60))),
+      perc(50 + h / 2),
+    );
+    ctx.lineTo(
+      perc(50 - w / 2 + d / Math.sin(rad(60))),
+      perc(50 + h / 2),
+    );
+
+    ctx.moveTo(
+      perc(50 + w / 2 - d / Math.sin(rad(60))),
+      perc(50 + h / 2),
+    );
+    ctx.lineTo(
+      perc(50 + w / 2 - d2 / Math.sin(rad(60))),
+      perc(50 + h / 2),
+    );
+    ctx.lineTo(
+      perc(50 + w / 2 - d2 / Math.sin(rad(60)) / 2),
+      perc(50 + h / 2 - d2),
+    );
+    ctx.lineTo(
+      perc(50 + w / 2 - d / Math.sin(rad(60)) / 2),
+      perc(50 + h / 2 - d),
+    );
+
+    ctx.moveTo(
+      perc(50 + d * Math.tan(rad(30))),
+      perc(50 - h / 2 + d),
+    );
+    ctx.lineTo(
+      perc(50 + d2 * Math.tan(rad(30))),
+      perc(50 - h / 2 + d2),
+    );
+    ctx.lineTo(
+      perc(50 - d2 * Math.tan(rad(30))),
+      perc(50 - h / 2 + d2),
+    );
+    ctx.lineTo(
+      perc(50 - d * Math.tan(rad(30))),
+      perc(50 - h / 2 + d),
+    );
+    ctx.stroke();
+
+    ctx.strokeStyle = "yellow";
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(
+      perc(50 - w / 2 + d2 / Math.sin(rad(60)) / 2),
+      perc(50 + h / 2 - d2),
+    );
+    ctx.lineTo(
+      perc(50 - w / 2 + d2 / Math.sin(rad(60))),
+      perc(50 + h / 2),
+    );
+    ctx.moveTo(
+      perc(50 + w / 2 - d2 / Math.sin(rad(60))),
+      perc(50 + h / 2),
+    );
+    ctx.lineTo(
+      perc(50 + w / 2 - d2 / Math.sin(rad(60)) / 2),
+      perc(50 + h / 2 - d2),
+    );
+
+    ctx.moveTo(
+      perc(50 + d2 * Math.tan(rad(30))),
+      perc(50 - h / 2 + d2),
+    );
+    ctx.lineTo(
+      perc(50 - d2 * Math.tan(rad(30))),
+      perc(50 - h / 2 + d2),
+    );
+    ctx.stroke();
   }
 
-  ctx.strokeStyle = "black";
+  ctx.strokeStyle = "#000";
   ctx.lineWidth = 4;
   ctx.beginPath();
   ctx.moveTo(
@@ -90,7 +204,6 @@ function render() {
     perc(50 + d * Math.tan(rad(30))),
     perc(50 - h / 2 + d),
   );
-
   ctx.bezierCurveTo(
     perc(50 + d2 * Math.tan(rad(30))),
     perc(50 - h / 2 + d2),

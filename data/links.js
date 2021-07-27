@@ -102,6 +102,10 @@ var links = {
         id: "screensaver",
         name: "Weird Screensaver",
       },
+      {
+        id: "triangle",
+        name: "Rounded Triangle Generator",
+      },
     ],
   },
   games: {
