@@ -1,5 +1,5 @@
 var data = {
-  // fullscreen: true,
+  fullscreen: true,
   canvas: {
     h: 512,
     ratio: 2,
@@ -11,7 +11,7 @@ var data = {
     r: 30,
     amount: 24,
     speed: 70,
-    fast: 1000,
+    fast: 700,
     accel: 300,
     rotate: 5,
     stroke: 1.1,

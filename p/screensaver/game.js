@@ -41,6 +41,7 @@ global.start = Date.now();
 var sprites = [];
 
 function reset() {
+  global.speed = data.sprites.speed;
   sprites = [];
   for (i = 0; i < data.sprites.amount; i++) {
     sprites.push({
@@ -71,8 +72,8 @@ function render() {
       ctx.ellipse(
         sprites[i].x,
         sprites[i].y,
-        data.sprites.r * data.sprites.stroke,
-        data.sprites.r * data.sprites.stroke,
+        data.sprites.r,
+        data.sprites.r,
         0, 0, 2 * Math.PI,
       );
       ctx.fill();
@@ -81,8 +82,8 @@ function render() {
       ctx.ellipse(
         sprites[i].x,
         sprites[i].y,
-        data.sprites.r,
-        data.sprites.r,
+        data.sprites.r / data.sprites.stroke,
+        data.sprites.r / data.sprites.stroke,
         0, 0, 2 * Math.PI,
       );
       ctx.fill();
@@ -111,6 +112,35 @@ function render() {
         ctx.stroke();
       }
     }
+  }
+
+  time = [200, 1000];
+  if (global.start + time[0] + time[1] > Date.now()) {
+    h = (256 - (Date.now() - global.start - time[0]) * (256 / time[1])).round().toString(16);
+    if (h.length > 2) {
+      h = "FF";
+    }
+    if (h.length < 2) {
+      h = "0" + h;
+    }
+    ctx.fillCanvas("#" + "08".repeat(3) + h);
+
+    h1 = ((256 - (Date.now() - global.start - time[0]) * (256 / time[1])) * 0.05).round().toString(16);
+    if (h1.length > 2) {
+      h1 = "FF";
+    }
+    if (h1.length < 2) {
+      h1 = "0" + h1;
+    }
+    ctx.fillStyle = "#" + "C0".repeat(3) + h1;
+    ctx.font = "100px Arial";
+    ctx.textAlign = "right";
+    ctx.textBaseline = "bottom";
+    ctx.fillText(
+      "by darcy",
+      canvas.w * 0.95,
+      canvas.h * 0.95,
+    );
   }
 }
 

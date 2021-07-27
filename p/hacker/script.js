@@ -2,8 +2,8 @@ var doFullscreen = true;
 // doFullscreen = false;
 function goFullscreen() {
   if (doFullscreen) {
-    mf = doc.body;
-    mf.webkitRequestFullscreen();
+    doc.body.webkitRequestFullscreen?.();
+    doc.body.requestFullscreen?.();
   }
 }
 doc.documentElement.onclick = goFullscreen;

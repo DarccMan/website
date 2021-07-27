@@ -1,10 +1,10 @@
 var data = {
   canvas: {
     h: 400,
-    ratio: 1,
+    ratio: 2,
   },
   balls: {
-    r: 35,
+    r: 20,
     r_inner: 0.4,
     amount: 15,
     colors: [

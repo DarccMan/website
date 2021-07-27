@@ -14,8 +14,6 @@ for (i = 0; i < cvs.length; i++) {
 }
 ctx = ct.main;
 canvas = cv.main;
-canvas.w = screen.width;
-canvas.h = screen.height;
 
 var gameState = "start";
 var global = {};
