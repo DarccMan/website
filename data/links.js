@@ -257,6 +257,10 @@ var links = {
         name: "Lord Mumbo Leaps",
         show: 1,
       },
+      {
+        id: "golf",
+        name: "Golf",
+      },
     ],
   },
   media: {
