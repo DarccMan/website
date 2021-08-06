@@ -33,7 +33,7 @@ function reset() {
     60,
   ];
   text.color = [
-    (bg[0] + 180).wrap(0, 360),
+    F.wrapNum(bg[0] + 180, 0, 360),
     80,
     80,
   ];
@@ -46,12 +46,12 @@ function reset() {
 }
 
 function render() {
-  doc.id("favicon").href = "image/button{0}.png".format(button.held ? "1" : "2");
+  doc.id("favicon").href = `image/button${button.held ? "1" : "2"}.png`;
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   let rgb = F.hsv_rgb(bg);
-  ctx.fillCanvas(F.getColor(rgb));
-  w = Math.min(canvas.width.setBorder(300, 3000), canvas.height.setBorder(100, 3000));
+  F.fillCanvas(ctx, F.getColor(rgb));
+  w = Math.min(F.setBorder(canvas.width, 300, 3000), F.setBorder(canvas.height, 100, 3000));
 
   ctx.drawImage(
     button.glow,
@@ -62,7 +62,7 @@ function render() {
   );
 
   let fontSize = data.text.size;
-  ctx.font = "{0}px Impact".format(fontSize);
+  ctx.font = `${fontSize}px Impact`;
   ctx.textAlign = "center";
   ctx.fillStyle = F.getColor(F.hsv_rgb([
     text.color[0],
@@ -73,7 +73,7 @@ function render() {
     ctx.fillText(
       data.text.msg,
       (canvas.width / 2) + i,
-      ((canvas.height / 10).setBorder(fontSize, canvas.height) * data.text.offsetY) + i,
+      F.setBorder((canvas.height / 10, fontSize, canvas.height) * data.text.offsetY) + i,
     );
   }
   ctx.shadowColor = "black";
@@ -83,14 +83,14 @@ function render() {
   ctx.strokeText(
     data.text.msg,
     canvas.width / 2,
-    (canvas.height / 10).setBorder(fontSize, canvas.height) * data.text.offsetY,
+    F.setBorder(canvas.height / 10, fontSize, canvas.height) * data.text.offsetY,
   );
   ctx.shadowBlur = 0;
   ctx.fillStyle = F.getColor(F.hsv_rgb(text.color));
   ctx.fillText(
     data.text.msg,
     canvas.width / 2,
-    (canvas.height / 10).setBorder(fontSize, canvas.height) * data.text.offsetY,
+    F.setBorder(canvas.height / 10, fontSize, canvas.height) * data.text.offsetY,
   );
 
   ctx.drawImage(
@@ -102,7 +102,7 @@ function render() {
   );
 
   color = F.getColor(F.hsv_rgb([
-    (bg[0] + 180).wrap(0, 360),
+    F.wrapNum(bg[0] + 180, 0, 360),
     50,
     100,
   ]));
@@ -118,21 +118,20 @@ function main() {
 }
 function update(mod) {
   doc.body.style.cursor = "default";
-  var keysDown = F.getKeyCodes(controls);
   button.w = button.dw * (canvas.width / 512);
   button.h = button.dh * (canvas.width / 512);
-  w = Math.min(canvas.width.setBorder(300, 3000), canvas.height.setBorder(100, 3000));
+  w = Math.min(F.setBorder(canvas.width, 300, 3000), F.setBorder(canvas.height, 100, 3000));
 
   if (gameState == "play") {
     bg[0] += data.bg.speed / 100;
-    bg[0] = bg[0].wrap(0, 360);
+      bg[0] = F.wrapNum(bg[0], 0, 360);
     if (bg[1] < 100) {
       bg[1] += data.bg.flashFade / 100;
     }
-    bg[1] = bg[1].setBorder(0, 100);
+    bg[1] = F.setBorder(bg[1], 0, 100);
 
     text.color[0] += text.strobe ? (data.text.strobeSpeed / 100) : (data.text.speed / 100);
-    text.color[0] = text.color[0].wrap(0, 360);
+    text.color[0] = F.wrapNum(text.color[0], 0, 360);
 
     if (
       !text.strobe
@@ -180,7 +179,7 @@ function update(mod) {
           }, true, true)
         )
       )
-      || keysDown.play
+      || F.keyDown(32)
       || (
         F.touch.down
         && (
@@ -225,7 +224,7 @@ async function play() {
   }
   button.pressed = true;
   button.sound.play();
-  bg[1] = (bg[1] - data.bg.flash).setBorder(0, 100);
+  bg[1] = F.setBorder(bg[1] - data.bg.flash, 0, 100);
   text.color[0] += data.text.flash;
   await F.sleep(data.button.cooldown / 1000);
   button.sound = new F.Sound("audio/bruh.mp3", "audio_contain");

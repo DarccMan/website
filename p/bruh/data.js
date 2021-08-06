@@ -26,11 +26,3 @@ var data = {
     colorDiff: 100,
   },
 };
-var controls = {
-  keys: {
-    "play": [
-      32,
-    ],
-  },
-  buttons: {},
-};
