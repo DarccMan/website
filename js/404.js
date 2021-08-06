@@ -33,7 +33,7 @@ function init() {
   }
 
   if (!redirected) {
-    doc.id("text").innerHTML = `Try typing in the URL properly instead of <em>${path ? decodeURI(path).htmlEscape()}</em>`;
+    doc.id("text").innerHTML = `Try typing in the URL properly instead of <em>${path ? decodeURI(path).htmlEscape() : "whatever"}</em>`;
     doc.id("header").innerText = "404 - The funny not found";
   }
 
