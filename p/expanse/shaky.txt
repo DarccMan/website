@@ -1,5 +1,0 @@
-Disclaimer!
-
-Shaky rats WERE a bug
-
-Now they are a feature

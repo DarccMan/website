@@ -1,131 +1,40 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <title>Expanse of Darkness - EpicWebsite</title>
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <script
-      type="text/javascript"
-      src="https://code.jquery.com/jquery-latest.min.js"
-    ></script>
-    <link
-      rel="shortcut icon"
-      type="image/png"
-      href="image/favicon.png"
-      id="favicon"
-    />
-    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
-    <meta content="utf-8" http-equiv="encoding" />
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="shortcut icon" type="image/png" href="image/favicon-0.png" id="favicon">
+
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="data/data.js"></script>
+    <script type="text/javascript" src="data/blocks.js"></script>
+    <script type="text/javascript" src="data/levels.js"></script>
+    <script type="text/javascript" src="js/fnct.js"></script>
+    <script type="text/javascript" src="js/reset.js"></script>
+    <script type="text/javascript" src="js/render.js"></script>
+    <script type="text/javascript" src="js/update.js"></script>
+    <script type="text/javascript" src="js/game.js"></script>
   </head>
-  <body>
-    <center>
-      <h1 title="Better than HeckDude!">Expanse of Darkness</h1>
-    </center>
-    <div id="contain" class="full">
+
+  <body onload="init()">
+    <div id="contain">
       <div id="wrap"></div>
     </div>
+
     <section>
-      <button class="help" onclick="help()" title="There is no help for you.">
-        Help
-      </button>
-      <!-- <input
-        type="range"
-        oninput="setCanvasSize()"
-        autocomplete="off"
-        id="ratio"
-        value="1.8"
-        min="0"
-        max="4"
-        step="0.01"
-      />
-      <input
-        type="range"
-        oninput="setCanvasSize()"
-        autocomplete="off"
-        id="resolution"
-        value="1"
-        min="0"
-        max="2"
-        step="0.01"
-      />
-      <input
-        type="range"
-        oninput="setCanvasSize()"
-        autocomplete="off"
-        id="tiles"
-        value="9"
-        min="0"
-        max="20"
-        step="0.01"
-      /> -->
-      <center>
-        <h2>Controls:</h2>
-        <ul>
-          <li>
-            <b> Movement </b>
-            WASD / Arrow Keys / Space
-          </li>
-          <li>
-            <b> Usage </b>
-            E to use / pick up block; Q to drop block
-          </li>
-          <li>
-            <b> Debug </b>
-            Z to enter Debug mode; L to freeze game
-          </li>
-          <li>
-            <b> Restart </b>
-            Press R (SHIFT to clear checkpoint)
-          </li>
-          <li>
-            <b> Increase graphics </b>
-            Press V
-          </li>
-          <li>
-            <b> Decrease graphics </b>
-            Press C
-          </li>
-        </ul>
-        <a
-          href="https://docs.google.com/spreadsheets/d/1NOd8R0CX51pBe7z2G4QsnkMIl4pIYfnruRv2Jrwh7XE/edit?usp=sharing"
-          target="_blank"
-          style="font-size: 30px"
-        >
-          Request Speedrun Submission
-        </a>
-        <br />
-        <a
-          href="https://github.com/epicwebsite/epicwebsite.github.io/issues/new?assignees=&labels=pages+expanse&template=expanse.md&title=Expanse+of+Darkness+Bug"
-          target="_blank"
-          style="font-size: 30px"
-        >
-          Submit Bug Report
-        </a>
-        <h2>By <a href="https://github.com/darccyy">Darcy</a></h2>
-      </center>
+      <input type="range" id="x" min="-20" max="20" value="0" step="0.01" oninput="changeCam()" />
+      <input type="range" id="y" min="-20" max="20" value="0" step="0.01" oninput="changeCam()" />
+      <input type="range" id="z" min="10" max="500" value="100" oninput="changeCam()" />
     </section>
-    <!-- <script type="text/javascript" src="../../../../js/fnctjs/index.js"></script> -->
-    <script
-      type="text/javascript"
-      src="https://fnctjs.github.io/index.js"
-    ></script>
-    <!-- The scripts! -->
-    <script type="text/javascript" src="./data/lang.js"></script>
-    <script type="text/javascript" src="./data/controls.js"></script>
-    <script type="text/javascript" src="./data/data.js"></script>
-    <script type="text/javascript" src="./data/blocks.js"></script>
-    <script type="text/javascript" src="./data/enemies.js"></script>
-    <script type="text/javascript" src="./data/levels.js"></script>
-    <script type="text/javascript" src="./js/reset.js"></script>
-    <script type="text/javascript" src="./js/render.js"></script>
-    <script type="text/javascript" src="./js/update.js"></script>
-    <script type="text/javascript" src="./js/actions.js"></script>
-    <script type="text/javascript" src="./js/levelgen.js"></script>
-    <script type="text/javascript" src="./js/game.js"></script>
+
   </body>
+
 </html>
-<!-- :) -->

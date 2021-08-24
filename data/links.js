@@ -68,7 +68,7 @@ var links = {
       },
       {
         id: "keys",
-        name: "Get Ascii Key Code",
+        name: "Ascii Key Codes",
         alias: [
           "key",
           "keycode",

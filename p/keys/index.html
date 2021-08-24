@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Get JS Key Codes - EpicWebsite</title>
-    <link rel="stylesheet" href="style1.css">
+    <title>Ascii Key Codes - EpicWebsite</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script type="text/javascript" src="https://fnctjs.github.io/index.js"></script>
-    <script type="text/javascript" src="script.js"></script>
-    <!-- <link rel="shortcut icon" type="image/png" href="image/favicon.png"> -->
+    <script type="text/javascript" src="script.js" defer></script>
+    <link rel="shortcut icon" type="image/png" href="image/favicon.png">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
   </head>
-  <body onload="init()">
-    <h1 id="display1">None</h1>
+  <body onload="changeDisplay()" onblur="blur()">
+    <h1 id="display"></h1>
   </body>
 </html>

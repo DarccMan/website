@@ -1,0 +1,19 @@
+body {
+  background-color: #222;
+}
+
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
+  font-weight: 500;
+}
+
+.none {
+  color: #888;
+  font-weight: 600;
+}
+
+.unknown {
+  color: #CCC;
+  font-weight: 600;
+}

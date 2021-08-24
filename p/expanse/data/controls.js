@@ -1,14 +1,13 @@
-var controls = { // Kinda self explanatory
+var controls = {
   keys: {
     player_up: [
       87,
       38,
       32,
     ],
-    player_crouch: [
+    player_down: [
       83,
       40,
-      16,
     ],
     player_left: [
       65,
@@ -18,45 +17,15 @@ var controls = { // Kinda self explanatory
       68,
       39,
     ],
-    player_use: [
-      69,
-    ],
-    game_restart: [
-      82,
-    ],
-    game_restart_all: [
+    player_crouch: [
       16,
-    ],
-    game_start: [
-      32,
-    ],
-    game_pause: [
-      27,
-    ],
-    graphics_decrease: [
-      67,
-    ],
-    graphics_increase: [
-      86,
+      39,
     ],
     debug: [
-      90,
-    ],
-    debug_freeze: [
-      88,
-    ],
-    debug_shadow: [
-      75,
-    ],
-    debug_kill: [
-      76,
-    ],
-    level_decrease: [
-      79,
-    ],
-    level_increase: [
-      80,
+      // 16,
     ],
   },
-  buttons: {},
+  buttons: {
+
+  },
 };
